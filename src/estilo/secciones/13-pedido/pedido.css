@@ -1,0 +1,212 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 13 Pedido / Order · «le sac kraft»
+ *
+ * ES: Estilos de Pedido.tsx (esta carpeta). La bolsa sube desde abajo y ocupa el ancho en el móvil; desde 768 px se
+ *     pega a la derecha con 440 px de ancho. Los campos del formulario están en comun/piezas.css (.campo…).
+ * EN: Styles for Pedido.tsx (this folder). The bag slides up and takes the full width on mobile; from 768 px it sticks
+ *     to the right, 440 px wide. Form fields live in comun/piezas.css (.campo…).
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .pedido ............. capa oscura fija sobre toda la página
+ *   .bolsa .............. la bolsa kraft (con fibras: rayado vertical suave)
+ *   .bolsa__pliegue ..... dientes del borde de arriba (conic-gradient)
+ *   .bolsa__interior .... lo que se desplaza dentro de la bolsa; la raya oscura = el doblez
+ *   .bolsa__cabecera, __etiqueta (salmón), __titulo, __cerrar (✕)
+ *   .bolsa__ticket ...... el ticket blanco · .bolsa__vacia (sin platos)
+ *   .ticket, .ticket__linea, __nombre, __cantidad (− n +), __precio, .ticket__total
+ *   .bolsa__formulario .. separación del formulario
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Ancho de la bolsa ........ .bolsa → max-width
+ *   ─ Tamaño de los dientes .... .bolsa__pliegue → "16px 8px" (ancho y alto de cada diente)
+ *   ─ Oscuridad del fondo ...... .pedido → background (último valor = opacidad)
+ */
+
+/* ── Capa y bolsa · Layer and bag ───────────────────────────────────────────────────── */
+
+.pedido {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(27, 17, 14, 0.55);
+}
+
+.bolsa {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  background-color: var(--kraft);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 7px),
+    radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, 0.2), transparent 60%);
+  color: var(--plafond);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* ES: Borde dentado de la bolsa: triángulos de 16 × 8 px por encima del borde. · EN: The bag's serrated edge: 16 × 8 px triangles above the edge. */
+.bolsa__pliegue {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  left: 0;
+  height: 8px;
+  background: conic-gradient(from 135deg at 50% 0, var(--kraft) 0 90deg, transparent 90deg) 0 0 / 16px 8px repeat-x;
+}
+
+/* ES: Contenido con scroll propio; la línea oscura a 2,4 rem es el doblez del papel. · EN: Own-scrolling content; the dark line at 2.4 rem is the paper fold. */
+.bolsa__interior {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.6rem 1.2rem 1.4rem;
+  background: linear-gradient(180deg, rgba(43, 26, 22, 0.14) 0 2px, transparent 2px) 0 2.4rem / 100% 100% no-repeat;
+}
+
+/* ── Cabecera de la bolsa · Bag header ──────────────────────────────────────────────── */
+
+.bolsa__cabecera {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bolsa__etiqueta {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin: 0;
+  padding: 0.3rem 0.7rem 0.12rem;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  rotate: -2deg;
+}
+
+.bolsa__titulo {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.bolsa__cerrar {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(43, 26, 22, 0.14);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+/* ── El ticket · The ticket ─────────────────────────────────────────────────────────── */
+
+.bolsa__ticket {
+  padding: 1rem 1rem 0.85rem;
+  background: #fffdf8;
+  box-shadow: 0 8px 14px -10px rgba(0, 0, 0, 0.55);
+}
+
+.bolsa__vacia {
+  margin: 0;
+  font-family: var(--f-kalam), cursive;
+  font-size: 1.1rem;
+}
+
+.ticket {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ES: Nombre | − n + | precio, separadas por una línea discontinua. · EN: Name | − n + | price, separated by a dashed line. */
+.ticket__linea {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed rgba(43, 26, 22, 0.25);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.ticket__cantidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ticket__cantidad button {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--plafond);
+  border-radius: 50%;
+  background: transparent;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ticket__cantidad output {
+  min-width: 2ch;
+  padding-top: 0.15em;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  text-align: center;
+}
+
+.ticket__precio {
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ticket__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0.85rem 0 0;
+  font-family: var(--f-josefin), sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ticket__total strong {
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── Formulario en la bolsa · Form in the bag ───────────────────────────────────────── */
+
+.bolsa__formulario {
+  margin-top: 1.3rem;
+}
+
+/* ES: Sobre el kraft, las etiquetas de los campos van en el color oscuro para leerse bien. · EN: On kraft, field labels use the dark color so they read well. */
+.bolsa .campo > span:first-child,
+.bolsa .formulario__ayuda {
+  color: var(--plafond);
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+/* ES: Desde 768 px: la bolsa a la derecha. · EN: From 768 px: the bag on the right. */
+@media (min-width: 768px) {
+  .pedido {
+    justify-content: flex-end;
+    padding: 0 1.5rem;
+  }
+}

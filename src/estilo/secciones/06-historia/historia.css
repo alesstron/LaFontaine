@@ -1,0 +1,132 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 06 Historia / Story · «le sac de jute»
+ *
+ * ES: Estilos de Historia.tsx (esta carpeta). El fondo es el yute (trama hecha con dos rayados cruzados); desde
+ *     1024 px, etiqueta a la izquierda y sellos a la derecha.
+ * EN: Styles for Historia.tsx (this folder). The background is burlap (weave made with two crossed stripe patterns);
+ *     from 1024 px, label on the left and stamps on the right.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .historia .............. la sección: el saco de yute
+ *   .historia__contenido ... rejilla: etiqueta | sellos
+ *   .historia__etiqueta .... etiqueta de papel cosida (puntadas = outline discontinuo)
+ *   .historia__sellos ...... columna de sellos
+ *   .sello-redondo ......... sello redondo (tinta con mix-blend-mode: multiply)
+ *   .sellos, .sello ........ sello rectangular doble de cada hito: .sello__anio / __titulo / __texto
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Trama del yute ........ .historia → los dos repeating-linear-gradient (grosor 2px, separación 5px/6px)
+ *   ─ Puntadas ............... .historia__etiqueta → outline (2px dashed) y outline-offset
+ *   ─ Inclinación de sellos .. Historia.tsx → GIROS
+ */
+
+/* ── El saco · The sack ─────────────────────────────────────────────────────────────── */
+
+.historia {
+  padding: 4.5rem 1rem;
+  background-color: var(--jute);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(110, 66, 40, 0.26) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, rgba(110, 66, 40, 0.2) 0 2px, transparent 2px 6px),
+    radial-gradient(ellipse at 25% 15%, rgba(255, 240, 210, 0.22), transparent 60%);
+}
+
+.historia__contenido {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Etiqueta cosida · Sewn label ───────────────────────────────────────────────────── */
+
+/* ES: Papel con puntadas discontinuas a 11 px del borde. · EN: Paper with dashed stitches 11 px from the edge. */
+.historia__etiqueta {
+  padding: 2.4rem 1.5rem 1.8rem;
+  outline: 2px dashed rgba(122, 59, 55, 0.6);
+  outline-offset: -11px;
+  background: var(--papier);
+  box-shadow: 0 20px 30px -18px rgba(43, 26, 22, 0.7);
+}
+
+.historia__etiqueta p:not(.antetitulo) {
+  margin: 0 0 1rem;
+}
+
+/* ── Sellos · Stamps ────────────────────────────────────────────────────────────────── */
+
+.historia__sellos {
+  display: grid;
+  gap: 1.6rem;
+  justify-items: center;
+}
+
+.sello-redondo {
+  width: min(230px, 66%);
+  color: var(--plafond);
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  rotate: -8deg;
+}
+
+.sellos {
+  display: grid;
+  gap: 1.3rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ES: ╔═══╗ doble borde + contorno, como un sello de goma. · EN: Double border + outline, like a rubber stamp. */
+.sello {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem 1.2rem 0.9rem;
+  border: 3px double var(--plafond);
+  outline: 1.5px solid var(--plafond);
+  outline-offset: 4px;
+  background: rgba(240, 220, 196, 0.62);
+  color: var(--plafond);
+}
+
+.sello__anio {
+  padding-top: 0.15em;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sello__titulo {
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.sello__texto {
+  font-size: 0.97rem;
+  line-height: 1.45;
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+/* ES: Desde 1024 px: etiqueta | sellos. · EN: From 1024 px: label | stamps. */
+@media (min-width: 1024px) {
+  .historia {
+    padding: 6rem 2rem;
+  }
+
+  .historia__contenido {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 4rem;
+  }
+
+  .historia__etiqueta {
+    padding: 3rem 2.6rem 2.2rem;
+  }
+}

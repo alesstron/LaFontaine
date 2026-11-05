@@ -1,0 +1,25 @@
+# Dependencias y compilación
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Registros
+*.log
+
+# Secretos (nunca se suben)
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+*.pem
+*.key
+
+# Vercel y ajustes locales de Claude
+.vercel
+.claude/settings.local.json
+
+# Caché de herramientas de diseño
+.impeccable/

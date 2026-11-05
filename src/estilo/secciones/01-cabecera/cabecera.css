@@ -1,0 +1,310 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 01 Cabecera / Header · «le plafond»
+ *
+ * ES: Estilos de Cabecera.tsx (esta carpeta). Primero el móvil; los @media de abajo cambian a 640 y 1100 px.
+ * EN: Styles for Cabecera.tsx (this folder). Mobile first; the @media blocks below switch at 640 and 1100 px.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .cabecera ................ la barra entera, fija arriba (techo oscuro) · the whole bar, stuck on top
+ *   .cabecera__barra ......... fila interior: marca · nav · acciones · inner row
+ *   .cabecera__marca ......... medallón + nombre (enlace a #inicio)
+ *   .cabecera__nav ........... enlaces de escritorio (ocultos < 1100 px)
+ *   .cabecera__acciones ...... idiomas + bolsa + ☰
+ *   .idiomas(--barra/--panel)  botones FR EN ES; el activo, etiqueta salmón
+ *   .cabecera__bolsa ......... botón del pedido · .cabecera__contador: número salmón
+ *   .cabecera__menu .......... botón ☰ · .cabecera__hamburguesa: las tres rayas (→ ✕ al abrir)
+ *   .cabecera__movil ......... panel del móvil con enlaces e idiomas
+ *   (.conducto está en comun/piezas.css · .conducto lives in comun/piezas.css)
+ *
+ *   Tamaños clave · Key sizes:  alto 64 px · marca 46 px · nav visible ≥ 1100 px · idiomas en barra ≥ 640 px
+ */
+
+/* ── La barra · The bar ─────────────────────────────────────────────────────────────── */
+
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--plafond);
+  color: var(--creme);
+}
+
+.cabecera__barra {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 1280px;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}
+
+/* ── Marca · Brand ──────────────────────────────────────────────────────────────────── */
+
+.cabecera__marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  margin-right: auto;
+  color: var(--creme);
+  text-decoration: none;
+}
+
+.cabecera__medallon {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  color: var(--plafond);
+}
+
+.cabecera__nombre {
+  overflow: hidden;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── Enlaces · Links ────────────────────────────────────────────────────────────────── */
+
+.cabecera__nav {
+  display: none;
+}
+
+.cabecera__nav ul,
+.cabecera__movil ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cabecera__nav a,
+.cabecera__movil a {
+  color: var(--creme);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cabecera__nav a:hover,
+.cabecera__movil a:hover {
+  color: var(--etiquette);
+}
+
+/* ── Acciones: idiomas, bolsa y ☰ · Actions: languages, bag and ☰ ─────────────────── */
+
+.cabecera__acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ES: ( FR EN ES ) cápsula con borde; el idioma activo, en etiqueta salmón. · EN: ( FR EN ES ) bordered capsule; the active one on a salmon label. */
+.idiomas {
+  display: flex;
+  padding: 2px;
+  border: 1px solid rgba(247, 225, 199, 0.35);
+  border-radius: 999px;
+}
+
+.idiomas button {
+  min-width: 38px;
+  min-height: 36px;
+  padding: 0.2rem 0.45rem 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--creme);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.idiomas button[aria-pressed="true"] {
+  background: var(--etiquette);
+  color: var(--plafond);
+}
+
+.idiomas--barra {
+  display: none;
+}
+
+.cabecera__bolsa {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: transparent;
+  color: var(--creme);
+}
+
+.cabecera__bolsa-icono {
+  width: 30px;
+  height: 30px;
+}
+
+/* ES: [2] cuántos artículos lleva el pedido; oculto con 0. · EN: [2] how many items the order has; hidden at 0. */
+.cabecera__contador {
+  position: absolute;
+  top: 1px;
+  right: -1px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--etiquette);
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 21px;
+  text-align: center;
+  rotate: 6deg;
+}
+
+.cabecera__contador[data-lleno="false"] {
+  display: none;
+}
+
+/* ES: ☰ tres rayas que se convierten en ✕ al abrir. · EN: ☰ three bars that turn into ✕ when open. */
+.cabecera__menu {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: transparent;
+  color: var(--creme);
+}
+
+.cabecera__hamburguesa,
+.cabecera__hamburguesa::before,
+.cabecera__hamburguesa::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+}
+
+.cabecera__hamburguesa {
+  position: relative;
+}
+
+.cabecera__hamburguesa::before,
+.cabecera__hamburguesa::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.cabecera__hamburguesa::before {
+  top: -7px;
+}
+
+.cabecera__hamburguesa::after {
+  top: 7px;
+}
+
+.cabecera__hamburguesa[data-abierto="true"] {
+  background: transparent;
+}
+
+.cabecera__hamburguesa[data-abierto="true"]::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.cabecera__hamburguesa[data-abierto="true"]::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ── Panel del móvil · Mobile panel ─────────────────────────────────────────────────── */
+
+.cabecera__movil {
+  display: grid;
+  gap: 1rem;
+  padding: 0.25rem 1rem 1.25rem;
+  border-top: 1px solid rgba(247, 225, 199, 0.15);
+}
+
+.cabecera__movil[hidden] {
+  display: none;
+}
+
+.cabecera__movil a {
+  display: block;
+  padding: 0.9rem 0 0.75rem;
+  border-bottom: 1px dashed rgba(247, 225, 199, 0.22);
+}
+
+.idiomas--panel {
+  justify-self: start;
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+/* ES: Desde 640 px los idiomas pasan a la barra. · EN: From 640 px the languages move to the bar. */
+@media (min-width: 640px) {
+  .idiomas--barra {
+    display: flex;
+  }
+
+  .idiomas--panel {
+    display: none;
+  }
+}
+
+/* ES: Desde 1100 px se ven los enlaces y desaparece el ☰. · EN: From 1100 px the links show and the ☰ goes away. */
+@media (min-width: 1100px) {
+  .cabecera__nav {
+    display: block;
+  }
+
+  .cabecera__nav ul {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .cabecera__menu,
+  .cabecera__movil {
+    display: none !important;
+  }
+
+  .cabecera__barra {
+    gap: 1.5rem;
+    padding: 0.5rem 1.5rem;
+  }
+}
+
+/* ── Animación (solo premium) · Animation (premium only) ────────────────────────────── */
+
+/* ES: El contador salta al añadir un plato. · EN: The counter jumps when an item is added. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-anim="completa"] .cabecera__contador[data-lleno="true"] {
+    animation: saltito 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+}
+
+@keyframes saltito {
+  from {
+    scale: 0.55;
+  }
+
+  to {
+    scale: 1;
+  }
+}

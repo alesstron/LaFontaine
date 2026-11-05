@@ -1,0 +1,151 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 04 Plato del día / Dish of the day · «le plat du jour»
+ *
+ * ES: Estilos de PlatoDelDia.tsx (esta carpeta). El fondo de la sección ES la mesa de laminado (vetas con
+ *     degradados) con su canto negro arriba y abajo. A 1024 px pasa a dos columnas: plato | tarjeta.
+ * EN: Styles for PlatoDelDia.tsx (this folder). The section's background IS the laminate table (grain made with
+ *     gradients) with its black edge top and bottom. At 1024 px it turns into two columns: dish | card.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .plato-del-dia .............. la mesa: color --table, vetas y canto negro (border de 14 px)
+ *   .plato-del-dia__contenido ... rejilla: dibujo | tarjeta
+ *   .plato-del-dia__dibujo ...... el SVG del plato + la leyenda
+ *   .plato-del-dia__plato ....... el SVG (con sombra sobre la mesa)
+ *   .plato-del-dia__partes ...... leyenda escrita a mano (2 columnas; 3 desde 640 px)
+ *   .plato-del-dia__numero ...... círculo salmón con el número
+ *   .plato-del-dia__tarjeta ..... tarjeta de papel, un poco torcida
+ *   .plato-del-dia__titulo / __descripcion / __pie (precio + Ajouter)
+ *   (.precio-mano y .anadir--texto están en comun/piezas.css)
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Color de la mesa ...... --table en ajustes/colores.css · vetas: los repeating-linear-gradient de .plato-del-dia
+ *   ─ Grosor del canto ...... .plato-del-dia → border-top / border-bottom
+ *   ─ Inclinación tarjeta ... .plato-del-dia__tarjeta → rotate
+ */
+
+/* ── La mesa · The table ────────────────────────────────────────────────────────────── */
+
+.plato-del-dia {
+  padding: 4rem 1rem;
+  border-top: 14px solid #1f1613;
+  border-bottom: 14px solid #1f1613;
+  background-color: var(--table);
+  background-image:
+    repeating-linear-gradient(178deg, rgba(110, 52, 15, 0.12) 0 1px, transparent 1px 19px),
+    repeating-linear-gradient(181deg, rgba(255, 220, 170, 0.08) 0 2px, transparent 2px 11px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.06));
+}
+
+.plato-del-dia__contenido {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── El plato y su leyenda · The dish and its legend ────────────────────────────────── */
+
+.plato-del-dia__dibujo {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.plato-del-dia__plato {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 16px rgba(70, 30, 5, 0.35));
+}
+
+.plato-del-dia__partes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 1rem;
+  margin: 0;
+  padding: 0;
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  list-style: none;
+}
+
+.plato-del-dia__partes li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plato-del-dia__numero {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  padding-top: 0.15em;
+  border: 2px solid var(--trait);
+  border-radius: 50%;
+  background: var(--etiquette);
+  font-family: var(--f-josefin), sans-serif;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+/* ── La tarjeta · The card ──────────────────────────────────────────────────────────── */
+
+.plato-del-dia__tarjeta {
+  position: relative;
+  padding: 2.1rem 1.5rem 1.8rem;
+  background: var(--papier);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.08),
+    0 28px 40px -24px rgba(43, 26, 22, 0.75);
+  rotate: -1deg;
+}
+
+.plato-del-dia__titulo {
+  margin: 0 0 0.75rem;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-size: clamp(1.8rem, 1.35rem + 2vw, 2.6rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.plato-del-dia__descripcion {
+  margin: 0;
+}
+
+.plato-del-dia__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.6rem;
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+@media (min-width: 640px) {
+  .plato-del-dia__partes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ES: Desde 1024 px: plato a la izquierda, tarjeta a la derecha. · EN: From 1024 px: dish on the left, card on the right. */
+@media (min-width: 1024px) {
+  .plato-del-dia {
+    padding: 5.5rem 2rem;
+  }
+
+  .plato-del-dia__contenido {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 4rem;
+  }
+
+  .plato-del-dia__tarjeta {
+    padding: 2.6rem 2.4rem 2.2rem;
+  }
+}

@@ -1,0 +1,64 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 09 Promociones / Promotions · «à l'affiche»
+ *
+ * ES: Estilos de Promos.tsx (esta carpeta). Carteles de papel con una banda oscura arriba; 3 por fila desde 768 px.
+ * EN: Styles for Promos.tsx (this folder). Paper posters with a dark top band; 3 per row from 768 px.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .promos ............ la sección (pared en sombra)
+ *   .promos__cabecera .. título
+ *   .promos__lista ..... rejilla de carteles
+ *   .promos__cartel .... un cartel (banda superior de 10 px)
+ *   .promos__cuando .... fecha en etiqueta salmón a mano
+ */
+
+.promos {
+  padding: 4.5rem 1rem;
+  background: var(--creme-sombra);
+}
+
+.promos__cabecera {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+}
+
+.promos__lista {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.promos__cartel {
+  padding: 1.6rem 1.4rem;
+  border-top: 10px solid var(--plafond);
+  background: var(--papier);
+  box-shadow: 0 18px 30px -20px rgba(43, 26, 22, 0.6);
+}
+
+.promos__cartel h3 {
+  margin: 0.6rem 0 0.4rem;
+  font-family: var(--f-josefin), sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.promos__cuando {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.6rem 0.05rem;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+}
+
+/* ES: Desde 768 px: 3 carteles por fila. · EN: From 768 px: 3 posters per row. */
+@media (min-width: 768px) {
+  .promos__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,41 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Índice de estilos / Style index
+ *
+ * ES: Este archivo solo importa los demás, en el orden en que se aplican (lo carga src/app/layout.tsx; el nombre no
+ *     se cambia). Para cambiar el aspecto de una sección abre el .css de su carpeta; los colores están en
+ *     ajustes/colores.css. Cada hoja empieza por el móvil (360 px) y sus @media ensanchan; las animaciones de premium
+ *     solo corren con [data-anim="completa"] y nunca con "reducir movimiento".
+ * EN: This file only imports the others, in the order they apply (src/app/layout.tsx loads it; keep its name). To
+ *     change a section's look, open the .css in its folder; colors live in ajustes/colores.css. Every sheet is mobile
+ *     first (360 px) and its @media blocks widen it; premium animations only run with [data-anim="completa"] and
+ *     never with "reduce motion".
+ *
+ *   Orden · Order                                    Qué trae · What it brings
+ *   ───────────────────────────────────────────────  ──────────────────────────────────────────────────
+ *   1  ajustes/colores.css                           la paleta (--creme, --tasse…) [EDITABLE]
+ *   2  comun/base.css                                punto de partida: letra, fotos, foco, .sr, .piel
+ *   3  comun/piezas.css                              botones, etiquetas, cartela, añadir, formularios, conducto
+ *   4  secciones/01-cabecera … 14-whatsapp           una hoja por sección, en el orden de la página
+ *
+ * ES: Para añadir una sección nueva: crea su carpeta en secciones/ con su .tsx y su .css, añade aquí su @import (en
+ *     su sitio) y su componente en Pagina.tsx.
+ * EN: To add a new section: create its folder in secciones/ with its .tsx and .css, add its @import here (in its
+ *     place) and its component in Pagina.tsx.
+ */
+@import "./ajustes/colores.css";
+@import "./comun/base.css";
+@import "./comun/piezas.css";
+@import "./secciones/01-cabecera/cabecera.css";
+@import "./secciones/02-portada/portada.css";
+@import "./secciones/03-mostrador/mostrador.css";
+@import "./secciones/04-plato-del-dia/plato-del-dia.css";
+@import "./secciones/05-carta/carta.css";
+@import "./secciones/06-historia/historia.css";
+@import "./secciones/07-galeria/galeria.css";
+@import "./secciones/08-opiniones/opiniones.css";
+@import "./secciones/09-promos/promos.css";
+@import "./secciones/10-reserva/reserva.css";
+@import "./secciones/11-visita/visita.css";
+@import "./secciones/12-pie/pie.css";
+@import "./secciones/13-pedido/pedido.css";
+@import "./secciones/14-whatsapp/whatsapp.css";

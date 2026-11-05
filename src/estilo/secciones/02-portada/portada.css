@@ -1,0 +1,348 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 02 Portada / Hero · «le mur»
+ *
+ * ES: Estilos de Portada.tsx (esta carpeta). Primero el móvil (una columna); a 768 px salen las tres lámparas y a
+ *     1024 px la foto pasa a la derecha. Al final, las animaciones de premium.
+ * EN: Styles for Portada.tsx (this folder). Mobile first (one column); at 768 px the three lamps show and at 1024 px
+ *     the photo moves to the right. At the end, the premium animations.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .portada ................ la sección: pared crema con la luz de las lámparas
+ *   .portada__lamparas ...... franja de arriba donde cuelgan las lámparas
+ *   .lampara(--1/--2/--3) ... cada lámpara: tamaño y posición (left/right/top)
+ *   .portada__contenido ..... rejilla: texto | foto
+ *   .portada__texto ......... columna de texto (mide el ancho para la frase del mural)
+ *   .portada__lema / __nombre / __descripcion / __botones
+ *   .mural .................. el mural: .mural__frase (letras huecas), .mural__paisaje, .mural__nota
+ *   .obra ................... la foto enmarcada: .obra__marco (negro), .obra__paspartu (blanco)
+ *   (.etiqueta-estado, .cartela y .boton están en comun/piezas.css)
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Tamaño del nombre ........... .portada__nombre → font-size
+ *   ─ Tamaño de la frase del mural  .mural__frase → font-size (12.2cqi = 12,2 % del ancho de la columna)
+ *   ─ Grosor del trazo del mural .. .mural__frase → -webkit-text-stroke · .mural__paisaje → stroke-width
+ *   ─ Altura/posición de lámparas . .lampara--1/2/3 → top, left/right (y en el @media de 768 px)
+ *   ─ Inclinación de la foto ...... .obra → rotate (@media 1024 px)
+ */
+
+/* ── La pared · The wall ────────────────────────────────────────────────────────────── */
+
+.portada {
+  position: relative;
+  padding: 0 1rem 4.5rem;
+  background:
+    radial-gradient(ellipse 55% 38% at 14% 0%, var(--creme-luz), transparent 72%),
+    radial-gradient(ellipse 45% 34% at 86% 0%, var(--creme-luz), transparent 72%),
+    var(--creme);
+}
+
+/* ── Lámparas · Lamps ───────────────────────────────────────────────────────────────── */
+
+.portada__lamparas {
+  position: relative;
+  max-width: 1200px;
+  height: 108px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+/* ES: Cuelgan desde arriba (top negativo = el cordón sale de la cabecera). · EN: They hang from the top (negative top = the cord comes out of the header). */
+.lampara {
+  position: absolute;
+  width: 64px;
+  height: auto;
+  transform-origin: 50% 0;
+}
+
+.lampara--1 {
+  top: -66px;
+  left: 6%;
+}
+
+.lampara--2 {
+  top: -36px;
+  left: 44%;
+  display: none;
+}
+
+.lampara--3 {
+  top: -52px;
+  right: 6%;
+}
+
+.lampara__halo {
+  mix-blend-mode: screen;
+}
+
+/* ── Rejilla y textos · Grid and texts ──────────────────────────────────────────────── */
+
+.portada__contenido {
+  display: grid;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ES: container-type: la frase del mural se mide con el ancho de esta columna (unidad cqi). · EN: container-type: the mural sentence is sized by this column's width (cqi unit). */
+.portada__texto {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.portada__lema {
+  margin: 0 0 0.6rem;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bordeaux);
+}
+
+.portada__nombre {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 1.5rem + 5vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+/* ── El mural · The mural ───────────────────────────────────────────────────────────── */
+
+.mural {
+  margin: 1.9rem 0 0;
+}
+
+/*
+ * ES: Letras huecas como las del mural, a la medida del contenedor. El relleno es del color de la pared y el
+ *     trazo se pinta debajo (paint-order): así no se ven los contornos internos que la fuente superpone.
+ * EN: Outlined letters like the mural's, sized to the container. The fill is the wall color and the stroke is
+ *     painted underneath (paint-order): that hides the inner contours the font overlaps.
+ */
+.mural__frase {
+  margin: 0;
+  color: var(--creme);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: min(6.6rem, 12.2cqi);
+  line-height: 0.98;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  -webkit-text-stroke: 3.4px var(--trait);
+  paint-order: stroke fill;
+}
+
+.mural__frase span {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+.mural__paisaje {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin-top: 0.2rem;
+  stroke: var(--trait);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mural__nota {
+  margin-top: 0.3rem;
+  color: var(--encre);
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.portada__descripcion {
+  max-width: 35rem;
+  margin: 1.6rem 0 0;
+  font-size: 1.125rem;
+}
+
+.portada__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+/* ── La foto enmarcada · The framed photo ───────────────────────────────────────────── */
+
+.obra {
+  justify-self: center;
+  width: min(100%, 540px);
+  margin: 0;
+}
+
+.obra__marco {
+  padding: 10px;
+  background: #1a1210;
+  box-shadow:
+    0 2px 0 #000,
+    0 26px 40px -20px rgba(43, 26, 22, 0.6);
+}
+
+.obra__paspartu {
+  padding: clamp(14px, 4.5%, 30px);
+  background: #fffdf8;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.obra__paspartu img {
+  width: 100%;
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+/* ES: Desde 768 px: lámparas más grandes y aparece la del medio. · EN: From 768 px: bigger lamps and the middle one shows. */
+@media (min-width: 768px) {
+  .portada__lamparas {
+    height: 150px;
+  }
+
+  .lampara {
+    width: 86px;
+  }
+
+  .lampara--1 {
+    top: -86px;
+  }
+
+  .lampara--2 {
+    display: block;
+    top: -52px;
+  }
+
+  .lampara--3 {
+    top: -70px;
+  }
+}
+
+/* ES: Desde 1024 px: dos columnas (texto | foto) y la foto un poco torcida. · EN: From 1024 px: two columns (text | photo) and the photo slightly tilted. */
+@media (min-width: 1024px) {
+  .portada {
+    padding: 0 2rem 6rem;
+  }
+
+  .portada__contenido {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .obra {
+    margin-top: 3.2rem;
+    rotate: 1.2deg;
+  }
+}
+
+/* ── Animaciones (solo premium) · Animations (premium only) ─────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ES: El paisaje del mural se dibuja solo, trazo a trazo. · EN: The mural landscape draws itself, stroke by stroke. */
+  [data-anim="completa"] .mural__paisaje .trazo {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: trazar 1.7s cubic-bezier(0.45, 0.05, 0.3, 1) forwards;
+  }
+
+  /* ES: Las letras del mural se pintan de izquierda a derecha. · EN: The mural letters are painted left to right. */
+  [data-anim="completa"] .mural__frase span {
+    animation: pintar 1.3s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  [data-anim="completa"] .mural__frase span:nth-child(2) {
+    animation-delay: 0.45s;
+  }
+
+  /* ES: Las lámparas se balancean (cada una a su ritmo)… · EN: The lamps sway (each at its own pace)… */
+  [data-anim="completa"] .lampara {
+    animation: vaiven 7s ease-in-out infinite alternate;
+  }
+
+  [data-anim="completa"] .lampara--2 {
+    animation-duration: 8.5s;
+    animation-delay: -2s;
+  }
+
+  [data-anim="completa"] .lampara--3 {
+    animation-duration: 6.2s;
+    animation-delay: -4s;
+  }
+
+  /* ES: …y se encienden con un parpadeo, una detrás de otra. · EN: …and switch on with a flicker, one after another. */
+  [data-anim="completa"] .lampara__halo,
+  [data-anim="completa"] .lampara__bombilla {
+    animation: encender 1.6s linear both;
+  }
+
+  [data-anim="completa"] .lampara--2 .lampara__halo,
+  [data-anim="completa"] .lampara--2 .lampara__bombilla {
+    animation-delay: 0.35s;
+  }
+
+  [data-anim="completa"] .lampara--3 .lampara__halo,
+  [data-anim="completa"] .lampara--3 .lampara__bombilla {
+    animation-delay: 0.7s;
+  }
+}
+
+@keyframes trazar {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ES: Márgenes negativos arriba y abajo para no cortar la tilde de "CAFÉ". · EN: Negative top/bottom insets so the accent on "CAFÉ" is not cut. */
+@keyframes pintar {
+  from {
+    clip-path: inset(-0.4em 100% -0.3em -0.1em);
+  }
+
+  to {
+    clip-path: inset(-0.4em -0.1em -0.3em -0.1em);
+  }
+}
+
+@keyframes vaiven {
+  from {
+    rotate: -1.4deg;
+  }
+
+  to {
+    rotate: 1.4deg;
+  }
+}
+
+@keyframes encender {
+  0% {
+    opacity: 0;
+  }
+
+  16% {
+    opacity: 0.9;
+  }
+
+  22% {
+    opacity: 0.15;
+  }
+
+  32% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

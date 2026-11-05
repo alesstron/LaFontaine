@@ -1,0 +1,216 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 08 Opiniones / Reviews · «le livre d'or»
+ *
+ * ES: Estilos de Opiniones.tsx (esta carpeta). En el móvil, una página debajo de otra; desde 900 px, el libro abierto
+ *     con dos páginas y el lomo en medio.
+ * EN: Styles for Opiniones.tsx (this folder). On mobile, one page below the other; from 900 px, the open book with
+ *     two pages and the spine in the middle.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .opiniones ............. la sección: mesa oscura
+ *   .libro ................. el libro abierto (::after = el lomo, desde 900 px)
+ *   .libro__cinta .......... cinta granate de marcapáginas
+ *   .libro__pagina(--izq/--der)  página con renglones (cada 32 px)
+ *   .libro__nota, __cifra, __estrellas, __total   nota grande y estrellas
+ *   .libro__subtitulo, __temas, __tema, __menciones   temas más citados
+ *   .nota-mano ............. resumen escrito a mano (cada uno con otra tinta)
+ *   .libro__enlace ......... "Lire les avis sur Google ↗"
+ *   .estrella-nota ......... tamaño de las estrellas (dibujos.tsx)
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Separación de renglones .. .libro__pagina → 31px/32px del degradado (y line-height 32px de las notas)
+ *   ─ Tinta de cada nota ....... .nota-mano:nth-of-type(2/3) → color
+ *   ─ Posición de la cinta ..... .libro__cinta → right
+ */
+
+/* ── La mesa y el libro · The table and the book ────────────────────────────────────── */
+
+.opiniones {
+  padding: 4.5rem 1rem;
+  background: var(--plafond);
+}
+
+.libro {
+  position: relative;
+  display: grid;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-radius: 4px;
+  background: #fbf5e9;
+  box-shadow: 0 34px 60px -30px rgba(0, 0, 0, 0.85);
+}
+
+/* ES: Cinta con la punta en V. · EN: Ribbon with a V-shaped tip. */
+.libro__cinta {
+  position: absolute;
+  top: -8px;
+  right: 4%;
+  z-index: 1;
+  width: 22px;
+  height: 110px;
+  background: var(--bordeaux);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%);
+}
+
+/* ES: Renglones del libro cada 32 px. · EN: The book's ruled lines every 32 px. */
+.libro__pagina {
+  padding: 2.4rem 1.4rem 2rem;
+  background-image: repeating-linear-gradient(180deg, transparent 0 31px, rgba(39, 42, 56, 0.12) 31px 32px);
+  background-position: 0 0.9rem;
+}
+
+.libro__pagina--der {
+  border-top: 1px solid rgba(43, 26, 22, 0.12);
+}
+
+/* ── Página izquierda: nota y temas · Left page: rating and topics ──────────────────── */
+
+.libro__nota {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1rem;
+  margin: 0.4rem 0 0.2rem;
+}
+
+.libro__cifra {
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 4.4rem;
+  line-height: 1;
+}
+
+.libro__estrellas {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.estrella-nota {
+  width: 26px;
+  height: 26px;
+}
+
+.libro__total {
+  margin: 0 0 1.6rem;
+  color: var(--encre);
+}
+
+.libro__subtitulo {
+  margin: 0 0 0.6rem;
+  color: var(--bordeaux);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.libro__temas {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ES: Cada tema, escrito a mano sobre un renglón (algunos torcidos, alguno en granate). · EN: Each topic handwritten on a line (some tilted, some maroon). */
+.libro__temas li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--f-kalam), cursive;
+  font-size: 1.2rem;
+  line-height: 32px;
+}
+
+.libro__temas li:nth-child(odd) {
+  rotate: -0.5deg;
+}
+
+.libro__temas li:nth-child(3n) {
+  color: var(--bordeaux);
+}
+
+.libro__menciones {
+  flex: none;
+  color: var(--encre);
+  font-size: 0.95rem;
+}
+
+/* ── Página derecha: notas a mano · Right page: handwritten notes ───────────────────── */
+
+/* ES: Cada resumen con una tinta distinta, como si los escribiera otra persona. · EN: Each summary in a different ink, as if written by someone else. */
+.nota-mano {
+  margin: 0 0 1.6rem;
+  color: var(--ardoise);
+  font-family: var(--f-kalam), cursive;
+  font-size: 1.32rem;
+  line-height: 32px;
+}
+
+.nota-mano:nth-of-type(2) {
+  margin-left: 1.2rem;
+  color: var(--bordeaux);
+  rotate: 0.6deg;
+}
+
+.nota-mano:nth-of-type(3) {
+  color: var(--plafond);
+  rotate: -0.6deg;
+}
+
+.nota-mano p {
+  margin: 0;
+}
+
+.nota-mano footer {
+  color: var(--encre);
+  font-size: 1rem;
+}
+
+.libro__enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--plafond);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ── Pantallas anchas: libro abierto · Wide screens: open book ──────────────────────── */
+
+@media (min-width: 900px) {
+  .opiniones {
+    padding: 6rem 2rem;
+  }
+
+  .libro {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ES: Lomo del libro: sombra en el centro. · EN: The book's spine: shadow in the middle. */
+  .libro::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 46px;
+    background: linear-gradient(90deg, transparent, rgba(43, 26, 22, 0.16) 44%, rgba(43, 26, 22, 0.3) 50%, rgba(43, 26, 22, 0.16) 56%, transparent);
+    translate: -50% 0;
+    pointer-events: none;
+  }
+
+  .libro__pagina {
+    padding: 3.2rem 3rem 2.8rem;
+  }
+
+  .libro__pagina--der {
+    padding-top: 5.2rem;
+    border-top: 0;
+  }
+}

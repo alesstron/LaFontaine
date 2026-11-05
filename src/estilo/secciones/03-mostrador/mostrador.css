@@ -1,0 +1,185 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 03 Mostrador / Counter · «au comptoir»
+ *
+ * ES: Estilos de Mostrador.tsx (esta carpeta). Los silos se pintan con degradados: no hay imágenes que cambiar.
+ * EN: Styles for Mostrador.tsx (this folder). The bins are painted with gradients: there are no images to replace.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .mostrador ............. la franja (degradado de crema a crema en sombra)
+ *   .mostrador__texto ...... antetítulo + frase (en escritorio, a la izquierda de los silos)
+ *   .mostrador__estante .... contenedor de silos + tabla
+ *   .silos ................. fila de silos (4 columnas)
+ *   .silo__tapa ............ tapa negra con filo de latón
+ *   .silo__ventana ......... cristal oscuro donde va la etiqueta
+ *   .silo__etiqueta ........ etiqueta salmón escrita a mano (Kalam)
+ *   .silo__frente .......... latón acolchado (rombos con dos degradados a 45°)
+ *   .silo__pomo ............ pomo cromado (degradado radial)
+ *   .mostrador__tabla ...... el estante de madera
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Color del latón ......... --laiton en ajustes/colores.css
+ *   ─ Tamaño del rombo ........ .silo__frente → los "11px" de los dos repeating-linear-gradient
+ *   ─ Alto de los silos ....... .silo__ventana (min-height) y .silo__frente (height), también en @media 768 px
+ */
+
+/* ── Franja y texto · Strip and text ────────────────────────────────────────────────── */
+
+.mostrador {
+  padding: 3rem 1rem 0;
+  background: linear-gradient(180deg, var(--creme) 0%, var(--creme-sombra) 100%);
+}
+
+.mostrador__texto {
+  display: grid;
+  gap: 0.1rem;
+  max-width: 1200px;
+  margin: 0 auto 1.6rem;
+}
+
+.mostrador__texto p {
+  max-width: 36rem;
+  margin: 0;
+  color: var(--encre);
+}
+
+.mostrador__estante {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Los silos · The bins ───────────────────────────────────────────────────────────── */
+
+.silos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+  align-items: end;
+  max-width: 760px;
+  margin: 0;
+  padding: 0 0.4rem;
+  list-style: none;
+}
+
+.silo {
+  display: grid;
+}
+
+.silo__tapa {
+  height: 14px;
+  border-top: 3px solid var(--laiton);
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #2c211e, #0f0a09);
+}
+
+.silo__ventana {
+  display: grid;
+  place-items: center;
+  min-height: 66px;
+  padding: 7px 6px;
+  border-inline: 4px solid var(--chrome);
+  background: linear-gradient(180deg, #1c1311, #33241f);
+}
+
+/* ES: La letra se encoge en pantallas estrechas para que "GUATEMALA" quepa entera. · EN: The text shrinks on narrow screens so "GUATEMALA" fits whole. */
+.silo__etiqueta {
+  display: block;
+  width: 100%;
+  padding: 0.35rem 0.2rem 0.15rem;
+  border-radius: 2px;
+  background: var(--etiquette);
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: clamp(0.6rem, 0.42rem + 0.75vw, 1rem);
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+  rotate: -1.2deg;
+}
+
+/* ES: Latón acolchado: brillo vertical + dos rejillas de rayas a 45° y −45°. · EN: Quilted brass: vertical sheen + two stripe grids at 45° and −45°. */
+.silo__frente {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 84px;
+  border-inline: 4px solid var(--chrome);
+  border-bottom: 4px solid var(--chrome);
+  background-color: var(--laiton);
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 246, 220, 0.5) 26%, rgba(255, 255, 255, 0) 50%, rgba(60, 35, 10, 0.12) 100%),
+    repeating-linear-gradient(45deg, rgba(120, 82, 34, 0.6) 0 1.5px, transparent 1.5px 11px),
+    repeating-linear-gradient(-45deg, rgba(120, 82, 34, 0.6) 0 1.5px, transparent 1.5px 11px);
+}
+
+.silo__pomo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff 0 12%, #dcd9d4 30%, #7d7872 72%, #4a4642 100%);
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.4);
+}
+
+.mostrador__tabla {
+  height: 18px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #a86b41, #6f3f23);
+  box-shadow: 0 12px 18px -10px rgba(43, 26, 22, 0.65);
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+/* ES: Desde 768 px: silos más altos y separados. · EN: From 768 px: taller, more spaced bins. */
+@media (min-width: 768px) {
+  .mostrador {
+    padding: 4rem 2rem 0;
+  }
+
+  .silos {
+    gap: 1rem;
+    padding: 0 1.5rem;
+  }
+
+  .silo__ventana {
+    min-height: 84px;
+  }
+
+  .silo__frente {
+    height: 112px;
+  }
+
+  .silo__pomo {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ES: Desde 1024 px: el texto a la izquierda y los silos a la derecha, sobre el mismo estante. · EN: From 1024 px: text on the left and bins on the right, on the same shelf. */
+@media (min-width: 1024px) {
+  .mostrador__estante {
+    display: grid;
+    justify-items: end;
+  }
+
+  .mostrador__tabla {
+    width: 100%;
+  }
+
+  .mostrador {
+    padding-top: 0;
+  }
+
+  .mostrador__texto {
+    position: relative;
+    top: 7.5rem;
+    margin-bottom: 0;
+    max-width: 1200px;
+  }
+
+  .mostrador__texto p {
+    max-width: 22rem;
+  }
+}

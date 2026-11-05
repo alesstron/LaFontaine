@@ -1,0 +1,117 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 12 Pie / Footer
+ *
+ * ES: Estilos de Pie.tsx (esta carpeta). Una columna en el móvil; desde 768 px, marca a la izquierda y contacto a la
+ *     derecha. El margen inferior grande del móvil deja sitio al botón flotante de WhatsApp.
+ * EN: Styles for Pie.tsx (this folder). One column on mobile; from 768 px, brand on the left and contact on the right.
+ *     The big bottom padding on mobile leaves room for the floating WhatsApp button.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .pie ................. el pie (techo oscuro)
+ *   .pie__contenido ...... marca | contacto
+ *   .pie__marca, .pie__medallon, .pie__nombre, .pie__lema (latón)
+ *   .pie__contacto ....... dirección, teléfono, Facebook
+ *   .pie__legal .......... créditos, .pie__demo (aviso de demo en salmón) y ©
+ *   (.conducto está en comun/piezas.css)
+ */
+
+.pie {
+  background: var(--plafond);
+  color: var(--creme);
+}
+
+.pie__contenido {
+  display: grid;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem 2rem;
+}
+
+/* ── Marca · Brand ──────────────────────────────────────────────────────────────────── */
+
+.pie__marca {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pie__medallon {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  color: var(--plafond);
+}
+
+.pie__nombre {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.pie__lema {
+  margin: 0;
+  color: var(--laiton);
+  font-family: var(--f-josefin), sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ── Contacto · Contact ─────────────────────────────────────────────────────────────── */
+
+.pie__contacto {
+  display: grid;
+  gap: 0.2rem;
+  font-style: normal;
+}
+
+.pie__contacto a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+  color: var(--creme);
+}
+
+/* ── Créditos y aviso de demo · Credits and demo notice ─────────────────────────────── */
+
+.pie__legal {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 6.5rem;
+  border-top: 1px solid rgba(247, 225, 199, 0.15);
+  color: #dccab4;
+  font-size: 0.85rem;
+}
+
+.pie__legal p {
+  margin: 0;
+}
+
+.pie__demo {
+  color: var(--etiquette);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+@media (min-width: 768px) {
+  .pie__contenido {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 3.5rem 2rem 2.5rem;
+  }
+
+  .pie__legal {
+    padding: 1.25rem 2rem 2rem;
+  }
+}

@@ -1,0 +1,69 @@
+[
+  {
+    "archivo": "interieur-mur.jpg",
+    "src": "/img/interieur-mur.jpg",
+    "ancho": 1600,
+    "alto": 1200,
+    "autor": "Maroi Ajina",
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9RBTRdQeQjZEis0FRAgY7X50Fjej3LLEBtZ-RNEmJsRefnq5ESsrvmD2H_CiIXtkACylivqoq74BoNIPh0eHK0lNdHP25YTwf6m3UH9P1KME2WP1BdN3y6PFMUSPHWX7Qg1o3N35Hn2bo0K"
+  },
+  {
+    "archivo": "latte-art.jpg",
+    "src": "/img/latte-art.jpg",
+    "ancho": 900,
+    "alto": 1600,
+    "autor": "Ruslana Arama",
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9S9F2ip9O1l-EqncYLvDKzxAKRFUF-DBBv7vDjhBE5gsm8zBgGMPqKly-Nw30f-LTR5J44tiQ-1wnwhKKJXi1hu4sNH4DwDioCtv44tsgVetAxDe8QawlL0QGnrtD-1rmk4zHI9DA"
+  },
+  {
+    "archivo": "tacos-pastor.jpg",
+    "src": "/img/tacos-pastor.jpg",
+    "ancho": 1600,
+    "alto": 1280,
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QQkw6hzHxfoR3CqmMesZEM0_ULNKBMXzBkyLDWEnqJ0qBS5OtxYb_iaTJfGWdAd4glPZbOVHvRzj7E-gwy5jJBfZ8lzE1NxpGvfjLXCNN0KpsplhERKCoDODXn2O_yVJicpVei"
+  },
+  {
+    "archivo": "dejeuner-latino.jpg",
+    "src": "/img/dejeuner-latino.jpg",
+    "ancho": 1600,
+    "alto": 901,
+    "autor": "Eddy Davila",
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SG-q-qCqWtmllrDQhdVwvRjNVMHPP1RnWdY-w7pIi93TPvkJuUvNPgyP2dP9noY5iQWOCDwdb4T0ailz9VdreKNHKaIPVbkhemaCJDaWgVHmIlsn0BCRRgBMJk2lJgeT11GkrUlcbUWYqm"
+  },
+  {
+    "archivo": "tasse-rouge.jpg",
+    "src": "/img/tasse-rouge.jpg",
+    "ancho": 1205,
+    "alto": 1600,
+    "autor": "Gianluca Diarcangelo",
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SlOeWz0-R0BPji9IU-ad9HGbJcmzwu2R4kFbsU3yO7VRG_DMmxzN5HEUSgBhLt6LQpp7J5JHYChveOOuBDyjXt6c4P0ljMxKQuf2g2nGRLMnHW_3zXwmA5-Yb0ROJGkTHyqIcofAyBiWJq"
+  },
+  {
+    "archivo": "assiettes-latines.jpg",
+    "src": "/img/assiettes-latines.jpg",
+    "ancho": 1600,
+    "alto": 1280,
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TSKFwt2W-_16IhwhuuQjRoKxRCDTQokWnOlGF4i_QQd_ySiqBANqvrTyCFYmojI-5yF8n5uNJ6HzzaJZiWKdR8HJtIlXD7trDGvd0M_tSgSinstvwAdEL6r4lWSUQ-dpg32b2NxA"
+  },
+  {
+    "archivo": "burrito.jpg",
+    "src": "/img/burrito.jpg",
+    "ancho": 1600,
+    "alto": 1280,
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9Tx2rgqQQN1M821TPk6wLRcQ8AvVqV78kSUiiUP258IDjV5Uqu6TmSNLYeFV6sfAQmfOUJ_e4-XeRFko5GP_EXRd1cFFirM9bKOaJh2Ydwbc0uriBCcKM9jvEDZWl-C7e9TZm9Y1w"
+  },
+  {
+    "archivo": "bagel-dejeuner.jpg",
+    "src": "/img/bagel-dejeuner.jpg",
+    "ancho": 1600,
+    "alto": 1280,
+    "origen": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QX375_0jqp2GYJ4HOxPTOMDfDSLqV5aIMinTJbNqcvZgjT09x_e9aCB7FPBPFfsdP9rihalLKMy6N199dNYtG7t8q_j1vtNoBLS_2gDs8jme_oucEqeGeKxdR9gB5ptB_D1ZceaA"
+  },
+  {
+    "archivo": "chilaquiles.jpg",
+    "src": "/img/chilaquiles.jpg",
+    "ancho": 720,
+    "alto": 640,
+    "recorteDe": "assiettes-latines.jpg (880,0 720x640)"
+  }
+]

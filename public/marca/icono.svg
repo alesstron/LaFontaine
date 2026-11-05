@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- ES: Icono de la pestaña: medallón crema con la taza del logotipo de Café LaFontaine. -->
+  <!-- EN: Browser tab icon: cream medallion with the cup from Café LaFontaine's logo. -->
+  <circle cx="32" cy="32" r="31" fill="#f7e1c7"/>
+  <circle cx="32" cy="32" r="28" fill="none" stroke="#2b1a16" stroke-width="3.5"/>
+  <path d="M17 30h26v3c0 8-6 13-13 13s-13-5-13-13z" fill="#2b1a16"/>
+  <path d="M43 32c6 0 7 8 1 9" fill="none" stroke="#2b1a16" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 50h32" stroke="#2b1a16" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 25c-3-4 3-6 0-11M34 25c-3-4 3-6 0-11" fill="none" stroke="#9c1d26" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

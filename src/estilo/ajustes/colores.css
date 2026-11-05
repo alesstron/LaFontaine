@@ -1,0 +1,68 @@
+/*
+ * [EDITABLE] Colores de la piel / Skin colors
+ *
+ * ES: La paleta de Café LaFontaine, medida en las fotos del local (de dónde sale cada color: docs/DISEÑO.md).
+ *     Para cambiar un color, cambia SOLO el valor hexadecimal; el nombre (--creme, --tasse…) se usa en todos
+ *     los .css de la piel. Si cambias un color de texto o de fondo, comprueba que se sigue leyendo bien
+ *     (contraste mínimo 4,5:1 para texto normal; por ejemplo en https://webaim.org/resources/contrastchecker/).
+ * EN: Café LaFontaine's palette, measured on the shop's photos (where each color comes from: docs/DISEÑO.md).
+ *     To change a color, change ONLY the hex value; the name (--creme, --tasse…) is used by every skin .css file.
+ *     If you change a text or background color, check it still reads well (minimum contrast 4.5:1 for normal
+ *     text; for example at https://webaim.org/resources/contrastchecker/).
+ *
+ *   Nombre · Name     Se ve en · Shows in
+ *   ───────────────   ──────────────────────────────────────────────────────────────────────────────
+ *   --creme           Fondo de portada, galería, reserva y visita · relleno de las letras del mural
+ *   --creme-luz       La luz de las lámparas sobre la pared de la portada
+ *   --creme-sombra    Fondo de la carta, de las promociones y del mostrador (degradado)
+ *   --papier          Las tres pizarras, tarjetas (plato del día, reserva), etiqueta cosida de la historia
+ *   --plafond         Texto principal · cabecera · pie · fondo de las opiniones · bandas del póster de horario
+ *   --plafond-2       La campana metálica de las lámparas
+ *   --encre           Texto secundario (notas, descripciones) · dibujos de fondo de las pizarras
+ *   --trait           El trazo del mural, del paisaje, del plato del día y de la fuente del parque
+ *   --bordeaux        Antetítulos · "MENU LATINO" y sus cajas · cinta del libro de oro · "Fermé"
+ *   --ardoise         "À BOIRE" · notas escritas a mano del libro de oro
+ *   --tasse           Botones principales · "+" para añadir · contorno de foco del teclado
+ *   --tasse-fonce     Botones principales al pasar el ratón
+ *   --cognac          Los sillones de la reserva (--cognac-texte si alguna vez se usa para texto)
+ *   --laiton          Frente y tapa de los silos de café · lema del pie
+ *   --etiquette       Etiquetas a mano: estado abierto/cerrado, silos, servicios, contador, día de hoy
+ *   --table           La mesa de laminado del plato del día
+ *   --jute            El saco de yute de la historia
+ *   --kraft           La bolsa del pedido y su icono en la cabecera
+ *   --sol             El suelo de hormigón bajo los sillones
+ *   --chrome          Los laterales cromados de los silos
+ */
+:root {
+  /* ES: Pared crema del mural, con luz y en sombra. · EN: Cream mural wall, lit and in shadow. */
+  --creme: #f7e1c7;
+  --creme-luz: #fcefdf;
+  --creme-sombra: #ecd2b4;
+  /* ES: Papel blanco de las pizarras del menú. · EN: White paper of the menu boards. */
+  --papier: #fbf6ee;
+  /* ES: Techo oscuro y listones de las pizarras (texto principal). · EN: Dark ceiling and board strips (main text). */
+  --plafond: #2b1a16;
+  --plafond-2: #3d2a24;
+  /* ES: Tinta del mural (dibujos a línea y texto secundario). · EN: Mural ink (line drawings and secondary text). */
+  --encre: #6b5a4e;
+  --trait: #4a3a33;
+  /* ES: Títulos de las pizarras: granate de "MENU LATINO" y azul noche de "À BOIRE". · EN: Board titles: "MENU LATINO" maroon, "À BOIRE" night blue. */
+  --bordeaux: #7a3b37;
+  --ardoise: #272a38;
+  /* ES: La taza roja: botones de acción. · EN: The red cup: action buttons. */
+  --tasse: #9c1d26;
+  --tasse-fonce: #7c1520;
+  /* ES: Sillones de cuero (y su versión oscura, legible como texto). · EN: Leather armchairs (and their darker, text-safe version). */
+  --cognac: #b06038;
+  --cognac-texte: #975330;
+  /* ES: Latón de los silos. · EN: The bins' brass. */
+  --laiton: #d2ad7c;
+  /* ES: Etiquetas salmón escritas a mano. · EN: Handwritten salmon labels. */
+  --etiquette: #edb197;
+  /* ES: Materiales del local: mesa, saco, bolsa, suelo y cromo. · EN: Shop materials: table, sack, bag, floor and chrome. */
+  --table: #ca8041;
+  --jute: #b98c62;
+  --kraft: #c49a6c;
+  --sol: #dda789;
+  --chrome: #e4e1dc;
+}

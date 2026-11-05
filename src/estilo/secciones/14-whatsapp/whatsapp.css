@@ -1,0 +1,43 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 14 WhatsApp flotante / Floating WhatsApp
+ *
+ * ES: Estilos de WhatsappFlotante.tsx (esta carpeta): botón redondo de 56 px fijo a 1 rem de la esquina inferior
+ *     derecha, fondo oscuro con aro salmón; rojo taza al pasar el ratón.
+ * EN: Styles for WhatsappFlotante.tsx (this folder): 56 px round button fixed 1 rem from the bottom-right corner, dark
+ *     fill with a salmon ring; red cup on hover.
+ *
+ *   Clases · Classes
+ *   ─────────────────────────────────────────────────────
+ *   .whatsapp-flotante ......... el botón (posición y colores)
+ *   .whatsapp-flotante__icono .. el icono (28 px)
+ */
+
+.whatsapp-flotante {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--plafond);
+  color: var(--etiquette);
+  box-shadow:
+    0 0 0 3px var(--etiquette),
+    0 12px 22px -8px rgba(0, 0, 0, 0.6);
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.whatsapp-flotante:hover {
+  background: var(--tasse);
+  color: var(--papier);
+}
+
+.whatsapp-flotante__icono {
+  width: 28px;
+  height: 28px;
+}

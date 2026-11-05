@@ -1,0 +1,430 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Piezas comunes / Shared pieces
+ *
+ * ES: Piezas que se repiten en varias secciones. Si cambias una, cambia en TODAS las secciones que la usan
+ *     (lista en cada bloque). Lo que es de una sola sección está en la carpeta de esa sección.
+ * EN: Pieces repeated across several sections. Changing one changes it in EVERY section that uses it (listed in
+ *     each block). Anything belonging to a single section lives in that section's folder.
+ *
+ *   Pieza · Piece          Así se ve · Looks like             Se usa en · Used in
+ *   ────────────────────   ────────────────────────────────   ───────────────────────────────────────────────
+ *   .antetitulo            PERLE CACHÉE (mayúsculas granate)  Encima de casi todos los títulos
+ *   .titulo-seccion        Menu (serif grande)                Título de cada sección
+ *   .boton--taza           ( VOIR LE MENU )  rojo relleno     Portada, reserva, pedido, visita
+ *   .boton--linea          ( RÉSERVER )      contorno         Portada, visita
+ *   .etiqueta-estado       [Ouvert · Ferme à 17 h] salmón     Portada
+ *   .precio-mano           [17,00 $] blanca, a mano, torcida  Plato del día, carta
+ *   .cartela               ┌ LA SALLE ┐ cartela de museo     Portada (foto), galería
+ *   .anadir--redondo       (+) contorno rojo                  Carta
+ *   .anadir--texto         ( AJOUTER ) rojo relleno           Plato del día
+ *   .anadir__n             [2] contador salmón                Todos los botones de añadir
+ *   .formulario / .campo   NOM [__________]                   Reserva, pedido
+ *   .contador              ( − 2 + )                          Reserva (personas)
+ *   .conducto              ════╪════╪════ tubo oscuro         Debajo de la cabecera y encima del pie
+ */
+
+/* ── Títulos · Headings ─────────────────────────────────────────────────────────────── */
+
+/* ES: Rótulo pequeño en mayúsculas espaciadas sobre un título. · EN: Small spaced-capitals line above a heading. */
+.antetitulo {
+  margin: 0 0 0.5rem;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bordeaux);
+}
+
+/* ES: Título de sección en el serif del logotipo. · EN: Section heading in the logo's serif. */
+.titulo-seccion {
+  margin: 0 0 1rem;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 1.45rem + 2.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* ── Botones · Buttons ──────────────────────────────────────────────────────────────── */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.8rem 1.4rem 0.65rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.15s;
+}
+
+.boton:active {
+  transform: translateY(1px);
+}
+
+/* ES: Rojo de la taza: la acción principal. · EN: Red cup: the main action. */
+.boton--taza {
+  background: var(--tasse);
+  color: var(--papier);
+}
+
+.boton--taza:hover {
+  background: var(--tasse-fonce);
+}
+
+.boton--taza:disabled {
+  background: #a5968c;
+  cursor: not-allowed;
+}
+
+/* ES: Contorno oscuro: la acción secundaria. · EN: Dark outline: the secondary action. */
+.boton--linea {
+  border-color: var(--plafond);
+  background: transparent;
+  color: var(--plafond);
+}
+
+.boton--linea:hover {
+  background: var(--plafond);
+  color: var(--papier);
+}
+
+.boton--ancho {
+  width: 100%;
+}
+
+/* ES: Iconos pequeños dentro de un texto (flecha de enlace externo). · EN: Small icons inside text (external-link arrow). */
+.icono {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+/* ── Etiquetas a mano · Handwritten labels ──────────────────────────────────────────── */
+
+/* ES: Etiqueta salmón escrita a mano, como las de los silos (estado abierto/cerrado). · EN: Handwritten salmon label, like the bins' ones (open/closed status). */
+.etiqueta-estado {
+  display: inline-block;
+  min-width: 14ch;
+  margin: 1.4rem 0 0;
+  padding: 0.45rem 0.95rem 0.3rem;
+  border-radius: 3px;
+  background: var(--etiquette);
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-size: 1.125rem;
+  line-height: 1.35;
+  box-shadow:
+    0 1px 0 rgba(43, 26, 22, 0.25),
+    0 8px 14px -10px rgba(43, 26, 22, 0.6);
+  rotate: -1.5deg;
+}
+
+.etiqueta-estado strong {
+  font-weight: 700;
+}
+
+/* ES: Precio escrito a mano sobre etiqueta blanca, como las correcciones del menú real. · EN: Price handwritten on a white sticker, like the real menu's corrections. */
+.precio-mano {
+  display: inline-block;
+  padding: 0.15rem 0.5rem 0;
+  border: 1px solid #e3d8ca;
+  background: #fff;
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: 0 3px 6px -3px rgba(43, 26, 22, 0.5);
+  rotate: -2deg;
+}
+
+.precio-mano--grande {
+  padding: 0.25rem 0.9rem 0.05rem;
+  font-size: 1.9rem;
+}
+
+/* ── Cartela de museo · Museum label card ───────────────────────────────────────────── */
+
+/*
+ *   ┌──────────────────────────────┐
+ *   │ N° 01 / LA SALLE             │  ← .cartela__numero / .cartela__titulo
+ *   │ 3535, avenue Papineau…       │  ← texto · text
+ *   │ Photo : Maroi Ajina          │  ← .cartela__autor (cursiva · italic)
+ *   └──────────────────────────────┘
+ */
+.cartela {
+  display: grid;
+  gap: 0.15rem;
+  max-width: 24rem;
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.85rem 0.55rem;
+  border: 1px solid #dccdb9;
+  background: #fffdf8;
+  color: var(--encre);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  box-shadow: 0 3px 8px -6px rgba(43, 26, 22, 0.5);
+}
+
+.cartela__titulo,
+.cartela__numero {
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--plafond);
+}
+
+.cartela__autor {
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+}
+
+/* ── Botón de añadir al pedido · Add-to-order button (comun/piezas.tsx → BotonAnadir) ─ */
+
+.anadir {
+  position: relative;
+  flex: none;
+  border: 0;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.15s;
+}
+
+.anadir:active {
+  transform: scale(0.94);
+}
+
+/* ES: (+) En las pizarras: solo contorno, para no tapar el menú; se rellena al pasar o al añadir. · EN: (+) On the boards: outline only, so it doesn't drown the menu; fills on hover or when added. */
+.anadir--redondo {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tasse);
+  box-shadow: inset 0 0 0 1.5px var(--tasse);
+}
+
+/* ES: La cruz del "+" dibujada con dos barras (queda centrada con cualquier letra). · EN: The "+" cross drawn with two bars (stays centred with any font). */
+.anadir__signo {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.anadir__signo::before,
+.anadir__signo::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  translate: -50% -50%;
+}
+
+.anadir__signo::after {
+  rotate: 90deg;
+}
+
+.anadir--redondo:hover,
+.anadir--redondo[data-hecho="true"] {
+  background: var(--tasse);
+  color: var(--papier);
+}
+
+/* ES: ( AJOUTER ) Botón con la palabra, en el plato del día. · EN: ( ADD ) Button with the word, on the dish of the day. */
+.anadir--texto {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.8rem 1.6rem 0.65rem;
+  border-radius: 999px;
+  background: var(--tasse);
+  color: var(--papier);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.anadir--texto:hover {
+  background: var(--tasse-fonce);
+}
+
+.anadir--texto[data-hecho="true"] {
+  background: var(--plafond);
+  color: var(--papier);
+}
+
+/* ES: [2] Cuántos lleva el pedido de ese plato: etiqueta salmón en la esquina. · EN: [2] How many of that item are in the order: salmon tag in the corner. */
+.anadir__n {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--etiquette);
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 21px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  rotate: 6deg;
+}
+
+/* ── Formularios · Forms (reserva y pedido · booking and order) ─────────────────────── */
+
+/*
+ *   NOM                         ← .campo > span
+ *   [______________________]    ← .campo input
+ *   Champ obligatoire           ← .campo__error
+ *   ( − 2 + )                   ← .contador
+ */
+.formulario {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* ES: Dos campos lado a lado (fecha y hora) desde 420 px. · EN: Two fields side by side (date and time) from 420 px. */
+.formulario__par {
+  display: grid;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.campo > span:first-child {
+  color: var(--encre);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ES: 16 px como mínimo para que el móvil no haga zoom al escribir. · EN: 16 px minimum so phones don't zoom in while typing. */
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid #c9b6a0;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--plafond);
+  font-family: var(--f-caslon), Georgia, serif;
+  font-size: 1rem;
+}
+
+.campo textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.campo select:disabled {
+  background: #f1ebe2;
+  color: var(--encre);
+}
+
+.campo [aria-invalid="true"] {
+  border-color: var(--tasse);
+}
+
+.campo__error {
+  color: var(--tasse);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+/* ES: ( − 2 + ) Selector de número de personas. · EN: ( − 2 + ) Guest-count stepper. */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: max-content;
+  padding: 3px;
+  border: 1.5px solid #c9b6a0;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.contador button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--creme);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.contador button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.contador output {
+  min-width: 2.5ch;
+  padding-top: 0.15em;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.formulario__ayuda {
+  margin: 0;
+  color: var(--encre);
+  font-size: 0.875rem;
+}
+
+@media (min-width: 420px) {
+  .formulario__par {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Conducto del techo · Ceiling duct ──────────────────────────────────────────────── */
+
+/* ES: El conducto a la vista del techo, con sus juntas cada 240 px (debajo de la cabecera y encima del pie). · EN: The ceiling's exposed duct, with joints every 240 px (under the header and above the footer). */
+.conducto {
+  height: 10px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 236px, rgba(0, 0, 0, 0.45) 236px 239px, rgba(255, 255, 255, 0.07) 239px 240px),
+    linear-gradient(180deg, #57403a 0, #3a2722 45%, #1c1210 100%);
+  box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.5);
+}

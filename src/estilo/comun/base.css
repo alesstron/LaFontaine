@@ -1,0 +1,95 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Base
+ *
+ * ES: Reglas de partida para toda la página: tamaño de caja, letra y color del texto, fotos, enlaces, foco del
+ *     teclado y utilidades. Se carga antes que todo lo demás (ver estilo.css). Las secciones NO dependen de que
+ *     cambies algo aquí: si quieres cambiar una sección, ve a su carpeta en secciones/.
+ * EN: Starting rules for the whole page: box sizing, text font and color, photos, links, keyboard focus and
+ *     utilities. Loaded before everything else (see estilo.css). Sections do NOT depend on changes here: to change
+ *     a section, go to its folder in secciones/.
+ *
+ *   Clases · Classes
+ *   ─────────────────────────────────────────────────────────────────────────────────
+ *   .piel ........ el contenedor de toda la página (Pagina.tsx); recorta lo que se salga por los lados
+ *   .sr .......... texto solo para lectores de pantalla (invisible en pantalla)
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ES: Desplazamiento suave a las anclas (#carta…) dejando sitio a la cabecera fija. · EN: Smooth scroll to anchors (#carta…) leaving room for the sticky header. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ES: Texto corrido: Libre Caslon Text 17 px sobre la pared crema. · EN: Body text: Libre Caslon Text 17 px on the cream wall. */
+body {
+  margin: 0;
+  background: var(--creme);
+  color: var(--plafond);
+  font-family: var(--f-caslon), Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ES: Contorno rojo taza al navegar con el teclado. · EN: Red-cup outline when navigating with the keyboard. */
+:focus-visible {
+  outline: 3px solid var(--tasse);
+  outline-offset: 3px;
+}
+
+/* ES: Solo para lectores de pantalla. · EN: Screen readers only. */
+.sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ES: Nada se sale por los lados (clip, a diferencia de hidden, no rompe la cabecera fija). · EN: Nothing spills sideways (clip, unlike hidden, keeps the sticky header working). */
+.piel {
+  overflow-x: clip;
+}

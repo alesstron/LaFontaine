@@ -1,0 +1,214 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 07 Galería / Gallery · «l'expo»
+ *
+ * ES: Estilos de Galeria.tsx (esta carpeta). En el móvil, fila que se desliza de lado (scroll-snap) dentro de la
+ *     sección; desde 768 px, filas de 3 (4 desde 1280 px) colgadas de una barra continua.
+ * EN: Styles for Galeria.tsx (this folder). On mobile, a row that slides sideways (scroll-snap) inside the section;
+ *     from 768 px, rows of 3 (4 from 1280 px) hanging from a continuous rail.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .galeria ............... la sección (pared crema)
+ *   .galeria__cabecera ..... antetítulo, título y .galeria__texto
+ *   .galeria__muro ......... la fila/rejilla de cuadros
+ *   .cuadro ................ un cuadro; ::before = el tramo de barra de colgar encima
+ *   .cuadro__cordon ........ cordón en V (SVG que se estira)
+ *   .cuadro__marco ......... marco negro · .cuadro__paspartu: paspartú blanco
+ *   .galeria .cartela__… ... ajustes de la cartela en la galería (la base está en comun/piezas.css)
+ *   .galeria__nota ......... crédito de las fotos
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Cuadros por fila ...... .cuadro → flex-basis (768 px: 3 · 1280 px: 4)
+ *   ─ Recorte de las fotos .. .cuadro__paspartu img → aspect-ratio (4/3 horizontales · 3/4 verticales)
+ *   ─ Grosor del marco ...... .cuadro__marco → padding · paspartú: .cuadro__paspartu → padding
+ */
+
+/* ── La sección · The section ───────────────────────────────────────────────────────── */
+
+.galeria {
+  padding: 4.5rem 0 3.5rem;
+  background: var(--creme);
+}
+
+.galeria__cabecera {
+  max-width: 1200px;
+  margin: 0 auto 2.2rem;
+  padding: 0 1rem;
+}
+
+.galeria__texto {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--encre);
+}
+
+/* ── La pared de cuadros · The wall of frames ───────────────────────────────────────── */
+
+/* ES: Móvil: una fila que se desliza con el dedo y se detiene en cada cuadro. · EN: Mobile: a row that slides with the finger and stops at each frame. */
+.galeria__muro {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0 1rem 1.25rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  list-style: none;
+}
+
+.cuadro {
+  position: relative;
+  flex: 0 0 min(74vw, 320px);
+  padding-top: 2.7rem;
+  scroll-snap-align: center;
+}
+
+/* ES: Barra de colgar continua (un tramo por cuadro, que cubre también el hueco). · EN: Continuous hanging rail (one stretch per frame, also covering the gap). */
+.cuadro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -0.75rem;
+  left: -0.75rem;
+  height: 6px;
+  background: linear-gradient(180deg, #e6e1da, #8d8780);
+}
+
+/* ES: El origen del giro está en el clavo (arriba), para que se balancee como colgado. · EN: The rotation origin is at the nail (top), so it swings like a hanging frame. */
+.cuadro figure {
+  margin: 0;
+  transform-origin: 50% -2.4rem;
+}
+
+.cuadro__cordon {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 56%;
+  height: calc(2.7rem - 6px);
+  fill: none;
+  stroke: #3b302b;
+  stroke-width: 1.4;
+  translate: -50% 0;
+}
+
+.cuadro__cordon path {
+  vector-effect: non-scaling-stroke;
+}
+
+.cuadro__marco {
+  padding: 8px;
+  background: #17100e;
+  box-shadow:
+    0 2px 0 #000,
+    0 22px 30px -18px rgba(43, 26, 22, 0.6);
+}
+
+.cuadro__paspartu {
+  padding: 12px;
+  background: #fffdf8;
+}
+
+/* ES: Todas las fotos al mismo formato: 4/3 las horizontales, 3/4 las verticales. · EN: Every photo in the same format: 4/3 landscape, 3/4 portrait. */
+.cuadro__paspartu img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cuadro[data-forma="vertical"] .cuadro__paspartu img {
+  aspect-ratio: 3 / 4;
+}
+
+/* ── La cartela en la galería · The label card in the gallery ───────────────────────── */
+
+/* ES: Aquí la descripción va en cursiva y el autor en mayúsculas pequeñas. · EN: Here the description is italic and the author in small capitals. */
+.galeria .cartela__titulo {
+  color: var(--plafond);
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.galeria .cartela__autor {
+  font-family: var(--f-josefin), sans-serif;
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.galeria__nota {
+  max-width: 1200px;
+  margin: 1rem auto 0;
+  padding: 0 1rem;
+  color: var(--encre);
+  font-size: 0.9rem;
+}
+
+/* ── Pantallas más anchas · Wider screens ───────────────────────────────────────────── */
+
+/* ES: Desde 768 px: filas de 3 cuadros centradas, sin desplazamiento lateral. · EN: From 768 px: centred rows of 3 frames, no sideways scroll. */
+@media (min-width: 768px) {
+  .galeria__muro {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.6rem 2rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    overflow: visible;
+  }
+
+  .cuadro {
+    flex: 0 0 calc((100% - 4rem) / 3);
+  }
+
+  .cuadro::before {
+    right: -1rem;
+    left: -1rem;
+  }
+
+  .cuadro[data-forma="vertical"] .cartela,
+  .cuadro .cartela {
+    max-width: none;
+  }
+}
+
+/* ES: Desde 1280 px: 4 por fila. · EN: From 1280 px: 4 per row. */
+@media (min-width: 1280px) {
+  .cuadro {
+    flex-basis: calc((100% - 6rem) / 4);
+  }
+}
+
+/* ── Animación (solo premium) · Animation (premium only) ────────────────────────────── */
+
+/* ES: El cuadro se balancea al pasar el ratón, como si lo rozaras. · EN: The frame swings on hover, as if brushed. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-anim="completa"] .cuadro:hover figure {
+    animation: balanceo 1.6s ease-in-out;
+  }
+}
+
+@keyframes balanceo {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+
+  25% {
+    rotate: 1.6deg;
+  }
+
+  50% {
+    rotate: -1.1deg;
+  }
+
+  75% {
+    rotate: 0.5deg;
+  }
+}

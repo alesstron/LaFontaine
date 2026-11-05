@@ -1,0 +1,97 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 10 Reserva / Booking · «prenez un fauteuil»
+ *
+ * ES: Estilos de Reserva.tsx (esta carpeta). La pared crema se convierte en suelo de hormigón en los últimos 5,5 rem;
+ *     la escena (sillones y mesa) está posada sobre el suelo y la tarjeta queda "encima" de la mesa.
+ *     Los campos del formulario (.campo, .contador…) están en comun/piezas.css porque los comparte el pedido.
+ * EN: Styles for Reserva.tsx (this folder). The cream wall turns into a concrete floor in the last 5.5 rem; the scene
+ *     (armchairs and table) rests on the floor and the card sits "on" the table. Form fields (.campo, .contador…)
+ *     live in comun/piezas.css because the order shares them.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .reserva .............. la sección: pared arriba, suelo abajo (degradado con corte)
+ *   .reserva__escena ...... fila de sillón · mesa · sillón, posada en el suelo (absolute, bottom)
+ *   .reserva__sillon(--izq/--der)  cada sillón (más grande y separado desde 900 px)
+ *   .reserva__mesa ........ la mesa baja
+ *   .reserva__tarjeta ..... la tarjeta de papel con el formulario
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Alto del suelo ........ .reserva → los "5.5rem" del degradado
+ *   ─ Tamaño de sillones .... .reserva__sillon → width (108 px móvil · 230 px escritorio)
+ *   ─ Distancia a la mesa ... .reserva__sillon--izq/--der → margin (@media 900 px)
+ */
+
+/* ── Pared y suelo · Wall and floor ─────────────────────────────────────────────────── */
+
+.reserva {
+  position: relative;
+  padding: 4.5rem 1rem 7.5rem;
+  background: linear-gradient(180deg, var(--creme) 0, var(--creme) calc(100% - 5.5rem), var(--sol) calc(100% - 5.5rem));
+}
+
+/* ── La escena · The scene ──────────────────────────────────────────────────────────── */
+
+.reserva__escena {
+  position: absolute;
+  right: 0;
+  bottom: 2.2rem;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.reserva__sillon {
+  width: 108px;
+  height: auto;
+}
+
+.reserva__mesa {
+  width: 116px;
+  height: auto;
+  margin: 0 -6px;
+}
+
+/* ── La tarjeta · The card ──────────────────────────────────────────────────────────── */
+
+.reserva__tarjeta {
+  position: relative;
+  z-index: 1;
+  max-width: 470px;
+  margin: 0 auto;
+  padding: 2.1rem 1.4rem 1.6rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  box-shadow: 0 30px 40px -26px rgba(43, 26, 22, 0.7);
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+/* ES: Desde 900 px: sillones grandes a los lados de la tarjeta, mesa debajo. · EN: From 900 px: big armchairs beside the card, table below. */
+@media (min-width: 900px) {
+  .reserva {
+    padding: 6rem 2rem 9.5rem;
+  }
+
+  .reserva__sillon {
+    width: 230px;
+  }
+
+  .reserva__sillon--izq {
+    margin-right: 9rem;
+  }
+
+  .reserva__sillon--der {
+    margin-left: 9rem;
+  }
+
+  .reserva__mesa {
+    width: 250px;
+  }
+
+  .reserva__tarjeta {
+    padding: 2.6rem 2.2rem 2rem;
+  }
+}

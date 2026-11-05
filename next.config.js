@@ -1,0 +1,58 @@
+/**
+ * [NO TOCAR · DO NOT EDIT] Motor / Engine
+ *
+ * ES: Configuración de Next.js: cabeceras de seguridad HTTP e imágenes. Es igual para todas las
+ *     cafeterías; las cabeceras se aplican a todas las rutas mediante headers().
+ * EN: Next.js configuration: HTTP security headers and images. It is the same for every café;
+ *     the headers apply to every route through headers().
+ */
+
+// ES: En desarrollo se relajan algunas directivas de la CSP (recarga en caliente de Next).
+// EN: In development some CSP rules are relaxed (Next hot reload).
+const isDev = process.env.NODE_ENV !== "production";
+
+// ES: Content-Security-Policy: orígenes desde los que el navegador puede cargar recursos.
+//     Next.js inyecta scripts y estilos inline, por eso 'unsafe-inline'; 'unsafe-eval' solo en desarrollo.
+// EN: Content-Security-Policy: origins the browser may load resources from.
+//     Next.js injects inline scripts and styles, hence 'unsafe-inline'; 'unsafe-eval' only in development.
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline'",
+  // ES: Todas las fotos se sirven desde /public. · EN: All photos are served from /public.
+  "img-src 'self' data: blob:",
+  // ES: Las fuentes las aloja next/font en el propio dominio. · EN: Fonts are self-hosted by next/font.
+  "font-src 'self' data:",
+  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+  // ES: Único iframe permitido: el mapa de Google (sin API key). · EN: Only allowed iframe: the Google map (no API key).
+  "frame-src https://www.google.com https://maps.google.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  // ES: Los formularios no se envían a ningún servidor: abren WhatsApp con el mensaje armado.
+  // EN: Forms are not posted to any server: they open WhatsApp with the message ready.
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  ...(isDev ? [] : ["upgrade-insecure-requests"]),
+].join("; ");
+
+const securityHeaders = [
+  { key: "Content-Security-Policy", value: csp },
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+];
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // ES: Oculta "X-Powered-By: Next.js" para no revelar el stack. · EN: Hides "X-Powered-By: Next.js".
+  poweredByHeader: false,
+  // ES: Solo imágenes locales, servidas en AVIF/WebP. · EN: Local images only, served as AVIF/WebP.
+  images: { formats: ["image/avif", "image/webp"] },
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
+};
+
+module.exports = nextConfig;
