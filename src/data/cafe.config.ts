@@ -29,8 +29,9 @@
  *   ──────────────   ─────────────────────────────────────────────────────────   ─────────────────────────────────────
  *   gama, funciones  qué secciones salen · which sections show                   (todas · all, ver Pagina.tsx)
  *   marca            nombre, lema, descripción, icono de la pestaña              01-cabecera, 02-portada, 12-pie
- *   contacto         dirección, mapa, teléfono, Facebook, WhatsApp               11-visita, 12-pie, 13-pedido, 10-reserva
- *   horario          etiqueta Ouvert/Fermé, póster de horario, horas a elegir    02-portada, 11-visita, 13-pedido, 10-reserva
+ *   contacto         dirección, mapa, teléfono, Facebook, WhatsApp               11-visita, 12-pie, 13-pedido, paginas/reserva
+ *   horario          etiqueta Ouvert/Fermé, póster de horario, horas a elegir    02-portada, 11-visita, 13-pedido, paginas/reserva
+ *   reservas         plazas, días y horas de la página /reserver y del panel    paginas/reserva, paginas/gestion (src/estilo/)
  *   servicios        etiquetas salmón junto a la dirección                       11-visita
  *   portada          la foto enmarcada (y la vista previa al compartir)          02-portada
  *   carta            las tres pizarras; el plato `destacado` es el del día       05-carta, 04-plato-del-dia, 13-pedido
@@ -202,6 +203,31 @@ export const cafe: CafeConfig = {
       { dia: 5, abre: "08:00", cierra: "17:00" },
       { dia: 6, abre: "09:00", cierra: "17:00" },
     ],
+  },
+
+  // ── Reservas en línea · Online bookings ────────────────────────────────────────────
+  // Se ve en · Shows in: página /reserver (días, horas y plazas libres) y panel /reserver/gestion · booking page and panel
+  // ES: Cómo cambiarlo: plazasPorTurno = personas que pueden llegar en cada media hora (sumando todas las
+  //     reservas de esa hora); maxPersonas = grupo más grande que reserva en la web (más grandes, por teléfono);
+  //     antelacionMin = minutos mínimos de aviso; diasVista = días que se pueden reservar contando hoy;
+  //     paso = minutos entre horas; cerrados = días sueltos sin reservas (festivos), p. ej. ["2026-12-25"].
+  //     Las horas salen del horario (hasta 1 h antes de cerrar). Sin este bloque no hay reservas ni botones
+  //     de reservar. Guía: docs/RESERVAS.md.
+  //     POR CONFIRMAR con el dueño: las 12 plazas son una estimación a partir de las fotos de la sala.
+  // EN: How to change it: plazasPorTurno = people who can arrive in each half hour (adding up every booking
+  //     at that time); maxPersonas = biggest group that books online (bigger ones call); antelacionMin =
+  //     minimum notice in minutes; diasVista = days that can be booked counting today; paso = minutes between
+  //     times; cerrados = one-off days without bookings (holidays), e.g. ["2026-12-25"]. Times come from the
+  //     opening hours (up to 1 h before closing). Without this block there are no bookings nor booking
+  //     buttons. Guide: docs/RESERVAS.en.md.
+  //     TO CONFIRM with the owner: the 12 seats are an estimate based on the photos of the room.
+  reservas: {
+    plazasPorTurno: 12,
+    maxPersonas: 8,
+    antelacionMin: 120,
+    diasVista: 30,
+    paso: 30,
+    cerrados: [],
   },
 
   // Se ve en · Shows in: etiquetas salmón de "Nous trouver" · salmon labels in "Nous trouver"

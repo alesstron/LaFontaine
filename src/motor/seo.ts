@@ -9,7 +9,7 @@
  *     src/data/cafe.config.ts.
  */
 import type { Metadata } from "next";
-import { traducir } from "./textos";
+import { UI, traducir } from "./textos";
 import type { CafeConfig, DiaSemana } from "./tipos";
 
 const DIA_SCHEMA = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
@@ -35,6 +35,25 @@ export function metadataDe(cafe: CafeConfig): Metadata {
     // ES: Una demo no debe salir en Google ni competir con la web oficial del café.
     // EN: A demo must not appear on Google or compete with the café's official website.
     robots: cafe.demo ? { index: false, follow: false } : undefined,
+  };
+}
+
+/**
+ * ES: Metadatos de las páginas de reservas (solo en esta demo): título propio en la pestaña. La de anular y
+ *     el panel nunca salen en Google, sea demo o no.
+ * EN: Metadata for the booking pages (this demo only): their own title in the tab. The cancel page and the
+ *     panel never show up on Google, demo or not.
+ */
+export function metadataDePagina(cafe: CafeConfig, pagina: "reserva" | "anular" | "gestion"): Metadata {
+  const ui = UI[cafe.idiomaBase];
+  const nombre = { reserva: ui.reservar, anular: ui.anularReserva, gestion: ui.panelReservas }[pagina];
+  const titulo = `${nombre} · ${cafe.marca.nombre}`;
+  const general = metadataDe(cafe);
+  return {
+    title: titulo,
+    // ES: Next combina por bloques: se repite openGraph entero para no perder la imagen. · EN: Next merges by block: openGraph is repeated whole to keep the image.
+    openGraph: { ...general.openGraph, title: titulo },
+    robots: cafe.demo || pagina !== "reserva" ? { index: false, follow: false } : undefined,
   };
 }
 

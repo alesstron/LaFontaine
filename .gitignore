@@ -17,6 +17,9 @@ secrets/
 *.pem
 *.key
 
+# Base de datos local de las reservas, si RESERVAS_PGLITE_DIR apunta aquí · Local bookings database, if pointed here
+.datos/
+
 # Vercel y ajustes locales de Claude
 .vercel
 .claude/settings.local.json

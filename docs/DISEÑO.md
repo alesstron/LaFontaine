@@ -18,7 +18,8 @@ respuesta del dueño). Montreal y Latinoamérica a la vez: menú en francés con
 | Precios corregidos a mano sobre etiqueta blanca ("12.75$", "→10$", "17$") | menú | Etiqueta a mano (Kalam) cuando un plato cambia el precio común del grupo, y en el plato del día |
 | Silos de café en grano: frente de latón acolchado, pomo cromado, etiqueta salmón a mano ("Grain d'Or", "Mélange maison", "Espresso Guatemala") | interieur-mur (recorte) | Franja "Au comptoir" con los silos dibujados en CSS; la etiqueta salmón es el motivo de estado (abierto/cerrado), contador del pedido y día de hoy |
 | Mesas de laminado color madera con canto negro, platos blancos | fotos de platos | Plato del día: la mesa con vetas y el plato visto desde arriba con sus partes dibujadas |
-| Sillones de cuero coñac, mesa baja negra, suelo de hormigón rosado | interieur-mur | Reserva "Prenez un fauteuil": dos sillones y la tarjeta de reserva sobre la mesa |
+| Sillones de cuero coñac, mesa baja negra, suelo de hormigón rosado | interieur-mur | Reserva "Prenez un fauteuil": dos sillones y la tarjeta de reserva sobre la mesa; la página `/reserver` es ese mismo rincón a tamaño de página |
+| Cartelito «Réservé» que se deja en la mesa reservada | (concepto) | Confirmación de la reserva: cartel de papel con su pliegue, «RÉSERVÉ» entre dos filetes granate y el código en etiqueta salmón |
 | Saco de yute junto a la barra | interieur-mur | Historia: textura de yute, etiqueta de papel cosida y sellos de tinta para los hitos |
 | Bolsa de papel kraft sobre los silos | interieur-mur (recorte) | Panel del pedido: bolsa kraft con borde dentado y etiqueta salmón |
 | Cuadros enmarcados (póster en marco negro), exposiciones de arte (opiniones) | interieur-mur, opiniones | Galería "L'expo": marcos negros con paspartú colgados de una barra con cordones y cartela de museo |
@@ -73,20 +74,28 @@ ve cada color están en `src/estilo/ajustes/colores.css`.
 7. **L'expo (galería)**: barra de colgar, cordones, marcos negros con paspartú y cartela numerada.
 8. **Le livre d'or (opiniones)**: libro abierto con cinta granate; nota, temas y resúmenes escritos a mano.
 9. **À l'affiche (promos)**: carteles de exposición (solo si hay promociones en los datos).
-10. **Prenez un fauteuil (reserva)**: suelo, dos sillones coñac, mesa negra y la tarjeta de reserva.
+10. **Prenez un fauteuil (reserva)**: suelo, dos sillones coñac, mesa negra y la tarjeta de reserva, con el botón que abre `/reserver` en una pestaña nueva.
 11. **Nous trouver**: póster enmarcado con el horario y el estado en vivo, mapa enmarcado, dirección, "face au parc
     La Fontaine" con la fuente del parque dibujada a línea.
 12. **Pie**: techo oscuro, medallón, créditos de fotos y aviso de demo.
 13. **Le sac kraft (pedido)**: panel lateral (abajo en el móvil) con forma de bolsa kraft.
 
+### Páginas de reservas (`src/estilo/paginas/`)
+Las tres comparten el marco: la cabecera oscura con su conducto (solo marca e idiomas), «← Retour au site», el aviso de demo en etiqueta salmón y el pie de siempre.
+- **`/reserver` · le coin des fauteuils**: la pared crema que termina en el suelo de hormigón con los dos sillones y la mesa baja. Encima, el **carnet** de reservas en papel (pasos numerados en etiquetas salmón escritas a mano, separados por líneas de puntos): personas con el contador, un **calendario de papel** mes a mes (hoy con raya salmón, el día elegido en el oscuro del techo, los completos tachados en rojo taza, los cerrados apagados) y las **horas en cápsulas** («plus que 2» a mano en rojo taza; las llenas, tachadas y con borde de puntos). Al lado, el **ticket «Votre table»** con filete superior oscuro, el resumen en una ficha de puntos y el botón rojo taza; en escritorio acompaña al bajar.
+- **Confirmación**: el **cartelito «Réservé»** de mesa, con el pliegue arriba, «RÉSERVÉ» en Josefin espaciado entre filetes granate y el código en etiqueta salmón; debajo, el enlace para anular en un recuadro de puntos.
+- **`/reserver/anular`**: una tarjeta de papel centrada, como la de la portada, con la ficha de la reserva (tachada en rojo taza cuando ya está anulada).
+- **`/reserver/gestion` · la libreta**: pantalla de trabajo, sobria. Estado de la base en una banda de papel con «connectée» en etiqueta salmón (rojo taza si falla, como «Fermé»); cada día es una hoja de la libreta; cada hora, su ocupación con una barra oscura que se vuelve rojo taza al llenarse; cada reserva, un apunte con el código a mano (Kalam); las anuladas, tachadas y con borde de puntos.
+
 ## Movimiento
 - Básica: nada se mueve salvo cambios de estado.
 - Estándar: apariciones suaves al bajar.
 - Premium: el mural se dibuja solo (letras y paisaje), las lámparas se encienden y se balancean, las partes del plato
-  aparecen una a una, los marcos se balancean al pasar el ratón, la bolsa salta al añadir un plato y las notas del
-  libro de oro se escriben. Todo respeta "reducir movimiento" (MotionConfig + media query).
+  aparecen una a una, los marcos se balancean al pasar el ratón, la bolsa salta al añadir un plato, las notas del
+  libro de oro se escriben y el cartelito «Réservé» se posa en la mesa al confirmar una reserva. Todo respeta
+  "reducir movimiento" (MotionConfig + media query).
 
 ## Lo que no se repite en otras cafeterías
 Mural hueco + paisaje a línea, silos de latón, tres pizarras atornilladas, plato del día sobre laminado, yute con sellos,
-expo con cartelas, libro de oro, sillones, bolsa kraft. Kahwa (fachada, pizarra azul, papel de cuadros, bandeja, pegatinas,
+expo con cartelas, libro de oro, sillones, bolsa kraft, carnet de reservas con calendario de papel y cartelito «Réservé». Kahwa (fachada, pizarra azul, papel de cuadros, bandeja, pegatinas,
 neón, cinta) no se repite aquí. Ver `~/.claude/skills/cafe/estilos/registro.md`.

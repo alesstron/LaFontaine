@@ -16,11 +16,12 @@
  *   2  comun/base.css                                punto de partida: letra, fotos, foco, .sr, .piel
  *   3  comun/piezas.css                              botones, etiquetas, cartela, añadir, formularios, conducto
  *   4  secciones/01-cabecera … 14-whatsapp           una hoja por sección, en el orden de la página
+ *   5  paginas/marco.css, reserva, anular, gestion   las páginas de reservas (/reserver…): marco común y una por página
  *
  * ES: Para añadir una sección nueva: crea su carpeta en secciones/ con su .tsx y su .css, añade aquí su @import (en
- *     su sitio) y su componente en Pagina.tsx.
+ *     su sitio) y su componente en Pagina.tsx. Las páginas que no son el inicio viven en paginas/ y van al final.
  * EN: To add a new section: create its folder in secciones/ with its .tsx and .css, add its @import here (in its
- *     place) and its component in Pagina.tsx.
+ *     place) and its component in Pagina.tsx. Pages other than home live in paginas/ and go last.
  */
 @import "./ajustes/colores.css";
 @import "./comun/base.css";
@@ -39,3 +40,7 @@
 @import "./secciones/12-pie/pie.css";
 @import "./secciones/13-pedido/pedido.css";
 @import "./secciones/14-whatsapp/whatsapp.css";
+@import "./paginas/marco.css";
+@import "./paginas/reserva/reserva-pagina.css";
+@import "./paginas/anular/anular.css";
+@import "./paginas/gestion/gestion.css";

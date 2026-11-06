@@ -97,3 +97,6 @@ Recortes de detalles (silos, mural) solo sirvieron para medir colores: la web lo
 8. **Logotipo** en vectorial (la web usa un medallón tipográfico inspirado en el suyo).
 9. **Instagram y correo**, si los tiene.
 10. **Accesibilidad** (una opinión dice que no hay acceso en silla de ruedas) y los temas "estafa" / "arrendador".
+11. **Reservas en línea**: cuántas personas pueden llegar en cada media hora (la demo usa 12, estimadas por las fotos
+    de la sala), el grupo más grande que reserva en la web (8), la antelación mínima (2 h), los festivos sin reservas y
+    si quiere el panel. Para clientes reales: política de privacidad y persona responsable de los datos (Ley 25).

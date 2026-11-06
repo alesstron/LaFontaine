@@ -5,7 +5,7 @@
 # Café LaFontaine · Web demo
 
 **Perle cachée · Café de quartier · face au parc La Fontaine, Montréal.**
-Maqueta de la web de Café LaFontaine: el menú del mostrador con precios, el guiso del día, pedidos para llevar y reservas por WhatsApp, horario en vivo y tres idiomas.
+Maqueta de la web de Café LaFontaine: el menú del mostrador con precios, el guiso del día, pedidos para llevar por WhatsApp, reservas en línea confirmadas al momento con panel para el café, horario en vivo y tres idiomas.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=nextdotjs)
 ![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
@@ -18,6 +18,8 @@ Maqueta de la web de Café LaFontaine: el menú del mostrador con precios, el gu
 
 **[Manual de uso](docs/MANUAL.md)**: tareas paso a paso (precios, horario, fotos, textos) y guía para programadores.
 
+**[Reservas en línea](docs/RESERVAS.md)**: cómo funcionan y cómo publicarlas gratis (Neon + Vercel), paso a paso.
+
 </div>
 
 > [!NOTE]
@@ -29,14 +31,15 @@ Maqueta de la web de Café LaFontaine: el menú del mostrador con precios, el gu
 
 |                 |                                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------------ |
-| Qué es          | Web de una sola página para Café LaFontaine, 3535 avenue Papineau (local 9), Montréal            |
+| Qué es          | Web de Café LaFontaine, 3535 avenue Papineau (local 9), Montréal: la página de inicio y las de reserva |
 | Gama            | **Premium** (se cambia a Estándar o Básica con una línea)                                        |
 | Idiomas         | Francés (por defecto), inglés y español, con selector                                            |
 | Moneda          | Dólar canadiense (CAD), precios del menú del mostrador                                           |
-| Pedidos         | Para llevar y reservas por WhatsApp: sin pasarela de pago, sin base de datos y sin backend       |
+| Pedidos         | Para llevar por WhatsApp, sin pasarela de pago                                                   |
+| Reservas        | En línea (`/reserver`, pestaña nueva): confirmadas al momento si quedan plazas, guardadas en Postgres y gestionadas en un panel con contraseña |
 | Diseño          | Propio de este local: sale de sus fotos (el mural, las pizarras, los silos de café, los sillones) |
 | Tecnología      | Next.js 15 (App Router), React 19, TypeScript, framer-motion                                     |
-| Alojamiento     | Vercel. Página estática, sin variables de entorno                                                |
+| Alojamiento     | Vercel + base de datos Neon, los dos gratis. Dos variables: `DATABASE_URL` y `RESERVAS_CLAVE`   |
 | Código          | Comentado en **español e inglés**, con lo que se puede y no se puede tocar                       |
 
 ## Capturas
@@ -52,7 +55,20 @@ Maqueta de la web de Café LaFontaine: el menú del mostrador con precios, el gu
   </tr>
   <tr>
     <td><img src="docs/capturas/opiniones.jpg" alt="Opiniones como un libro de oro abierto: nota 4,8, temas más citados y resúmenes a mano" /></td>
-    <td><img src="docs/capturas/reserva.jpg" alt="Reserva: tarjeta sobre la mesa baja negra entre dos sillones de cuero coñac" /></td>
+    <td><img src="docs/capturas/reserva.jpg" alt="Reserva: tarjeta sobre la mesa baja negra entre dos sillones de cuero coñac, con el botón «Voir les places libres»" /></td>
+  </tr>
+</table>
+
+Reservas en línea (se abren en una pestaña nueva): elegir personas, día y hora; la confirmación «Réservé»; y el panel del café.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/capturas/reservar.jpg" alt="Página de reserva: carnet con personas, calendario y horas, y a la derecha el ticket «Votre table» con los datos" /></td>
+    <td width="50%"><img src="docs/capturas/reservado.jpg" alt="Confirmación: cartelito «Réservé» con el nombre, el día, la hora y el código, y el enlace para anular" /></td>
+  </tr>
+  <tr>
+    <td><img src="docs/capturas/gestion.jpg" alt="Panel del café: estado de la base de datos, semana con flechas y reservas por hora con su ocupación" /></td>
+    <td>El <strong>panel del café</strong> (<code>/reserver/gestion</code>, con contraseña): la semana día por día, cada hora con su ocupación, las reservas con teléfono y nota, anular o restaurar, y apuntar las que llegan por teléfono.</td>
   </tr>
 </table>
 
@@ -126,7 +142,14 @@ Note : Sans oignon, svp
 
 **Reserva: "prenez un fauteuil"**
 
-- La tarjeta de reserva sobre la mesa baja negra, entre los dos sillones de cuero coñac. Nombre, personas, fecha, hora (solo las de ese día) y nota; se envía por WhatsApp y el café la confirma.
+- La tarjeta de reserva sobre la mesa baja negra, entre los dos sillones de cuero coñac, con el botón **Voir les places libres**, que abre la página de reserva en una pestaña nueva (igual que «Réserver» en la cabecera y «Réserver une table» en la portada).
+
+**Reservas en línea (páginas nuevas)**
+
+- **`/reserver`**: el rincón de los sillones a tamaño de página. A la izquierda, el carnet de reservas con tres pasos: cuántas personas (hasta 8; los grupos más grandes llaman), qué día (calendario de los próximos 30 días, los domingos y los días llenos apagados) y a qué hora (cada media hora, las llenas tachadas, «plus que 2» cuando quedan pocas). A la derecha, el ticket «Votre table» con el resumen, nombre, teléfono y nota.
+- **Confirmación al momento** si quedan plazas: el cartelito «Réservé» con el código (`7KQ-3XA`) y el enlace para anular (no se envían correos).
+- **`/reserver/anular`**: con ese enlace, el cliente ve su reserva y la anula; la plaza se libera.
+- **`/reserver/gestion`**: el panel del café, con contraseña. Más detalle en [docs/RESERVAS.md](docs/RESERVAS.md).
 
 **Cómo llegar: "nous trouver"**
 
@@ -146,7 +169,7 @@ La misma web se vende en tres niveles. Se cambia con `gama` en `src/data/cafe.co
 | Historia, galería y opiniones                       |   –    |    ✓     |    ✓    |
 | Botón flotante de WhatsApp y animaciones al bajar   |   –    |    ✓     |    ✓    |
 | Carta con pestañas y fotos                          |   –    |    –     |    ✓    |
-| Pedido para llevar y reserva por WhatsApp           |   –    |    –     |    ✓    |
+| Pedido para llevar (WhatsApp) y reservas en línea   |   –    |    –     |    ✓    |
 | Selector de idioma, promociones y animaciones extra |   –    |    –     |    ✓    |
 
 Animaciones extra de premium: el mural se pinta y se dibuja, las lámparas se encienden y se balancean, los cuadros se mecen, la bolsa salta al añadir un plato. Todo respeta "reducir movimiento".
@@ -173,6 +196,8 @@ El mantenimiento normal no toca el diseño: casi todo está en **`src/data/cafe.
 | El aspecto de una sección                | `src/estilo/secciones/NN-…/`       | Su `.css` (el `.tsx` tiene un boceto de la sección)                   |
 | El idioma por defecto                    | `src/data/cafe.config.ts`  | `idiomaBase`                                                          |
 | La gama                                  | `src/data/cafe.config.ts`  | `gama`                                                                |
+| Plazas, grupo máximo, días de reserva, festivos | `src/data/cafe.config.ts` | `reservas` (`plazasPorTurno`, `maxPersonas`, `diasVista`, `cerrados`) |
+| La contraseña del panel de reservas      | Vercel (o `.env.local`)            | Variable `RESERVAS_CLAVE`                                             |
 | Quitar las reservas                      | `src/data/cafe.config.ts`  | `funciones: { reserva: false }`                                       |
 | Pasar de demo a web real                 | `src/data/cafe.config.ts`  | `demo: false` y `seo.url` con el dominio                              |
 
@@ -191,8 +216,8 @@ Cada archivo dice su nivel en la primera línea, y todos los comentarios del có
 | Etiqueta                         | Significado                                                                            | Archivos                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `[EDITABLE]`                     | Se cambia sin miedo: textos, precios, horario, contacto, fotos, colores                | `src/data/cafe.config.ts`, `src/estilo/ajustes/textos.ts`, `src/estilo/ajustes/colores.css`, `public/img/`, `public/marca/` |
-| `[CON CUIDADO · EDIT WITH CARE]` | Diseño. Se puede cambiar sabiendo React y CSS; un error rompe el aspecto, no los datos | El resto de `src/estilo/` (`ajustes/fuentes.ts`, `comun/`, `secciones/`, `Pagina.tsx`, `estilo.css`)      |
-| `[NO TOCAR · DO NOT EDIT]`       | Motor: gamas, idiomas, horario, carrito, WhatsApp, SEO y seguridad                     | `src/motor/`, `src/app/`, `src/estilo/index.ts`, `next.config.js`, `tsconfig.json`, `package.json`          |
+| `[CON CUIDADO · EDIT WITH CARE]` | Diseño. Se puede cambiar sabiendo React y CSS; un error rompe el aspecto, no los datos | El resto de `src/estilo/` (`ajustes/fuentes.ts`, `comun/`, `secciones/`, `paginas/`, `Pagina.tsx`, `estilo.css`) |
+| `[NO TOCAR · DO NOT EDIT]`       | Motor: gamas, idiomas, horario, carrito, WhatsApp, reservas (servidor y base de datos), SEO y seguridad | `src/motor/`, `src/app/`, `src/estilo/index.ts`, `next.config.js`, `tsconfig.json`, `package.json`          |
 
 ## Estructura
 
@@ -213,34 +238,38 @@ cafe-lafontaine/
 │   │   │   └── fuentes.ts       [CON CUIDADO]  Josefin Sans, Libre Caslon Text y Kalam
 │   │   ├── comun/               [CON CUIDADO]  Piezas de varias secciones: base, botones, etiquetas, formularios,
 │   │   │                                       animación por gama, foto, botón de añadir, medallón
-│   │   └── secciones/           [CON CUIDADO]  Una carpeta por sección: Componente.tsx + estilos.css + dibujos.tsx
-│   │       ├── 01-cabecera/                    Barra oscura "le plafond"
-│   │       ├── 02-portada/                     El mural, las lámparas y la foto enmarcada
-│   │       ├── 03-mostrador/                   Los silos de café en grano
-│   │       ├── 04-plato-del-dia/               El guiso sobre la mesa de laminado
-│   │       ├── 05-carta/                       Las tres pizarras (+ organizar.ts: tamaños, precio común)
-│   │       ├── 06-historia/                    El saco de yute y sus sellos
-│   │       ├── 07-galeria/                     La exposición de fotos
-│   │       ├── 08-opiniones/                   El libro de oro
-│   │       ├── 09-promos/                      Carteles de promociones
-│   │       ├── 10-reserva/                     Los sillones y la tarjeta de reserva
-│   │       ├── 11-visita/                      Póster de horario, mapa y fuente del parque
-│   │       ├── 12-pie/                         Pie de página
-│   │       ├── 13-pedido/                      La bolsa kraft del pedido
-│   │       └── 14-whatsapp/                    Botón flotante de WhatsApp
+│   │   ├── secciones/           [CON CUIDADO]  Una carpeta por sección: Componente.tsx + estilos.css + dibujos.tsx
+│   │   │   ├── 01-cabecera/                    Barra oscura "le plafond"
+│   │   │   ├── 02-portada/                     El mural, las lámparas y la foto enmarcada
+│   │   │   ├── 03-mostrador/                   Los silos de café en grano
+│   │   │   ├── 04-plato-del-dia/               El guiso sobre la mesa de laminado
+│   │   │   ├── 05-carta/                       Las tres pizarras (+ organizar.ts: tamaños, precio común)
+│   │   │   ├── 06-historia/                    El saco de yute y sus sellos
+│   │   │   ├── 07-galeria/                     La exposición de fotos
+│   │   │   ├── 08-opiniones/                   El libro de oro
+│   │   │   ├── 09-promos/                      Carteles de promociones
+│   │   │   ├── 10-reserva/                     Los sillones y la tarjeta con el botón a /reserver
+│   │   │   ├── 11-visita/                      Póster de horario, mapa y fuente del parque
+│   │   │   ├── 12-pie/                         Pie de página
+│   │   │   ├── 13-pedido/                      La bolsa kraft del pedido
+│   │   │   └── 14-whatsapp/                    Botón flotante de WhatsApp
+│   │   └── paginas/             [CON CUIDADO]  Páginas de reservas: marco común, reserva/, anular/, gestion/
 │   ├── motor/                   [NO TOCAR]     Gamas, idiomas, horario, carrito, WhatsApp, mapa, SEO
-│   └── app/                     [NO TOCAR]     Layout y página de Next.js
+│   │   └── reservas/            [NO TOCAR]     Servidor de reservas: base de datos, acciones, panel, seguridad
+│   └── app/                     [NO TOCAR]     Layout y páginas de Next.js (/, /reserver, /reserver/anular, /reserver/gestion)
 ├── public/
 │   ├── img/                     [EDITABLE]     Fotos (mismo nombre = se reemplaza sin tocar código)
 │   └── marca/icono.svg          [EDITABLE]     Icono de la pestaña
 ├── docs/
 │   ├── MANUAL.md / MANUAL.en.md                Manual de uso (dueño y programadores)
+│   ├── RESERVAS.md / RESERVAS.en.md            Reservas en línea: funcionamiento, Neon + Vercel, pruebas, problemas
 │   ├── DISEÑO.md                               Ficha de estilo: de dónde sale cada color, letra y detalle
 │   ├── INFO-EXTRAIDA.md                        Fuente de cada dato y pendientes con el dueño
 │   ├── fotos.json                              Origen, medidas y autor de cada foto
 │   ├── fuentes/                                Foto del menú del mostrador (junio de 2025), fuente de los precios
 │   └── capturas/                               Imágenes de este README
-├── next.config.js               [NO TOCAR]     Cabeceras de seguridad e imágenes
+├── .env.example                 [EDITABLE]     Modelo de las variables de las reservas (sin valores)
+├── next.config.js               [NO TOCAR]     Cabeceras de seguridad, imágenes y base local de las reservas
 └── package.json                 [NO TOCAR]     Dependencias y comandos
 ```
 
@@ -255,7 +284,7 @@ npm install
 npm run dev
 ```
 
-La web queda en [http://localhost:3000](http://localhost:3000).
+La web queda en [http://localhost:3000](http://localhost:3000). Las reservas funcionan en tu ordenador sin cuentas: usan una base local (PGlite) que se instala con `npm install`. Para entrar al panel (`/reserver/gestion`), pon una contraseña en `.env.local` (copia `.env.example`, línea `RESERVAS_CLAVE=`). Detalle en [docs/RESERVAS.md](docs/RESERVAS.md#2-probar-en-tu-ordenador-sin-cuentas).
 
 | Comando             | Qué hace                          |
 | ------------------- | --------------------------------- |
@@ -266,16 +295,22 @@ La web queda en [http://localhost:3000](http://localhost:3000).
 
 ## Despliegue en Vercel
 
-1. En [vercel.com](https://vercel.com): **Add New → Project** e importar `alesstron/LaFontaine`.
-2. Vercel detecta Next.js. No hace falta ninguna variable de entorno: **Deploy**.
-3. Cada push a `main` publica una versión nueva sola.
-4. Con el dominio definitivo: poner `seo.url` en `cafe.config.ts` (vistas previas al compartir el enlace) y, para la web real, `demo: false`.
+1. Crea la base de datos gratis en [neon.tech](https://neon.tech) (cuenta propia con GitHub, región AWS US East) y copia su dirección `postgresql://…` (**Connect**, conexión «pooled»).
+2. En [vercel.com/new](https://vercel.com/new): importa `alesstron/LaFontaine` y añade dos variables de entorno:
+   - `DATABASE_URL`: la dirección de Neon.
+   - `RESERVAS_CLAVE`: la contraseña del panel del café (12 caracteres o más).
+3. **Deploy**. Las tablas se crean solas. Comprueba en `/reserver/gestion` que dice «Base de données : connectée · Neon».
+4. Cada push a `main` publica una versión nueva sola.
+5. Con el dominio definitivo: poner `seo.url` en `cafe.config.ts` (vistas previas al compartir el enlace) y, para la web real, `demo: false`.
+
+Guía clic a clic, lista de pruebas y problemas frecuentes: [docs/RESERVAS.md](docs/RESERVAS.md#3-publicar-en-vercel-con-neon-paso-a-paso). Vercel Hobby es gratis pero solo para uso no comercial: para la web real del café, plan Pro u otro alojamiento.
 
 ## Mantenimiento (cada 6 meses)
 
 - [ ] Revisar con el local horario, menú y precios (y el guiso del día).
 - [ ] Actualizar la nota y el número de opiniones de Google Maps.
 - [ ] Cambiar fotos si hay platos nuevos o una exposición nueva.
+- [ ] Revisar las plazas por turno y añadir los festivos a `reservas.cerrados`.
 - [ ] `npm outdated` y `npm update` (versiones menores) y `npm audit`.
 - [ ] `npm run build` sin errores y revisión rápida en el móvil.
 - [ ] Push a `main`: Vercel publica solo.
@@ -302,16 +337,20 @@ Tipografía: **Josefin Sans** (las mayúsculas espaciadas de las pizarras y del 
 
 ## Calidad y seguridad
 
-- **Probado:** TypeScript sin errores, compilación de producción, 375 px sin scroll horizontal, pedido completo (mensaje de WhatsApp, validación del nombre, total), reserva (horas del día elegido, domingo cerrado), las tres gamas y los tres idiomas.
-- **Rendimiento:** página estática (176 kB de JavaScript inicial), fotos en AVIF/WebP con `next/image`, fuentes alojadas en el propio dominio.
+- **Probado:** TypeScript sin errores, compilación de producción, 360 y 375 px sin scroll horizontal, pedido completo (mensaje de WhatsApp, validación del nombre, total), las tres gamas y los tres idiomas.
+- **Reservas probadas** (base local y compilación de producción): reserva completa, plazas (8 + 4 llenan un turno de 12; 20 reservas simultáneas → entran exactamente 12), validación en el servidor (fecha pasada, domingo, hora inexistente, demasiadas personas, campos vacíos, campo trampa), límites por conexión y por teléfono, anular con el enlace, panel (contraseña mala con pausa, bloqueo tras 5 fallos, anular, restaurar, reserva por teléfono, forzar, salir) y el aviso cuando falta la base de datos en Vercel.
+- **Rendimiento:** inicio, `/reserver` y `/reserver/anular` estáticas (190 kB de JavaScript inicial); el panel, dinámico. Fotos en AVIF/WebP con `next/image`, fuentes alojadas en el propio dominio.
 - **Accesibilidad:** foco visible, etiquetas en los campos, pestañas con teclado, panel del pedido con el foco dentro y Escape para cerrar, texto alternativo en las fotos, contraste comprobado y respeto de "reducir movimiento".
-- **Seguridad:** cabeceras `Content-Security-Policy`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` y `Permissions-Policy`; el texto de los formularios se sanea; sin API keys, sin variables de entorno y sin backend.
+- **Seguridad:** cabeceras `Content-Security-Policy`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` y `Permissions-Policy`; el texto de los formularios se sanea. Reservas: todo se valida otra vez en el servidor; panel con cookie firmada `HttpOnly` y `SameSite=Strict`, contraseña comparada en tiempo constante y bloqueo tras 5 fallos; la IP no se guarda (solo una huella que cambia cada día); las reservas se borran solas 30 días después de su fecha; el panel y la página de anular llevan `noindex`.
 - **SEO:** título, descripción, Open Graph y datos estructurados de Google (dirección, coordenadas, horario). La demo lleva `noindex`.
 
 ## Estado y pendientes con el dueño
 
-- [x] Mural, silos, plato del día, las tres pizarras con precios reales, pedido y reserva por WhatsApp, historia, galería, opiniones, mapa y tres idiomas
+- [x] Mural, silos, plato del día, las tres pizarras con precios reales, pedido por WhatsApp, reservas en línea, historia, galería, opiniones, mapa y tres idiomas
 - [x] Código comentado en español e inglés
+- [x] Reservas en línea con base de datos y panel, listas para publicar en Vercel + Neon ([guía](docs/RESERVAS.md))
+- [ ] Confirmar con el dueño las plazas por media hora (hoy 12, estimadas por las fotos), el grupo máximo y la antelación
+- [ ] Ley 25 de Quebec: política de privacidad publicada y persona responsable de los datos antes de usar las reservas con clientes reales
 - [ ] Confirmar el número de WhatsApp (hoy es el teléfono público del local)
 - [ ] Revisar los precios (menú de junio de 2025): tacos poulet chipotle a 10 $, soupe au poulet "6/10"
 - [ ] Empanadas: salen en las opiniones pero no en el menú (hoy sin precio)

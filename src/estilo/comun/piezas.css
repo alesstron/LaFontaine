@@ -18,8 +18,8 @@
  *   .anadir--redondo       (+) contorno rojo                  Carta
  *   .anadir--texto         ( AJOUTER ) rojo relleno           Plato del día
  *   .anadir__n             [2] contador salmón                Todos los botones de añadir
- *   .formulario / .campo   NOM [__________]                   Reserva, pedido
- *   .contador              ( − 2 + )                          Reserva (personas)
+ *   .formulario / .campo   NOM [__________]                   Página de reserva, panel del café, pedido
+ *   .contador              ( − 2 + )                          Página de reserva (personas)
  *   .conducto              ════╪════╪════ tubo oscuro         Debajo de la cabecera y encima del pie
  */
 
@@ -299,7 +299,7 @@
   rotate: 6deg;
 }
 
-/* ── Formularios · Forms (reserva y pedido · booking and order) ─────────────────────── */
+/* ── Formularios · Forms (reserva, panel y pedido · booking, panel and order) ────────── */
 
 /*
  *   NOM                         ← .campo > span

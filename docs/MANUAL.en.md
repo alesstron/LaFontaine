@@ -7,6 +7,8 @@ This manual has two parts:
 - **Part A, for anyone** (the owner, an employee): how to open the site and how to change prices, hours, photos or texts without knowing how to code.
 - **Part B, for developers**: how the code is organized, how each section is built and how to add or change pieces without breaking anything.
 
+**Online bookings** (the `/reserver` page, the database and the café's panel) have their own guide, with the Neon and Vercel setup step by step: **[docs/RESERVAS.en.md](RESERVAS.en.md)**.
+
 > Golden rule: almost everything that changes day to day lives in **one file**, `src/data/cafe.config.ts`. The design does not need to be touched.
 
 ---
@@ -31,6 +33,7 @@ This manual has two parts:
   - [B8. Comment rules](#b8-comment-rules)
   - [B9. Before delivering](#b9-before-delivering)
   - [B10. Glossary](#b10-glossary)
+  - [B11. Online bookings: server and database](#b11-online-bookings-server-and-database)
 
 ---
 
@@ -42,8 +45,10 @@ This manual has two parts:
 cafe-lafontaine/
 ├── README.md / README.en.md     Presentation of the site (what it is, screenshots, tiers)
 ├── CLAUDE.md                    Notes for Claude Code (coding assistant)
+├── .env.example                 Template for the booking variables (no real values)
 ├── docs/                        Documentation
 │   ├── MANUAL.en.md             ← this manual
+│   ├── RESERVAS.en.md           Online bookings: how they work and how to publish them (Neon + Vercel)
 │   ├── DISEÑO.md                Why the site looks like this (colors, fonts, details from the shop)
 │   ├── INFO-EXTRAIDA.md         Where each fact comes from and what to confirm with the owner
 │   ├── fotos.json               Photo list with size and author
@@ -57,9 +62,10 @@ cafe-lafontaine/
     ├── estilo/                  The design (this café's "skin")
     │   ├── ajustes/             Colors, design texts and fonts           ← can be changed
     │   ├── comun/               Pieces shared by several sections
-    │   └── secciones/           One folder per section, in page order
-    ├── motor/                   The engine shared by every café site     ← DO NOT EDIT
-    └── app/                     Next.js startup                          ← DO NOT EDIT
+    │   ├── secciones/           One folder per section, in page order
+    │   └── paginas/             The booking pages: /reserver, the cancel page and the panel
+    ├── motor/                   The engine (and, in this demo, the booking server) ← DO NOT EDIT
+    └── app/                     Next.js startup and /reserver… routes    ← DO NOT EDIT
 ```
 
 Every file states on its **first line** whether it can be touched:
@@ -68,7 +74,7 @@ Every file states on its **first line** whether it can be touched:
 |---|---|
 | `[EDITABLE]` | Safe to change: data, texts, colors, photos. |
 | `[CON CUIDADO · EDIT WITH CARE]` | Design. Can be changed knowing a bit of React and CSS. A mistake breaks the look, not the data. |
-| `[NO TOCAR · DO NOT EDIT]` | Engine. Same on every café site; if it must change, it changes in the template. |
+| `[NO TOCAR · DO NOT EDIT]` | Engine. It comes from the template, shared by every café site; in this demo it also carries the online bookings (`src/motor/reservas/`). |
 
 ### A2. Open the site on your computer
 
@@ -100,13 +106,18 @@ Every file states on its **first line** whether it can be touched:
  │ Gallery "l'expo"               │ ←  galeria                         07-galeria
  │ Reviews "le livre d'or"        │ ←  resenas                         08-opiniones
  │ Promotions (if any)            │ ←  promos                          09-promos
- │ Booking (armchairs)            │ ←  contacto.whatsapp, horario      10-reserva
+ │ Booking (armchairs)            │ ←  reservas (button to /reserver)  10-reserva
  │ Nous trouver (hours and map)   │ ←  horario, contacto, servicios    11-visita
  ├────────────────────────────────┤
  │ Footer                         │ ←  marca, contacto, demo           12-pie
  └────────────────────────────────┘
    Order bag (panel)                 ←  carta, contacto.whatsapp       13-pedido
    Floating WhatsApp button          ←  contacto.whatsapp              14-whatsapp
+
+ OTHER PAGES (new tab)                  DATA they show                    DESIGN (folder in src/estilo/paginas)
+   /reserver  (booking)               ←  reservas, horario, phone         reserva/
+   /reserver/anular  (link)           ←  the booking in the link          anular/
+   /reserver/gestion  (panel)         ←  the stored bookings              gestion/
 ```
 
 The data lives in `src/data/cafe.config.ts`; the design's own texts (headings, bin labels, the mural sentence) in `src/estilo/ajustes/textos.ts`.
@@ -174,12 +185,20 @@ In `horario.franjas`, one line per open day (`0` = Sunday, `1` = Monday … `6` 
 | Mural sentence, bin labels, board titles, design headings | `src/estilo/ajustes/textos.ts` |
 | Shared buttons ("Ajouter", "Réserver une table"…) | The engine (`src/motor/textos.ts`, **DO NOT EDIT**): if needed, change it in the template for every site |
 
-#### WhatsApp, orders and bookings
+#### WhatsApp and orders
 
 - The number goes in `contacto.whatsapp`, **digits only, with the country code** (`15145273030`).
-- **No WhatsApp** (delete the line): ordering, booking and the floating button disappear.
-- **Turn off bookings only**: at the end of the file, `funciones: { reserva: false }`.
+- **No WhatsApp** (delete the line): pickup ordering and the floating button disappear.
 - The site charges nothing: it opens WhatsApp with the order already written and the café confirms it.
+
+#### Bookings: seats, times, closed days and panel
+
+Bookings are made on the `/reserver` page (it opens in a new tab from the «Réserver» buttons) and are stored in a database; the café sees them at `/reserver/gestion` with its password. Full guide: **[docs/RESERVAS.en.md](RESERVAS.en.md)**.
+
+- **Seats per half hour, largest group, minimum notice, days shown ahead, holidays**: the `reservas` block in `cafe.config.ts` (table in [RESERVAS.en.md, section 6](RESERVAS.en.md#6-change-seats-times-and-closed-days)).
+- **Times**: they come from `horario`, every half hour, until 1 hour before closing.
+- **Turn bookings off**: at the end of the file, `funciones: { reserva: false }`.
+- **Panel password**: the `RESERVAS_CLAVE` variable (on Vercel, or in `.env.local` on your computer).
 
 #### Add a promotion or an exhibition opening
 
@@ -223,9 +242,12 @@ In `cafe.config.ts`: `gama: "basica"`, `"estandar"` or `"premium"`. Sections hid
 
 ### A5. Publish online (Vercel)
 
-1. Push this folder to a GitHub repository (`main` branch).
-2. On [vercel.com](https://vercel.com): **Add New → Project** → import the repository → **Deploy**. Nothing to configure.
-3. Every time you push a change to `main`, Vercel publishes the new version on its own.
+1. Push this folder to a GitHub repository (`main` branch). This demo is already at [github.com/alesstron/LaFontaine](https://github.com/alesstron/LaFontaine).
+2. Create the database for free on [neon.tech](https://neon.tech) and copy its `postgresql://…` address.
+3. On [vercel.com/new](https://vercel.com/new): import the repository, add the variables `DATABASE_URL` (the Neon address) and `RESERVAS_CLAVE` (the panel password) and click **Deploy**.
+4. Every time you push a change to `main`, Vercel publishes the new version on its own.
+
+Step by step, click by click: [docs/RESERVAS.en.md, section 3](RESERVAS.en.md#3-publish-on-vercel-with-neon-step-by-step).
 
 ### A6. Common problems
 
@@ -237,6 +259,8 @@ In `cafe.config.ts`: `gama: "basica"`, `"estandar"` or `"premium"`. Sections hid
 | A photo looks stretched or cropped | `ancho`/`alto` are not the real size | Use the file's real size |
 | WhatsApp doesn't open or opens another number | The number has spaces, `+` or lacks the country code | Digits only: `15145273030` |
 | The map is empty | No internet or blocked by the browser | It's Google's map: it needs a connection |
+| On Vercel, `/reserver` says «Les réservations en ligne ne sont pas encore ouvertes» (Online booking is not open yet) | `DATABASE_URL` or `RESERVAS_CLAVE` is missing, or the site was not redeployed | Add them on Vercel and **Redeploy** ([RESERVAS.en.md, section 8](RESERVAS.en.md#8-common-problems)) |
+| I don't remember the panel password | It is the `RESERVAS_CLAVE` variable | Change it on Vercel (or in `.env.local`) and redeploy |
 | `npm run build` fails for memory (Windows) | Little free memory | Close programs and retry; or `set NODE_OPTIONS=--max-old-space-size=4096` first |
 | I changed a color and not everything changed | Some details (black frames, shadows) have a fixed color in their section's `.css` | Search for the value in `src/estilo/secciones/` |
 
@@ -247,21 +271,21 @@ In `cafe.config.ts`: `gama: "basica"`, `"estandar"` or `"premium"`. Sections hid
 ### B1. The three pieces: engine, data and skin
 
 ```text
- src/data/cafe.config.ts ──► src/motor/ (tiers, languages, hours, cart, WhatsApp, SEO) ──► src/estilo/ (the skin)
-        DATA                          ENGINE (same on every site)                              DESIGN (unique per café)
+ src/data/cafe.config.ts ──► src/motor/ (tiers, languages, hours, cart, WhatsApp, SEO, bookings) ──► src/estilo/ (the skin)
+        DATA                          ENGINE (from the template + bookings)                           DESIGN (unique per café)
 ```
 
 - **Data** (`src/data/cafe.config.ts`, type `CafeConfig` from `src/motor/tipos.ts`): the only thing that changes between cafés, together with the skin. Nothing made up.
-- **Engine** (`src/motor/`, `src/app/`, `next.config.js`): **not touched** per café. It decides which sections show (`gamas.ts`), translates, computes live hours, runs the cart and builds the WhatsApp messages.
-- **Skin** (`src/estilo/`): this café's design. Contract with the engine (`src/estilo/index.ts`): it exports `Pagina`, `fuentes` and `colorNavegador`, and `src/estilo/estilo.css` exists.
+- **Engine** (`src/motor/`, `src/app/`, `next.config.js`): **not touched** per café. It decides which sections show (`gamas.ts`), translates, computes live hours, runs the cart and builds the WhatsApp messages. **In this demo it is more than the template's engine**: it carries the booking server (`src/motor/reservas/`, routes in `src/app/reserver/`); see [B11](#b11-online-bookings-server-and-database). Don't copy the template's engine over it.
+- **Skin** (`src/estilo/`): this café's design. Contract with the engine (`src/estilo/index.ts`): it exports `Pagina`, `fuentes` and `colorNavegador` (and, in this demo, `PaginaReserva`, `PaginaAnular` and `PaginaGestion`), and `src/estilo/estilo.css` exists.
 
-Stack: Next.js 15 (App Router), React 19, strict TypeScript, framer-motion. No backend or database.
+Stack: Next.js 15 (App Router), React 19, strict TypeScript, framer-motion. Bookings use Next server actions and Postgres: Neon on Vercel and PGlite on your computer.
 
 ### B2. Folder structure
 
 ```text
 src/estilo/
-├── index.ts                     [NO TOCAR]     Contract: exports Pagina, fuentes, colorNavegador
+├── index.ts                     [NO TOCAR]     Contract: exports Pagina, fuentes, colorNavegador and the 3 booking pages
 ├── Pagina.tsx                   [CON CUIDADO]  Section order + page map in the comment
 ├── estilo.css                   [CON CUIDADO]  Index: imports every sheet in order (loaded by layout.tsx)
 ├── ajustes/                     What gets adjusted without touching components
@@ -274,7 +298,7 @@ src/estilo/
 │   ├── piezas.tsx               <Imagen>, <BotonAnadir>
 │   ├── animacion.tsx            useAnimar(), <Aparece>
 │   ├── datos.ts                 numero(), rellenar(), platoDestacado()
-│   └── dibujos.tsx              <Medallon>, <Flecha>
+│   └── dibujos.tsx              <Medallon>, <Flecha>, <Sillon>, <MesaBaja>
 └── secciones/                   One folder per section, numbered in page order
     ├── 01-cabecera/             Cabecera.tsx · cabecera.css · dibujos.tsx (Bolsa)
     ├── 02-portada/              Portada.tsx · portada.css · dibujos.tsx (Lampara, Paisaje)
@@ -285,14 +309,20 @@ src/estilo/
     ├── 07-galeria/              Galeria.tsx · galeria.css
     ├── 08-opiniones/            Opiniones.tsx · opiniones.css · dibujos.tsx (EstrellaNota)
     ├── 09-promos/               Promos.tsx · promos.css
-    ├── 10-reserva/              Reserva.tsx · reserva.css · dibujos.tsx (Sillon, MesaBaja)
+    ├── 10-reserva/              Reserva.tsx · reserva.css (card with the button to /reserver)
     ├── 11-visita/               Visita.tsx · visita.css · dibujos.tsx (Fuente)
     ├── 12-pie/                  Pie.tsx · pie.css
     ├── 13-pedido/               Pedido.tsx · pedido.css
     └── 14-whatsapp/             WhatsappFlotante.tsx · whatsapp.css · dibujos.tsx (IconoMensaje)
+src/estilo/paginas/              The pages that are not the home page (routes in src/app/reserver/)
+├── Marco.tsx · marco.css        Shared parts: header in "page" mode, «← Retour au site», demo notice, footer
+├── mensajes.tsx                 Server codes → sentences from ajustes/textos.ts
+├── reserva/                     /reserver: PaginaReserva · Calendario · Turnos · Confirmacion · reserva-pagina.css
+├── anular/                      /reserver/anular: PaginaAnular · anular.css
+└── gestion/                     /reserver/gestion: PaginaGestion · Entrar · ListaDia · NuevaReserva · gestion.css
 ```
 
-Rule: **everything for a section lives in its folder** (component, styles, drawings and its own logic). Whatever two or more sections use goes to `comun/`. What gets adjusted without touching components goes to `ajustes/`.
+Rule: **everything for a section lives in its folder** (component, styles, drawings and its own logic). Whatever two or more sections (or pages) use goes to `comun/`. What gets adjusted without touching components goes to `ajustes/`. The pages in `paginas/` only reuse two things from `secciones/`: the header (with `modo="pagina"`) and the footer.
 
 ### B3. Anatomy of a section
 
@@ -338,7 +368,10 @@ Everything is imported from `@/motor`:
 | Data, tier, language, translation | `useMotor()` → `cafe`, `secciones`, `funciones`, `idioma`, `idiomas`, `cambiarIdioma`, `tx(text)`, `t(key)`, `precio(n)`, `hora("17:00")`, `locale` |
 | Open now? | `useEstadoHorario()` (null until the browser knows the time) · `fraseEstado()` · `semana()` |
 | Cart | `useCarrito()` → `lineas`, `cantidad`, `total`, `anadir(id)`, `quitar(id)`, `abrir()`, `cerrar()` |
-| Order and booking | `usePedido()`, `useReserva()` → `datos`, `cambiar()`, `horas`, `errores`, `enviar()` (opens WhatsApp) |
+| WhatsApp order | `usePedido()` → `datos`, `cambiar()`, `horas`, `errores`, `enviar()` (opens WhatsApp) |
+| Booking (`/reserver`) | `useReservaEnLinea()` → `personas`, `cambiarPersonas()`, `dias`, `fecha`, `elegirFecha()`, `turnos`, `hora`, `elegirHora()`, `contacto`, `cambiar()`, `errores`, `aviso`, `enviar()`, `confirmada`, `enlaceAnular` |
+| Cancelling (`/reserver/anular`) | `useAnularReserva()` → `estado`, `reserva`, `motivo`, `anular()` |
+| Panel (`/reserver/gestion`) | `usePanelReservas(entrado)` → `entrar()`, `salir()`, `base`, `dias`, `semanaAnterior()`, `semanaSiguiente()`, `irAHoy()`, `anular(id)`, `restaurar(id)`, `anadir()`, `horasTelefono()` |
 | Links | `urlMapaIncrustado()`, `urlComoLlegar()`, `urlFicha()`, `urlTelefono()`, `whatsappUrl()` |
 
 - `tx()` is for **café** texts (from `cafe.config.ts` or `ajustes/textos.ts`); `t()` for the engine's **interface** texts ("Ajouter", "Fermé"…).
@@ -397,6 +430,7 @@ npm run build        # production build (on Windows it may fail for memory: retr
   add items, send and read `decodeURIComponent(window.__abiertas[0].split("text=")[1])`.
 - Switch `gama` to `basica` and `estandar` and check everything still holds; go back to the chosen tier.
 - Turn on "reduce motion" in the system and check nothing moves.
+- Bookings: go through the [test checklist in RESERVAS.en.md](RESERVAS.en.md#4-test-checklist) on your computer (PGlite) and, once published, on Vercel.
 
 ### B10. Glossary
 
@@ -417,5 +451,48 @@ Code names are in Spanish. Equivalents:
 | `Historia`, `Galeria`, `Cuadro`, `Cartela` | story, gallery, hung frame, label card |
 | `Opiniones`, `Libro`, `Promos`, `Reserva`, `Visita`, `Pie` | reviews, guestbook, promotions, booking, visit, footer |
 | `Pedido`, `Bolsa`, `Ticket` | order, kraft bag, ticket |
+| `reservas`, `plazasPorTurno`, `turno` | online bookings, seats per half hour, a bookable time |
+| `Marco`, `Calendario`, `Turnos`, `Confirmacion`, `chevalet` | page frame, calendar, times, confirmation, «Réservé» table card |
+| `PaginaGestion`, `libreta`, `apunte` | café panel, booking notebook, one entry |
+| `anular`, `restaurar`, `forzar` | cancel, restore, save even if full |
 | `Aparece`, `useAnimar` | fade-in block, motion level |
 | `ajustes`, `comun`, `dibujos` | settings, shared pieces, SVG drawings |
+
+### B11. Online bookings: server and database
+
+This demo extends the template's engine with a booking server. Usage and setup guide: [RESERVAS.en.md](RESERVAS.en.md).
+
+```text
+ Browser                                     Server (Next, Node)                              Database
+ ┌──────────────────────────┐   actions     ┌─────────────────────────────────────┐          ┌──────────────────┐
+ │ paginas/reserva          │──────────────►│ reservas/acciones.ts ("use server") │          │ Neon (Vercel)    │
+ │   useReservaEnLinea()    │  POST, same   │ reservas/gestion.ts  ("use server") │─────────►│   or             │
+ │ paginas/anular, gestion  │    domain     │   validar · seguridad · operaciones │   SQL    │ PGlite (local)   │
+ │   useAnularReserva()…    │◄──────────────│   esquema.ts (creates the tables)   │          │ tables: reservas,│
+ └──────────────────────────┘ codes, not    └─────────────────────────────────────┘          │ reservas_intentos│
+                              sentences                                                      └──────────────────┘
+```
+
+| File (`src/motor/reservas/`) | What it does |
+|---|---|
+| `bd.ts` | Picks the database: `DATABASE_URL` → Neon (HTTP driver); otherwise PGlite on your computer (outside OneDrive, or `RESERVAS_PGLITE_DIR`); on Vercel with no address, "not set up". A single connection per process (`globalThis`) and a `.pid` file so that two servers don't open the same folder. |
+| `esquema.ts` | Creates the tables and indexes the first time (with a lock, in case two servers start at once) and deletes old data: bookings 30 days after their date, failed attempts after 24 h. |
+| `disponibilidad.ts` | Dates and times in the café's time zone (`America/Toronto`): the window of days, each day's times (from the opening hours, every `paso`, until 1 h before closing), minimum notice. No database: it works on the server and in the browser. |
+| `validar.ts` | Checks a booking field by field (`web` or `telefono` mode) and returns error codes. |
+| `seguridad.ts` | Panel session (HMAC cookie, HttpOnly, SameSite=Strict, path `/reserver/gestion`, 12 h), constant-time password check, `7KQ-3XA` codes, cancel secrets (only their SHA-256 is stored), IP fingerprint. |
+| `operaciones.ts` | Reads the free seats in the window, saves if it fits, restores if it fits. |
+| `acciones.ts` | Public actions: `consultarDisponibilidad`, `crearReserva` (trap field, 5/hour per connection, 3 future bookings per phone), `verReservaParaAnular`, `anularReserva`. |
+| `gestion.ts` | Panel actions; all except `entrar` check the session: `entrar` (5 failures/15 min per connection), `salir`, `estadoBaseDeDatos`, `listarReservas`, `anularDesdePanel`, `restaurarReserva`, `crearReservaTelefono` (with `forzar`). |
+| `cliente.ts` | The skin's hooks: `useReservaEnLinea`, `useAnularReserva`, `usePanelReservas`. |
+| `tipos.ts` | Shared types. The server returns **codes** (`MotivoFallo`, `ErrorCampo`) and the skin translates them (`paginas/mensajes.tsx` + `COPY`). |
+
+**Seats without race conditions.** Saving is a `READ COMMITTED` transaction with two statements: `SELECT pg_advisory_xact_lock(72026002, hashtext('turno <fecha> <hora>'))` and then `INSERT … SELECT … WHERE (sum of the slot's confirmed guests) + personas <= plazas RETURNING id`. No row returned = the slot is full (`completo`). The lock goes in its own statement so that the sum sees what the previous booking has just committed. Same on Neon (HTTP transaction) and on PGlite.
+
+**Rules when changing it:**
+- Whatever a `"use server"` file exports is a public door: validate everything that comes in and check the session in the panel ones. Helper functions go in files without `"use server"` (`operaciones.ts`).
+- Server-side code (`bd`, `esquema`, `seguridad`, `operaciones`) carries `import "server-only"` and is **never** exported from `@/motor` (it would break the browser side).
+- In SQL, cast everything (`$3::date`, `SUM(...)::int`, `fecha::text`): that way Neon and PGlite return the same thing.
+- A new column is added with `ALTER TABLE … ADD COLUMN IF NOT EXISTS` in `esquema.ts`: changing the `CREATE TABLE` does not alter a table that already exists in Neon.
+- Texts never come from the server: a new code → a new text in `ajustes/textos.ts` (fr/en/es) and a new case in `paginas/mensajes.tsx`.
+
+**Routes**: `/reserver` and `/reserver/anular` are static (the seats are requested from the browser); `/reserver/gestion` is dynamic (it reads the cookie). All three return 404 if the tier does not include bookings or the `reservas` block is missing. `next.config.js` adds `X-Robots-Tag: noindex` to the panel and the cancel page, and keeps PGlite unbundled (`serverExternalPackages`) and out of the Vercel functions (`outputFileTracingExcludes`).

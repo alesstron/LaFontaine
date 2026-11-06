@@ -37,6 +37,7 @@
  */
 import { fraseEstado, useEstadoHorario, useMotor } from "@/motor";
 import { COPY, MURAL } from "@/estilo/ajustes/textos";
+import { Flecha } from "@/estilo/comun/dibujos";
 import { Imagen } from "@/estilo/comun/piezas";
 import { Lampara, Paisaje } from "./dibujos";
 
@@ -71,16 +72,25 @@ export function Portada() {
           <p className="portada__descripcion">{tx(cafe.marca.descripcion)}</p>
           <Estado />
 
-          {/* ▸ Botones: menú y, si hay reservas, reservar (si no, cómo llegar) · Buttons: menu and booking (or directions) */}
+          {/* ▸ Botones: menú y, si hay reservas, reservar en /reserver (pestaña nueva); si no, cómo llegar
+                Buttons: menu and, with booking, book at /reserver (new tab); otherwise, directions */}
           <div className="portada__botones">
             {secciones.carta && (
               <a className="boton boton--taza" href="#carta">
                 {t("verCarta")}
               </a>
             )}
-            <a className="boton boton--linea" href={secciones.reserva ? "#reserver" : "#visite"}>
-              {secciones.reserva ? t("reservar") : t("visita")}
-            </a>
+            {secciones.reserva ? (
+              <a className="boton boton--linea" href="/reserver" target="_blank" rel="noopener">
+                {t("reservar")}
+                <span className="sr"> {tx(COPY.nuevaPestana)}</span>
+                <Flecha className="icono" />
+              </a>
+            ) : (
+              <a className="boton boton--linea" href="#visite">
+                {t("visita")}
+              </a>
+            )}
           </div>
         </div>
 

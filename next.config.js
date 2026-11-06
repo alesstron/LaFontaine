@@ -1,10 +1,12 @@
 /**
  * [NO TOCAR · DO NOT EDIT] Motor / Engine
  *
- * ES: Configuración de Next.js: cabeceras de seguridad HTTP e imágenes. Es igual para todas las
- *     cafeterías; las cabeceras se aplican a todas las rutas mediante headers().
- * EN: Next.js configuration: HTTP security headers and images. It is the same for every café;
- *     the headers apply to every route through headers().
+ * ES: Configuración de Next.js: cabeceras de seguridad HTTP e imágenes; las cabeceras se aplican a
+ *     todas las rutas mediante headers(). Viene de la plantilla, con un añadido propio de esta demo:
+ *     la base de datos local de las reservas (serverExternalPackages, ver docs/RESERVAS.md).
+ * EN: Next.js configuration: HTTP security headers and images; the headers apply to every route
+ *     through headers(). It comes from the template, plus one addition specific to this demo:
+ *     the local bookings database (serverExternalPackages, see docs/RESERVAS.en.md).
  */
 
 // ES: En desarrollo se relajan algunas directivas de la CSP (recarga en caliente de Next).
@@ -28,8 +30,8 @@ const csp = [
   "frame-src https://www.google.com https://maps.google.com",
   "object-src 'none'",
   "base-uri 'self'",
-  // ES: Los formularios no se envían a ningún servidor: abren WhatsApp con el mensaje armado.
-  // EN: Forms are not posted to any server: they open WhatsApp with the message ready.
+  // ES: Los formularios solo se envían al propio dominio (reservas) o abren WhatsApp con el mensaje armado.
+  // EN: Forms are only posted to this same domain (bookings) or open WhatsApp with the message ready.
   "form-action 'self'",
   "frame-ancestors 'none'",
   ...(isDev ? [] : ["upgrade-insecure-requests"]),
@@ -50,8 +52,21 @@ const nextConfig = {
   poweredByHeader: false,
   // ES: Solo imágenes locales, servidas en AVIF/WebP. · EN: Local images only, served as AVIF/WebP.
   images: { formats: ["image/avif", "image/webp"] },
+  // ES: PGlite (Postgres local para probar las reservas sin cuenta) trae su propio WebAssembly: se carga
+  //     desde node_modules tal cual en vez de empaquetarlo. En Vercel no se usa (allí va Neon).
+  // EN: PGlite (local Postgres to try bookings without an account) ships its own WebAssembly: it is
+  //     loaded from node_modules as is instead of being bundled. Vercel does not use it (Neon runs there).
+  serverExternalPackages: ["@electric-sql/pglite"],
+  // ES: …y como en Vercel nunca se usa, se deja fuera de sus funciones (pesa unos 26 MB).
+  // EN: …and since Vercel never uses it, it is left out of its functions (it weighs about 26 MB).
+  outputFileTracingExcludes: { "*": ["node_modules/@electric-sql/pglite/**"] },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // ES: El panel del café y la página de anular nunca deben salir en buscadores (además de su <meta robots>).
+      // EN: The café panel and the cancel page must never show up in search engines (on top of their <meta robots>).
+      { source: "/reserver/:pagina(gestion|anular)", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
+    ];
   },
 };
 

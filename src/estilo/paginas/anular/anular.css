@@ -1,0 +1,63 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Página para anular / Cancel page (/reserver/anular)
+ *
+ * ES: Estilos de PaginaAnular.tsx (esta carpeta): una tarjeta de papel centrada sobre la pared crema, como la de la
+ *     sección de reserva de la portada. La ficha con los datos y el aviso vienen de paginas/marco.css.
+ * EN: Styles for PaginaAnular.tsx (this folder): a paper card centred on the cream wall, like the home booking
+ *     section's card. The details card and the notice come from paginas/marco.css.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .pagina-anular__tarjeta ..... la tarjeta de papel
+ *   .pagina-anular__texto ....... frases de la tarjeta («Vous ne pourrez pas venir ?», «Merci…»)
+ *   .pagina-anular__acciones .... los dos botones (anular · guardar, u otra reserva · volver)
+ *   .ficha[data-anulada="true"] . la ficha tachada cuando la reserva ya está anulada
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Ancho de la tarjeta ...... .pagina-anular__tarjeta → max-width
+ */
+
+/* ── La tarjeta · The card ──────────────────────────────────────────────────────────── */
+
+.pagina-anular__tarjeta {
+  display: grid;
+  gap: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 1.9rem 1.3rem 1.6rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  box-shadow: 0 30px 40px -26px rgba(43, 26, 22, 0.7);
+}
+
+.pagina-anular__tarjeta .antetitulo,
+.pagina-anular__tarjeta .titulo-seccion {
+  margin: 0;
+}
+
+.pagina-anular__texto {
+  margin: 0;
+  color: var(--encre);
+}
+
+.pagina-anular__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+/* ES: Reserva ya anulada: los datos tachados y apagados. · EN: Booking already cancelled: details struck through and dimmed. */
+.ficha[data-anulada="true"] dd {
+  color: var(--encre);
+  text-decoration: line-through 1.5px var(--tasse);
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .pagina-anular__tarjeta {
+    margin-top: 1.5rem;
+    padding: 2.6rem 2.4rem 2.2rem;
+  }
+}

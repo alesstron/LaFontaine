@@ -2,11 +2,11 @@
  * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · 10 Reserva / Booking · «prenez un fauteuil»
  *
  * ES: Estilos de Reserva.tsx (esta carpeta). La pared crema se convierte en suelo de hormigón en los últimos 5,5 rem;
- *     la escena (sillones y mesa) está posada sobre el suelo y la tarjeta queda "encima" de la mesa.
- *     Los campos del formulario (.campo, .contador…) están en comun/piezas.css porque los comparte el pedido.
+ *     la escena (sillones y mesa) está posada sobre el suelo y la tarjeta queda "encima" de la mesa. El formulario
+ *     ya no está aquí: vive en la página de reserva (paginas/reserva/reserva-pagina.css).
  * EN: Styles for Reserva.tsx (this folder). The cream wall turns into a concrete floor in the last 5.5 rem; the scene
- *     (armchairs and table) rests on the floor and the card sits "on" the table. Form fields (.campo, .contador…)
- *     live in comun/piezas.css because the order shares them.
+ *     (armchairs and table) rests on the floor and the card sits "on" the table. The form is no longer here: it
+ *     lives on the booking page (paginas/reserva/reserva-pagina.css).
  *
  *   Clases · Classes
  *   ───────────────────────────────────────────────────────────────────────────────────────
@@ -14,7 +14,8 @@
  *   .reserva__escena ...... fila de sillón · mesa · sillón, posada en el suelo (absolute, bottom)
  *   .reserva__sillon(--izq/--der)  cada sillón (más grande y separado desde 900 px)
  *   .reserva__mesa ........ la mesa baja
- *   .reserva__tarjeta ..... la tarjeta de papel con el formulario
+ *   .reserva__tarjeta ..... la tarjeta de papel con la frase y el botón a /reserver
+ *   .reserva__texto ....... la frase de la tarjeta
  *
  *   Cambios típicos · Typical changes
  *   ─ Alto del suelo ........ .reserva → los "5.5rem" del degradado
@@ -65,6 +66,11 @@
   border: 1px solid #e2d4c1;
   background: var(--papier);
   box-shadow: 0 30px 40px -26px rgba(43, 26, 22, 0.7);
+}
+
+.reserva__texto {
+  margin: 0 0 1.4rem;
+  color: var(--encre);
 }
 
 /* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */

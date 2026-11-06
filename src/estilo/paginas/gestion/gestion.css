@@ -1,0 +1,412 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Panel del café / Café panel (/reserver/gestion)
+ *
+ * ES: Estilos de PaginaGestion.tsx, Entrar.tsx, ListaDia.tsx y NuevaReserva.tsx (esta carpeta). Es una pantalla de
+ *     trabajo: papel sobre la pared crema, letra grande y botones a mano del dedo; cada día es una hoja de la libreta
+ *     de reservas del café. Campos y botones vienen de comun/piezas.css; .aviso, de paginas/marco.css.
+ * EN: Styles for PaginaGestion.tsx, Entrar.tsx, ListaDia.tsx and NuevaReserva.tsx (this folder). It is a work screen:
+ *     paper on the cream wall, large type and finger-sized buttons; each day is a sheet of the café's booking notebook.
+ *     Fields and buttons come from comun/piezas.css; .aviso from paginas/marco.css.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .gestion__entrar ........... la tarjeta para entrar
+ *   .gestion__cabeza ........... título y botón «Quitter»
+ *   .gestion__estado ........... estado de la base (data-ok) · .gestion__etiqueta: «connectée» en salmón
+ *   .gestion__barra ............ semana (‹ rango ›) y botones (hoy, actualizar, añadir)
+ *   .nueva… .................... el formulario para apuntar una reserva del teléfono
+ *   .libreta ................... la lista de días
+ *   .libreta__dia / __cabeza ... una hoja: el día, su resumen y sus horas
+ *   .libreta__hora / __barra ... la hora, «4 / 12 places» y la barra de ocupación (roja si está llena)
+ *   .apunte ..................... una reserva (data-estado="anulada" la tacha)
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Ancho del panel .......... .gestion → max-width
+ *   ─ Color de la barra llena .. .libreta__barra[data-lleno="true"] span → background
+ */
+
+/* ── Entrar · Sign in ───────────────────────────────────────────────────────────────── */
+
+.gestion__entrar {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 1.9rem 1.3rem 1.6rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  box-shadow: 0 30px 40px -26px rgba(43, 26, 22, 0.7);
+}
+
+.gestion__entrar .titulo-seccion {
+  margin-bottom: 0.4rem;
+}
+
+/* ── El panel · The panel ───────────────────────────────────────────────────────────── */
+
+.gestion {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gestion__cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.gestion__cabeza .titulo-seccion {
+  margin: 0;
+}
+
+/* ES: El estado de la base, en una banda de papel; «connectée» en etiqueta salmón como el «Ouvert» de la portada.
+       EN: The database status, on a paper strip; «connectée» on a salmon label like the hero's «Ouvert». */
+.gestion__estado {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid #e2d4c1;
+  border-left: 4px solid var(--plafond);
+  background: var(--papier);
+}
+
+.gestion__estado[data-ok="false"] {
+  border-left-color: var(--tasse);
+}
+
+.gestion__estado p {
+  margin: 0;
+}
+
+.gestion__etiqueta {
+  display: inline-block;
+  padding: 0.1rem 0.55rem 0;
+  border-radius: 3px;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  rotate: -1.5deg;
+}
+
+.gestion__estado[data-ok="false"] .gestion__etiqueta {
+  background: var(--tasse);
+  color: var(--papier);
+}
+
+.gestion__carpeta,
+.gestion__detalle {
+  color: var(--encre);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.gestion__detalle {
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+/* ── La barra de la semana · The week bar ───────────────────────────────────────────── */
+
+.gestion__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+}
+
+.gestion__semana {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gestion__flecha {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid #c9b6a0;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.gestion__flecha:hover {
+  border-color: var(--plafond);
+}
+
+.gestion__rango {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+}
+
+.gestion__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ── Apuntar una reserva del teléfono · Record a phone booking ──────────────────────── */
+
+.nueva {
+  display: grid;
+  gap: 1rem;
+  padding: 1.3rem 1rem 1.2rem;
+  border: 1px dashed #c9b6a0;
+  background: #fffdf8;
+}
+
+.nueva__titulo {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-size: 1.3rem;
+}
+
+.nueva__ayuda {
+  margin: -0.6rem 0 0;
+  color: var(--encre);
+  font-size: 0.9375rem;
+}
+
+.nueva__fila {
+  display: grid;
+  gap: 1rem;
+}
+
+.nueva__forzar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.nueva__forzar input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--tasse);
+}
+
+.nueva__pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ── La libreta: un día por hoja · The notebook: one day per sheet ──────────────────── */
+
+.libreta {
+  display: grid;
+  gap: 1rem;
+}
+
+.libreta__dia {
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  box-shadow: 0 14px 24px -20px rgba(43, 26, 22, 0.55);
+}
+
+/* ES: Los días sin reservas, en una línea y más discretos. · EN: Days without bookings, on one line and quieter. */
+.libreta__dia[data-vacio="true"] {
+  padding-block: 0.7rem;
+  background: rgba(251, 246, 238, 0.6);
+  box-shadow: none;
+}
+
+.libreta__cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.libreta__fecha {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.libreta__fecha::first-letter {
+  text-transform: uppercase;
+}
+
+.libreta__hoy {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem 0;
+  border-radius: 3px;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 0.9rem;
+  vertical-align: 0.1em;
+  rotate: -2deg;
+}
+
+.libreta__resumen {
+  margin: 0;
+  color: var(--encre);
+  font-size: 0.9375rem;
+}
+
+.libreta__turnos {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0.9rem 0 0;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid #e2d4c1;
+  list-style: none;
+}
+
+.libreta__hora {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.8rem;
+  margin: 0 0 0.5rem;
+  color: var(--encre);
+  font-size: 0.875rem;
+}
+
+.libreta__reloj {
+  color: var(--plafond);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.libreta__barra {
+  flex: 1 1 8rem;
+  max-width: 12rem;
+  height: 6px;
+  border-radius: 3px;
+  background: #eadbc8;
+  overflow: hidden;
+}
+
+.libreta__barra > span {
+  display: block;
+  height: 100%;
+  background: var(--plafond);
+}
+
+.libreta__barra[data-lleno="true"] > span {
+  background: var(--tasse);
+}
+
+.libreta__apuntes {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ── Un apunte (una reserva) · One entry (one booking) ──────────────────────────────── */
+
+.apunte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #eadbc8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.apunte__texto {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.apunte__texto p {
+  margin: 0;
+}
+
+.apunte__nombre {
+  font-weight: 700;
+}
+
+.apunte__personas {
+  font-weight: 400;
+}
+
+.apunte__detalle {
+  color: var(--encre);
+  font-size: 0.875rem;
+}
+
+.apunte__detalle a {
+  color: var(--plafond);
+  font-weight: 700;
+}
+
+.apunte__codigo {
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+}
+
+.apunte__nota {
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+.apunte__anulada {
+  color: var(--tasse);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ES: Una reserva anulada sigue en la lista, tachada, por si hay que restaurarla. · EN: A cancelled booking stays listed, struck through, in case it must be restored. */
+.apunte[data-estado="anulada"] {
+  border-style: dashed;
+  background: transparent;
+}
+
+.apunte[data-estado="anulada"] .apunte__nombre {
+  color: var(--encre);
+  text-decoration: line-through 1.5px var(--tasse);
+}
+
+.apunte__accion {
+  min-height: 40px;
+  padding: 0.55rem 1rem 0.4rem;
+  font-size: 0.75rem;
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+@media (min-width: 700px) {
+  .nueva__fila {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .gestion__entrar {
+    margin-top: 1.5rem;
+    padding: 2.6rem 2.4rem 2.2rem;
+  }
+
+  .nueva {
+    padding: 1.6rem 1.6rem 1.4rem;
+  }
+
+  .libreta__dia {
+    padding: 1.2rem 1.4rem 1.3rem;
+  }
+}

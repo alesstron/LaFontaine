@@ -119,13 +119,43 @@ export interface Funciones {
   cartaFotos: boolean;
   /** ES: Pedido para recoger por WhatsApp (sin pasarela de pago). · EN: Pickup order via WhatsApp (no payment gateway). */
   pedido: boolean;
-  /** ES: Reserva de mesa por WhatsApp. · EN: Table booking via WhatsApp. */
+  /**
+   * ES: Reserva de mesa en la página /reserver (en esta demo necesita el bloque `reservas`).
+   * EN: Table booking on the /reserver page (in this demo it needs the `reservas` block).
+   */
   reserva: boolean;
   /** ES: Selector de idioma. · EN: Language switcher. */
   idiomas: boolean;
   promos: boolean;
   /** ES: Animaciones de lujo (entradas, efectos al pasar el ratón, bucles). · EN: Premium animations (entrances, hover effects, loops). */
   animacionesAvanzadas: boolean;
+}
+
+/**
+ * ES: Reservas en línea (solo en esta demo): página /reserver, guardadas en la base de datos y
+ *     gestionadas en /reserver/gestion. Guía en docs/RESERVAS.md.
+ * EN: Online bookings (this demo only): /reserver page, stored in the database and managed at
+ *     /reserver/gestion. Guide in docs/RESERVAS.en.md.
+ */
+export interface ReservasConfig {
+  /**
+   * ES: Máximo de personas que pueden llegar en un mismo turno (suma de todas las reservas de esa hora).
+   * EN: Maximum people who can arrive in the same time slot (sum of every booking at that time).
+   */
+  plazasPorTurno: number;
+  /** ES: Máximo de personas por reserva en la web; los grupos más grandes llaman. · EN: Max people per online booking; bigger groups call. */
+  maxPersonas: number;
+  /** ES: Minutos mínimos entre ahora y la hora reservada (120 = 2 h). · EN: Minimum minutes between now and the booked time (120 = 2 h). */
+  antelacionMin: number;
+  /** ES: Días que se pueden reservar, contando hoy. · EN: Days that can be booked, counting today. */
+  diasVista: number;
+  /** ES: Minutos entre turnos (30 = 8 h, 8 h 30…). · EN: Minutes between slots (30 = 8:00, 8:30…). */
+  paso: number;
+  /**
+   * ES: Días sueltos sin reservas aunque el horario diga abierto (festivos, eventos privados): ["2026-12-25"].
+   * EN: One-off days without bookings even if the hours say open (holidays, private events): ["2026-12-25"].
+   */
+  cerrados?: string[];
 }
 
 export interface CafeConfig {
@@ -198,6 +228,8 @@ export interface CafeConfig {
   galeria?: Foto[];
   resenas?: Resenas;
   promos?: Promo[];
+  /** ES: Reservas en línea; sin este bloque no hay reservas. · EN: Online bookings; without this block there is no booking. */
+  reservas?: ReservasConfig;
   /** ES: Cambios sueltos sobre la gama (p. ej. quitar reservas). · EN: One-off changes to the tier (e.g. turn off bookings). */
   funciones?: Partial<Funciones>;
   /** ES: Dominio final cuando lo haya. · EN: Final domain once there is one. */

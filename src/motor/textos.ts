@@ -74,6 +74,9 @@ const fr = {
   reservaSaludo: "Bonjour {cafe} ! J'aimerais réserver une table :",
   reservaDetalle: "{personas} personne(s), le {fecha} à {hora}",
   reservaNombre: "Au nom de : {nombre}",
+  // ES: Títulos de las páginas de reservas (pestaña del navegador). · EN: Booking page titles (browser tab).
+  anularReserva: "Annuler une réservation",
+  panelReservas: "Réservations\u00a0· gestion",
 };
 
 type Diccionario = Record<keyof typeof fr, string>;
@@ -141,6 +144,8 @@ const en: Diccionario = {
   reservaSaludo: "Hi {cafe}! I'd like to book a table:",
   reservaDetalle: "{personas} guest(s), on {fecha} at {hora}",
   reservaNombre: "Name: {nombre}",
+  anularReserva: "Cancel a booking",
+  panelReservas: "Bookings\u00a0· management",
 };
 
 // ES: Diccionario español. · EN: Spanish dictionary.
@@ -206,6 +211,8 @@ const es: Diccionario = {
   reservaSaludo: "¡Hola, {cafe}! Quiero reservar una mesa:",
   reservaDetalle: "{personas} persona(s), el {fecha} a las {hora}",
   reservaNombre: "A nombre de: {nombre}",
+  anularReserva: "Anular una reserva",
+  panelReservas: "Reservas\u00a0· gestión",
 };
 
 export const UI: Record<Idioma, Diccionario> = { fr, en, es };

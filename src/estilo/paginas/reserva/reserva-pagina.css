@@ -1,0 +1,628 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Página de reserva / Booking page (/reserver) · «le coin des fauteuils»
+ *
+ * ES: Estilos de PaginaReserva.tsx, Calendario.tsx, Turnos.tsx y Confirmacion.tsx (esta carpeta). La pared crema
+ *     termina en el suelo de hormigón (últimos 6,5 rem) con los sillones y la mesa; encima, el carnet de papel y el
+ *     ticket. Primero el móvil (una columna); desde 900 px, carnet y ticket lado a lado y el ticket se queda fijo al
+ *     bajar. Campos, botones y .contador vienen de comun/piezas.css; .ficha y .aviso, de paginas/marco.css.
+ * EN: Styles for PaginaReserva.tsx, Calendario.tsx, Turnos.tsx and Confirmacion.tsx (this folder). The cream wall ends
+ *     in the concrete floor (last 6.5 rem) with the armchairs and the table; above it, the paper notebook and the card.
+ *     Mobile first (one column); from 900 px, notebook and card side by side and the card stays put while scrolling.
+ *     Fields, buttons and .contador come from comun/piezas.css; .ficha and .aviso from paginas/marco.css.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .pagina-reserva ............ el <main>: pared arriba, suelo abajo (degradado con corte)
+ *   .pagina-reserva__cabeza .... antetítulo, título y frase
+ *   .pagina-reserva__formulario  la rejilla carnet + ticket
+ *   .carnet .................... la hoja de papel con los pasos 1 a 3
+ *   .carnet__paso / __titulo ... cada paso y su título en mayúsculas espaciadas
+ *   .carnet__numero ............ el número del paso en etiqueta salmón a mano
+ *   .calendario… ............... el calendario (mes, días de la semana, días, leyenda)
+ *   .turnos / .turnos__hora .... las horas en cápsulas · .turnos__quedan: «plus que n»
+ *   .ticket .................... la tarjeta «Votre table» (resumen, paso 4, botón)
+ *   .ticket__trampa ............ el campo trampa, fuera de la pantalla
+ *   .chevalet… ................. la confirmación: el cartelito «Réservé», el enlace y los botones
+ *   .pagina-reserva__escena .... sillón · mesa · sillón posados en el suelo
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Alto del suelo ............ .pagina-reserva → los "6.5rem" del degradado (y padding-bottom)
+ *   ─ Ancho de las columnas ..... .pagina-reserva__formulario → grid-template-columns (@media 900 px)
+ *   ─ Color del día elegido ..... .calendario__dia[data-elegido="true"] → background
+ *   ─ Tamaño de los sillones .... .pagina-reserva__sillon → width
+ */
+
+/* ── Pared y suelo · Wall and floor ─────────────────────────────────────────────────── */
+
+.marco.pagina-reserva {
+  position: relative;
+  padding-bottom: 12rem;
+  background: linear-gradient(180deg, var(--creme) 0, var(--creme) calc(100% - 6.5rem), var(--sol) calc(100% - 6.5rem));
+}
+
+/* ── Cabeza · Head ──────────────────────────────────────────────────────────────────── */
+
+.pagina-reserva__cabeza {
+  max-width: 1100px;
+  margin: 0 auto 1.75rem;
+}
+
+.pagina-reserva__cabeza .titulo-seccion {
+  margin-bottom: 0.6rem;
+}
+
+.pagina-reserva__intro {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--encre);
+}
+
+/* ── Rejilla: carnet + ticket · Grid: notebook + card ───────────────────────────────── */
+
+.pagina-reserva__formulario {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── El carnet · The notebook ───────────────────────────────────────────────────────── */
+
+.carnet {
+  min-width: 0;
+  padding: 1.4rem 1rem 1.6rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  box-shadow: 0 24px 36px -28px rgba(43, 26, 22, 0.6);
+}
+
+.carnet__paso {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* ES: Una línea de puntos entre pasos, como las de un carnet. · EN: A dotted line between steps, like a notebook's. */
+.carnet__paso + .carnet__paso {
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px dashed #dccdb9;
+}
+
+.carnet__titulo {
+  margin-bottom: 0.9rem;
+  padding: 0;
+  color: var(--plafond);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ES: El número del paso, en etiqueta salmón escrita a mano (las de los silos). · EN: The step number, on a handwritten salmon label (the bins' ones). */
+.carnet__numero {
+  display: inline-block;
+  min-width: 1.9rem;
+  margin-right: 0.6rem;
+  padding: 0.2rem 0.4rem 0;
+  border-radius: 3px;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-align: center;
+  box-shadow: 0 1px 0 rgba(43, 26, 22, 0.25);
+  rotate: -4deg;
+}
+
+.carnet__nota {
+  margin: 0.8rem 0 0;
+  color: var(--encre);
+  font-size: 0.9375rem;
+}
+
+.carnet__nota a {
+  color: var(--plafond);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.carnet__vacio {
+  margin: 0;
+  color: var(--encre);
+  font-family: var(--f-caslon-it), Georgia, serif;
+  font-style: italic;
+}
+
+.carnet .campo__error {
+  display: block;
+  margin-top: 0.6rem;
+}
+
+/* ── Calendario · Calendar ──────────────────────────────────────────────────────────── */
+
+.calendario {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.calendario__mes {
+  margin: 0 0 0.4rem;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+/* ES: «novembre 2026» → «Novembre 2026». · EN: Capitalised month in French and Spanish. */
+.calendario__mes::first-letter {
+  text-transform: uppercase;
+}
+
+.calendario__rejilla {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 26rem;
+}
+
+.calendario__semana {
+  padding-bottom: 0.15rem;
+  color: var(--encre);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.calendario__dia {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-height: 40px;
+  border: 1px solid #e2d4c1;
+  border-radius: 4px;
+  background: #fff;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.calendario__dia:hover {
+  border-color: var(--plafond);
+}
+
+/* ES: El foco del teclado va al radio invisible: se dibuja en su casilla. · EN: Keyboard focus lands on the hidden radio: it is drawn on its cell. */
+.calendario__dia:has(input:focus-visible) {
+  outline: 3px solid var(--tasse);
+  outline-offset: 2px;
+}
+
+/* ES: Hoy: raya salmón debajo del número. · EN: Today: salmon line under the number. */
+.calendario__dia[data-hoy="true"]::after {
+  content: "";
+  position: absolute;
+  right: 24%;
+  bottom: 5px;
+  left: 24%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--etiquette);
+}
+
+.calendario__dia[data-elegido="true"] {
+  border-color: var(--plafond);
+  background: var(--plafond);
+  color: var(--papier);
+}
+
+.calendario__dia[data-estado="completo"] {
+  background: transparent;
+  color: var(--encre);
+  text-decoration: line-through 2px var(--tasse);
+  cursor: not-allowed;
+}
+
+.calendario__dia[data-estado="cerrado"] {
+  border-color: transparent;
+  background: transparent;
+  color: rgba(107, 90, 78, 0.45);
+  cursor: not-allowed;
+}
+
+/* ES: Los días que no se pueden elegir no reaccionan al ratón. · EN: Days that cannot be picked do not react to the mouse. */
+.calendario__dia[data-estado="completo"]:hover {
+  border-color: #e2d4c1;
+}
+
+.calendario__dia[data-estado="cerrado"]:hover {
+  border-color: transparent;
+}
+
+/* ES: Leyenda con una muestra de cada estado. · EN: Legend with a sample of each state. */
+.calendario__leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--encre);
+  font-size: 0.8125rem;
+}
+
+.calendario__leyenda li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.calendario__leyenda li::before {
+  content: "";
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1px solid #e2d4c1;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.calendario__leyenda [data-tipo="hoy"]::before {
+  background: linear-gradient(0deg, transparent 3px, var(--etiquette) 3px 6px, #fff 6px);
+}
+
+.calendario__leyenda [data-tipo="completo"]::before {
+  background: linear-gradient(transparent 45%, var(--tasse) 45% 60%, transparent 60%), #fff;
+}
+
+.calendario__leyenda [data-tipo="cerrado"]::before {
+  border-style: dashed;
+  background: transparent;
+}
+
+/* ── Horas · Times ──────────────────────────────────────────────────────────────────── */
+
+.turnos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.turnos__hora {
+  display: inline-grid;
+  justify-items: center;
+  align-content: center;
+  min-width: 5.4rem;
+  min-height: 46px;
+  padding: 0.5rem 0.85rem 0.35rem;
+  border: 1.5px solid #c9b6a0;
+  border-radius: 999px;
+  background: #fff;
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.turnos__hora:hover {
+  border-color: var(--plafond);
+}
+
+.turnos__hora:has(input:focus-visible) {
+  outline: 3px solid var(--tasse);
+  outline-offset: 2px;
+}
+
+.turnos__hora[data-elegido="true"] {
+  border-color: var(--plafond);
+  background: var(--plafond);
+  color: var(--papier);
+}
+
+.turnos__hora[data-cabe="false"] {
+  border-style: dashed;
+  background: transparent;
+  color: rgba(107, 90, 78, 0.6);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.turnos__hora[data-cabe="false"]:hover {
+  border-color: #c9b6a0;
+}
+
+/* ES: «plus que 2», a mano y en rojo taza. · EN: «2 left», handwritten in red cup. */
+.turnos__quedan {
+  color: var(--tasse);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.turnos__hora[data-elegido="true"] .turnos__quedan {
+  color: var(--etiquette);
+}
+
+/* ── El ticket «Votre table» · The «Votre table» card ───────────────────────────────── */
+
+.ticket {
+  display: grid;
+  gap: 1.1rem;
+  align-self: start;
+  min-width: 0;
+  padding: 1.4rem 1rem 1.3rem;
+  border: 1px solid #e2d4c1;
+  border-top: 6px solid var(--plafond);
+  background: var(--papier);
+  box-shadow: 0 24px 36px -28px rgba(43, 26, 22, 0.6);
+}
+
+.ticket__titulo {
+  margin: 0;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.ticket__datos {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ticket__datos .carnet__titulo {
+  margin-bottom: 0.7rem;
+}
+
+.campo__ayuda {
+  color: var(--encre);
+  font-size: 0.8125rem;
+}
+
+/* ES: Fuera de la pantalla (no display:none: algunos robots lo saltan). · EN: Off-screen (not display:none: some bots skip it). */
+.ticket__trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Sin servicio · No service ──────────────────────────────────────────────────────── */
+
+.pagina-reserva__sin-servicio,
+.pagina-reserva__sin-js {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Confirmación: el cartelito «Réservé» · Confirmation: the «Réservé» card ─────────── */
+
+.chevalet {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.chevalet__carton {
+  position: relative;
+  padding: 2.2rem 1.3rem 1.7rem;
+  border: 1px solid #e2d4c1;
+  background: var(--papier);
+  text-align: center;
+  box-shadow: 0 30px 40px -26px rgba(43, 26, 22, 0.7);
+}
+
+/* ES: El pliegue del cartel (la mitad de atrás, vista de frente). · EN: The card's fold (the back half, seen head-on). */
+.chevalet__carton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 12px;
+  border-bottom: 1px solid #e2d4c1;
+  background: linear-gradient(180deg, #e9dccb, var(--papier));
+}
+
+/* ES: RÉSERVÉ entre dos filetes granate, como los cartelitos de mesa. · EN: RÉSERVÉ between two maroon rules, like table cards. */
+.chevalet__rotulo {
+  margin: 0 0 1rem;
+  padding: 0.35rem 0 0.2rem 0.32em;
+  border-top: 2px solid var(--bordeaux);
+  border-bottom: 2px solid var(--bordeaux);
+  color: var(--bordeaux);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 1.2rem + 2.6vw, 2.5rem);
+  letter-spacing: 0.32em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.chevalet__titulo {
+  margin: 0 0 0.4rem;
+  font-family: var(--f-caslon), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+/* ES: El foco solo sirve para que el lector de pantalla lo anuncie. · EN: Focus is only there for the screen reader to announce it. */
+.chevalet__titulo:focus {
+  outline: none;
+}
+
+.chevalet__detalle {
+  margin: 0 0 1.1rem;
+  color: var(--encre);
+}
+
+.chevalet__codigo {
+  margin: 0;
+}
+
+.chevalet__etiqueta {
+  display: inline-block;
+  margin-left: 0.3rem;
+  padding: 0.25rem 0.75rem 0.05rem;
+  border-radius: 3px;
+  background: var(--etiquette);
+  font-family: var(--f-kalam), cursive;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  box-shadow:
+    0 1px 0 rgba(43, 26, 22, 0.25),
+    0 8px 14px -10px rgba(43, 26, 22, 0.6);
+  rotate: -2deg;
+}
+
+.chevalet__enlace {
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+  padding: 1.1rem 1.1rem 1.2rem;
+  border: 1px dashed #c9b6a0;
+  background: #fffdf8;
+}
+
+.chevalet__enlace p {
+  margin: 0;
+}
+
+.chevalet__enlace .campo {
+  width: 100%;
+}
+
+.chevalet__enlace input {
+  font-size: 0.875rem;
+}
+
+.chevalet__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* ── El suelo con los sillones · The floor with the armchairs ───────────────────────── */
+
+.pagina-reserva__escena {
+  position: absolute;
+  right: 0;
+  bottom: 2.6rem;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pagina-reserva__sillon {
+  width: 112px;
+  height: auto;
+}
+
+.pagina-reserva__mesa {
+  width: 122px;
+  height: auto;
+  margin: 0 -6px;
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .marco.pagina-reserva {
+    padding-bottom: 17rem;
+  }
+
+  /* ES: Carnet un poco más ancho que el ticket; el ticket acompaña al bajar (bajo la cabecera fija). */
+  /* EN: Notebook slightly wider than the card; the card follows while scrolling (under the sticky header). */
+  .pagina-reserva__formulario {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  .carnet {
+    padding: 2rem 2rem 2.2rem;
+  }
+
+  .ticket {
+    position: sticky;
+    top: 92px;
+    padding: 1.7rem 1.6rem 1.6rem;
+  }
+
+  .chevalet__carton {
+    padding: 2.6rem 2.4rem 2rem;
+  }
+
+  .pagina-reserva__sillon {
+    width: 220px;
+  }
+
+  .pagina-reserva__sillon--izq {
+    margin-right: 7rem;
+  }
+
+  .pagina-reserva__sillon--der {
+    margin-left: 7rem;
+  }
+
+  .pagina-reserva__mesa {
+    width: 240px;
+  }
+}
+
+/* ── Animación (premium) · Motion (premium) ─────────────────────────────────────────── */
+
+/* ES: El cartelito «Réservé» se posa en la mesa al confirmar. · EN: The «Réservé» card settles on the table when confirmed. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-anim="completa"] .chevalet__carton {
+    transform-origin: 50% 100%;
+    animation: chevalet-posar 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes chevalet-posar {
+    from {
+      opacity: 0;
+      transform: translateY(-14px) rotateX(16deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

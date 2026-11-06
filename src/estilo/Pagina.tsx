@@ -24,13 +24,18 @@
  *   │ 07 Galería · «l'expo»              #expo      │   secciones/07-galeria          estándar, premium (≥ 3 fotos)
  *   │ 08 Opiniones · «le livre d'or»     #avis      │   secciones/08-opiniones        estándar, premium
  *   │ 09 Promociones · «à l'affiche»     #affiche   │   secciones/09-promos           premium, si hay promos
- *   │ 10 Reserva · «prenez un fauteuil»  #reserver  │   secciones/10-reserva          premium, con WhatsApp
+ *   │ 10 Reserva · «prenez un fauteuil»  #reserver  │   secciones/10-reserva          premium, con bloque `reservas`
  *   │ 11 Visita · «nous trouver»         #visite    │   secciones/11-visita           todas
  *   ├───────────────────────────────────────────────┤
  *   │ 12 Pie                                        │   secciones/12-pie              todas
  *   └───────────────────────────────────────────────┘
  *     13 Pedido · «le sac kraft» (panel por encima)       secciones/13-pedido           premium, con WhatsApp y precios
  *     14 WhatsApp flotante (botón fijo)                   secciones/14-whatsapp         estándar, premium, con WhatsApp
+ *
+ *   Otras páginas (pestaña nueva desde «Réserver») · Other pages (new tab from «Réserver»)
+ *     /reserver ............ reservar · book                 paginas/reserva           con la sección 10
+ *     /reserver/anular ..... anular con el enlace · cancel   paginas/anular            con la sección 10
+ *     /reserver/gestion .... panel del café · café panel     paginas/gestion           con la sección 10
  *
  * ES: data-anim en la raíz = nivel de animación ("ninguna" básica, "scroll" estándar, "completa" premium): los .css
  *     de cada sección lo usan para encender sus animaciones (ver comun/animacion.tsx).

@@ -5,7 +5,7 @@
 # Café LaFontaine · Demo website
 
 **Perle cachée · Café de quartier · across from Parc La Fontaine, Montréal.**
-Mock-up of Café LaFontaine's website: the counter menu with prices, the guiso of the day, pickup orders and table bookings via WhatsApp, live opening hours and three languages.
+Mock-up of Café LaFontaine's website: the counter menu with prices, the guiso of the day, pickup orders via WhatsApp, online bookings confirmed instantly with a panel for the café, live opening hours and three languages.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=nextdotjs)
 ![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
@@ -18,6 +18,8 @@ Mock-up of Café LaFontaine's website: the counter menu with prices, the guiso o
 
 **[User manual](docs/MANUAL.en.md)**: step-by-step tasks (prices, hours, photos, texts) and a developer guide.
 
+**[Online bookings](docs/RESERVAS.en.md)**: how they work and how to publish them for free (Neon + Vercel), step by step.
+
 </div>
 
 > [!NOTE]
@@ -29,14 +31,15 @@ Mock-up of Café LaFontaine's website: the counter menu with prices, the guiso o
 
 |                 |                                                                                                    |
 | --------------- | -------------------------------------------------------------------------------------------------- |
-| What it is      | Single-page site for Café LaFontaine, 3535 avenue Papineau (unit 9), Montréal                      |
+| What it is      | Café LaFontaine's website, 3535 avenue Papineau (unit 9), Montréal: the home page and the booking pages |
 | Tier            | **Premium** (switch to Standard or Basic with one line)                                            |
 | Languages       | French (default), English and Spanish, with a switcher                                             |
 | Currency        | Canadian dollar (CAD), prices from the counter menu                                                |
-| Orders          | Pickup orders and bookings via WhatsApp: no payment gateway, no database, no backend               |
+| Orders          | Pickup via WhatsApp, no payment gateway                                                            |
+| Bookings        | Online (`/reserver`, new tab): confirmed instantly if seats are left, stored in Postgres and managed in a password-protected panel |
 | Design          | Unique to this café: drawn from its photos (the mural, the menu boards, the coffee bins, the armchairs) |
 | Tech            | Next.js 15 (App Router), React 19, TypeScript, framer-motion                                       |
-| Hosting         | Vercel. Static page, no environment variables                                                      |
+| Hosting         | Vercel + Neon database, both free. Two variables: `DATABASE_URL` and `RESERVAS_CLAVE`              |
 | Code            | Commented in **Spanish and English**, saying what can and cannot be touched                       |
 
 ## Screenshots
@@ -52,7 +55,20 @@ Mock-up of Café LaFontaine's website: the counter menu with prices, the guiso o
   </tr>
   <tr>
     <td><img src="docs/capturas/opiniones.jpg" alt="Reviews as an open guestbook: 4.8 rating, most mentioned topics and handwritten summaries" /></td>
-    <td><img src="docs/capturas/reserva.jpg" alt="Booking: a card on the low black table between two cognac leather armchairs" /></td>
+    <td><img src="docs/capturas/reserva.jpg" alt="Booking: a card on the low black table between two cognac leather armchairs, with the «Voir les places libres» button" /></td>
+  </tr>
+</table>
+
+Online bookings (they open in a new tab): choosing guests, day and time; the «Réservé» confirmation; and the café's panel.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/capturas/reservar.jpg" alt="Booking page: notebook with guests, calendar and times, and on the right the «Votre table» ticket with the details" /></td>
+    <td width="50%"><img src="docs/capturas/reservado.jpg" alt="Confirmation: the little «Réservé» card with the name, day, time and code, and the link to cancel" /></td>
+  </tr>
+  <tr>
+    <td><img src="docs/capturas/gestion.jpg" alt="Café panel: database status, week with arrows and bookings by time with their occupancy" /></td>
+    <td>The <strong>café's panel</strong> (<code>/reserver/gestion</code>, password-protected): the week day by day, each time with its occupancy, bookings with phone and note, cancel or restore, and record the ones that come in by phone.</td>
   </tr>
 </table>
 
@@ -126,7 +142,14 @@ Note : Sans oignon, svp
 
 **Booking: "prenez un fauteuil"**
 
-- The reservation card on the low black table, between the two cognac leather armchairs. Name, guests, date, time (only that day's slots) and a note; it is sent via WhatsApp and the café confirms it.
+- The reservation card on the low black table, between the two cognac leather armchairs, with the **Voir les places libres** button, which opens the booking page in a new tab (just like «Réserver» in the header and «Réserver une table» in the hero).
+
+**Online bookings (new pages)**
+
+- **`/reserver`**: the armchair corner at full-page size. On the left, the booking notebook with three steps: how many people (up to 8; larger groups call), which day (calendar of the next 30 days, Sundays and full days greyed out) and what time (every half hour, full ones crossed out, «plus que 2» (2 left) when only a few seats remain). On the right, the «Votre table» ticket with the summary, name, phone and note.
+- **Instant confirmation** if seats are left: the little «Réservé» card with the code (`7KQ-3XA`) and the link to cancel (no emails are sent).
+- **`/reserver/anular`**: with that link, the guest sees their booking and cancels it; the seat is freed.
+- **`/reserver/gestion`**: the café's panel, password-protected. More detail in [docs/RESERVAS.en.md](docs/RESERVAS.en.md).
 
 **Getting there: "nous trouver"**
 
@@ -146,7 +169,7 @@ The same site is sold at three levels. Switch with `gama` in `src/data/cafe.conf
 | Story, gallery and reviews                            |   –   |    ✓     |    ✓    |
 | Floating WhatsApp button and scroll animations        |   –   |    ✓     |    ✓    |
 | Menu with tabs and photos                             |   –   |    –     |    ✓    |
-| Pickup order and table booking via WhatsApp           |   –   |    –     |    ✓    |
+| Pickup order (WhatsApp) and online bookings           |   –   |    –     |    ✓    |
 | Language switcher, promotions and extra animations    |   –   |    –     |    ✓    |
 
 Premium extra animations: the mural gets painted and drawn, the lamps switch on and sway, the frames swing, the bag jumps when an item is added. Everything respects "reduce motion".
@@ -173,6 +196,8 @@ Routine maintenance does not touch the design: almost everything lives in **`src
 | A section's look                         | `src/estilo/secciones/NN-…/`       | Its `.css` (the `.tsx` holds a sketch of the section)                   |
 | The default language                     | `src/data/cafe.config.ts`  | `idiomaBase`                                                            |
 | The tier                                 | `src/data/cafe.config.ts`  | `gama`                                                                  |
+| Seats, max group, booking days, holidays | `src/data/cafe.config.ts`          | `reservas` (`plazasPorTurno`, `maxPersonas`, `diasVista`, `cerrados`)   |
+| The booking panel password               | Vercel (or `.env.local`)           | `RESERVAS_CLAVE` variable                                               |
 | Turn bookings off                        | `src/data/cafe.config.ts`  | `funciones: { reserva: false }`                                         |
 | Go from demo to the real site            | `src/data/cafe.config.ts`  | `demo: false` and `seo.url` with the domain                             |
 
@@ -191,8 +216,8 @@ Every file states its level on its first line, and every code comment is in Span
 | Label                            | Meaning                                                                              | Files                                                                                                      |
 | -------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | `[EDITABLE]`                     | Safe to change: texts, prices, hours, contact, photos, colors                        | `src/data/cafe.config.ts`, `src/estilo/ajustes/textos.ts`, `src/estilo/ajustes/colores.css`, `public/img/`, `public/marca/` |
-| `[CON CUIDADO · EDIT WITH CARE]` | Design. Can be changed knowing React and CSS; a mistake breaks the look, not the data | The rest of `src/estilo/` (`ajustes/fuentes.ts`, `comun/`, `secciones/`, `Pagina.tsx`, `estilo.css`)      |
-| `[NO TOCAR · DO NOT EDIT]`       | Engine: tiers, languages, hours, cart, WhatsApp, SEO and security                    | `src/motor/`, `src/app/`, `src/estilo/index.ts`, `next.config.js`, `tsconfig.json`, `package.json`          |
+| `[CON CUIDADO · EDIT WITH CARE]` | Design. Can be changed knowing React and CSS; a mistake breaks the look, not the data | The rest of `src/estilo/` (`ajustes/fuentes.ts`, `comun/`, `secciones/`, `paginas/`, `Pagina.tsx`, `estilo.css`) |
+| `[NO TOCAR · DO NOT EDIT]`       | Engine: tiers, languages, hours, cart, WhatsApp, bookings (server and database), SEO and security | `src/motor/`, `src/app/`, `src/estilo/index.ts`, `next.config.js`, `tsconfig.json`, `package.json`          |
 
 ## Structure
 
@@ -213,34 +238,38 @@ cafe-lafontaine/
 │   │   │   └── fuentes.ts       [CON CUIDADO]  Josefin Sans, Libre Caslon Text and Kalam
 │   │   ├── comun/               [CON CUIDADO]  Pieces of several sections: base, buttons, labels, forms,
 │   │   │                                       motion by tier, photo, add button, medallion
-│   │   └── secciones/           [CON CUIDADO]  One folder per section: Component.tsx + styles.css + dibujos.tsx
-│   │       ├── 01-cabecera/                    Dark bar "le plafond"
-│   │       ├── 02-portada/                     The mural, the lamps and the framed photo
-│   │       ├── 03-mostrador/                   The coffee bean bins
-│   │       ├── 04-plato-del-dia/               The guiso on the laminate table
-│   │       ├── 05-carta/                       The three boards (+ organizar.ts: sizes, shared price)
-│   │       ├── 06-historia/                    The burlap sack and its stamps
-│   │       ├── 07-galeria/                     The photo exhibition
-│   │       ├── 08-opiniones/                   The guestbook
-│   │       ├── 09-promos/                      Promotion posters
-│   │       ├── 10-reserva/                     The armchairs and the booking card
-│   │       ├── 11-visita/                      Hours poster, map and park fountain
-│   │       ├── 12-pie/                         Footer
-│   │       ├── 13-pedido/                      The kraft order bag
-│   │       └── 14-whatsapp/                    Floating WhatsApp button
+│   │   ├── secciones/           [CON CUIDADO]  One folder per section: Component.tsx + styles.css + dibujos.tsx
+│   │   │   ├── 01-cabecera/                    Dark bar "le plafond"
+│   │   │   ├── 02-portada/                     The mural, the lamps and the framed photo
+│   │   │   ├── 03-mostrador/                   The coffee bean bins
+│   │   │   ├── 04-plato-del-dia/               The guiso on the laminate table
+│   │   │   ├── 05-carta/                       The three boards (+ organizar.ts: sizes, shared price)
+│   │   │   ├── 06-historia/                    The burlap sack and its stamps
+│   │   │   ├── 07-galeria/                     The photo exhibition
+│   │   │   ├── 08-opiniones/                   The guestbook
+│   │   │   ├── 09-promos/                      Promotion posters
+│   │   │   ├── 10-reserva/                     The armchairs and the card with the button to /reserver
+│   │   │   ├── 11-visita/                      Hours poster, map and park fountain
+│   │   │   ├── 12-pie/                         Footer
+│   │   │   ├── 13-pedido/                      The kraft order bag
+│   │   │   └── 14-whatsapp/                    Floating WhatsApp button
+│   │   └── paginas/             [CON CUIDADO]  Booking pages: shared frame, reserva/, anular/, gestion/
 │   ├── motor/                   [NO TOCAR]     Tiers, languages, hours, cart, WhatsApp, map, SEO
-│   └── app/                     [NO TOCAR]     Next.js layout and page
+│   │   └── reservas/            [NO TOCAR]     Booking server: database, actions, panel, security
+│   └── app/                     [NO TOCAR]     Next.js layout and pages (/, /reserver, /reserver/anular, /reserver/gestion)
 ├── public/
 │   ├── img/                     [EDITABLE]     Photos (same name = replaced without touching code)
 │   └── marca/icono.svg          [EDITABLE]     Browser tab icon
 ├── docs/
 │   ├── MANUAL.md / MANUAL.en.md                User manual (owner and developers)
+│   ├── RESERVAS.md / RESERVAS.en.md            Online bookings: how they work, Neon + Vercel, tests, problems
 │   ├── DISEÑO.md                               Style sheet: where every color, font and detail comes from
 │   ├── INFO-EXTRAIDA.md                        Source of every fact and pending items with the owner
 │   ├── fotos.json                              Origin, size and author of every photo
 │   ├── fuentes/                                Photo of the counter menu (June 2025), source of the prices
 │   └── capturas/                               Images in this README
-├── next.config.js               [NO TOCAR]     Security headers and images
+├── .env.example                 [EDITABLE]     Template for the booking variables (no values)
+├── next.config.js               [NO TOCAR]     Security headers, images and the bookings' local database
 └── package.json                 [NO TOCAR]     Dependencies and scripts
 ```
 
@@ -255,7 +284,7 @@ npm install
 npm run dev
 ```
 
-The site runs at [http://localhost:3000](http://localhost:3000).
+The site runs at [http://localhost:3000](http://localhost:3000). Bookings work on your computer with no accounts: they use a local database (PGlite) that `npm install` sets up. To sign in to the panel (`/reserver/gestion`), set a password in `.env.local` (copy `.env.example`, line `RESERVAS_CLAVE=`). Details in [docs/RESERVAS.en.md](docs/RESERVAS.en.md#2-try-it-on-your-computer-no-accounts).
 
 | Command             | What it does                 |
 | ------------------- | ---------------------------- |
@@ -266,16 +295,22 @@ The site runs at [http://localhost:3000](http://localhost:3000).
 
 ## Deploying to Vercel
 
-1. On [vercel.com](https://vercel.com): **Add New → Project** and import `alesstron/LaFontaine`.
-2. Vercel detects Next.js. No environment variables are needed: **Deploy**.
-3. Every push to `main` publishes a new version automatically.
-4. With the final domain: set `seo.url` in `cafe.config.ts` (link previews when sharing) and, for the real site, `demo: false`.
+1. Create the database for free on [neon.tech](https://neon.tech) (your own account, signed in with GitHub, AWS US East region) and copy its `postgresql://…` address (**Connect**, "pooled" connection).
+2. On [vercel.com/new](https://vercel.com/new): import `alesstron/LaFontaine` and add two environment variables:
+   - `DATABASE_URL`: the Neon address.
+   - `RESERVAS_CLAVE`: the password for the café's panel (12 characters or more).
+3. **Deploy**. The tables create themselves. Check that `/reserver/gestion` says «Base de données : connectée · Neon» (Database: connected · Neon).
+4. Every push to `main` publishes a new version automatically.
+5. With the final domain: set `seo.url` in `cafe.config.ts` (link previews when sharing) and, for the real site, `demo: false`.
+
+Click-by-click guide, test checklist and common problems: [docs/RESERVAS.en.md](docs/RESERVAS.en.md#3-publish-on-vercel-with-neon-step-by-step). Vercel Hobby is free but for non-commercial use only: for the café's real site, use the Pro plan or another host.
 
 ## Maintenance (every 6 months)
 
 - [ ] Review hours, menu and prices with the café (and the guiso of the day).
 - [ ] Update the Google Maps rating and number of reviews.
 - [ ] Replace photos if there are new dishes or a new exhibition.
+- [ ] Review the seats per time slot and add holidays to `reservas.cerrados`.
 - [ ] `npm outdated` and `npm update` (minor versions) and `npm audit`.
 - [ ] `npm run build` without errors and a quick check on mobile.
 - [ ] Push to `main`: Vercel publishes on its own.
@@ -302,16 +337,20 @@ Typography: **Josefin Sans** (the spaced capitals of the boards and the mural), 
 
 ## Quality and security
 
-- **Tested:** no TypeScript errors, production build, no horizontal scroll at 375 px, full order flow (WhatsApp message, name validation, total), booking (slots for the chosen day, Sunday closed), the three tiers and the three languages.
-- **Performance:** static page (176 kB initial JavaScript), AVIF/WebP photos with `next/image`, fonts self-hosted on the site's own domain.
+- **Tested:** no TypeScript errors, production build, no horizontal scroll at 360 and 375 px, full order flow (WhatsApp message, name validation, total), the three tiers and the three languages.
+- **Bookings tested** (local database and production build): a full booking, seats (8 + 4 fill a 12-seat slot; 20 simultaneous bookings → exactly 12 get in), server-side validation (past date, Sunday, non-existent time, too many people, empty fields, trap field), per-connection and per-phone limits, cancelling with the link, the panel (wrong password with a pause, lockout after 5 failures, cancel, restore, phone booking, force, sign out) and the notice when the database is missing on Vercel.
+- **Performance:** home page, `/reserver` and `/reserver/anular` are static (190 kB initial JavaScript); the panel is dynamic. AVIF/WebP photos with `next/image`, fonts self-hosted on the site's own domain.
 - **Accessibility:** visible focus, labelled fields, keyboard tabs, order panel that keeps focus inside and closes with Escape, alt text on photos, checked contrast and "reduce motion" respected.
-- **Security:** `Content-Security-Policy`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` and `Permissions-Policy` headers; form text is sanitized; no API keys, no environment variables and no backend.
+- **Security:** `Content-Security-Policy`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` and `Permissions-Policy` headers; form text is sanitized. Bookings: everything is validated again on the server; the panel uses a signed `HttpOnly`, `SameSite=Strict` cookie, a password compared in constant time and a lockout after 5 failures; the IP is not stored (only a fingerprint that changes every day); bookings delete themselves 30 days after their date; the panel and the cancel page are `noindex`.
 - **SEO:** title, description, Open Graph and Google structured data (address, coordinates, hours). The demo is `noindex`.
 
 ## Status and pending items with the owner
 
-- [x] Mural, bins, dish of the day, the three boards with real prices, WhatsApp orders and bookings, story, gallery, reviews, map and three languages
+- [x] Mural, bins, dish of the day, the three boards with real prices, WhatsApp orders, online bookings, story, gallery, reviews, map and three languages
 - [x] Code commented in Spanish and English
+- [x] Online bookings with a database and a panel, ready to publish on Vercel + Neon ([guide](docs/RESERVAS.en.md))
+- [ ] Confirm with the owner the seats per half hour (12 today, estimated from the photos), the largest group and the minimum notice
+- [ ] Quebec's Law 25: a published privacy policy and a person in charge of personal information before using bookings with real guests
 - [ ] Confirm the WhatsApp number (today it is the café's public phone)
 - [ ] Review prices (June 2025 menu): chicken chipotle tacos at $10, chicken soup "6/10"
 - [ ] Empanadas: mentioned in reviews but not on the menu (no price for now)

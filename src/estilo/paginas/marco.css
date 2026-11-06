@@ -1,0 +1,142 @@
+/*
+ * [CON CUIDADO · EDIT WITH CARE] Piel / Skin · Páginas de reservas · Marco común / Booking pages · Shared frame
+ *
+ * ES: Estilos de Marco.tsx (esta carpeta) y de las dos piezas que comparten las tres páginas de reservas: la ficha con
+ *     los datos de una reserva y el aviso. Las piezas de toda la web (botones, campos, .contador…) siguen en
+ *     comun/piezas.css; lo de cada página, en la hoja de su carpeta.
+ * EN: Styles for Marco.tsx (this folder) and for the two pieces the three booking pages share: the card with a
+ *     booking's details and the notice. Site-wide pieces (buttons, fields, .contador…) stay in comun/piezas.css; each
+ *     page's own styles live in its folder's sheet.
+ *
+ *   Clases · Classes
+ *   ───────────────────────────────────────────────────────────────────────────────────────
+ *   .marco ............... el <main> de cada página: la pared crema y sus márgenes
+ *   .marco__barra ........ fila de arriba: «← Retour au site» y el aviso de demo
+ *   .marco__volver ....... el enlace para volver al inicio
+ *   .marco__demo ......... el aviso de demo, en etiqueta salmón escrita a mano
+ *   .ficha ............... datos de una reserva en filas: NOMBRE ......... valor (ticket y página de anular)
+ *   .aviso ............... mensaje de error o de estado, con filete rojo taza a la izquierda
+ *   .aviso--bien ......... la versión de «todo ha ido bien» (filete oscuro)
+ *
+ *   Cambios típicos · Typical changes
+ *   ─ Ancho de la barra ...... .marco__barra → max-width (igual que el contenido de cada página)
+ *   ─ Color del aviso ........ .aviso → border-left-color
+ */
+
+/* ── El marco · The frame ───────────────────────────────────────────────────────────── */
+
+.marco {
+  display: block;
+  padding: 1rem 1rem 4rem;
+  background: var(--creme);
+}
+
+.marco__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto 1.5rem;
+}
+
+.marco__volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  color: var(--plafond);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.marco__volver:hover {
+  color: var(--tasse);
+}
+
+/* ES: Como las etiquetas salmón de los silos: escrita a mano y un poco torcida. · EN: Like the bins' salmon labels: handwritten and slightly tilted. */
+.marco__demo {
+  margin: 0;
+  padding: 0.35rem 0.8rem 0.2rem;
+  border-radius: 3px;
+  background: var(--etiquette);
+  color: var(--plafond);
+  font-family: var(--f-kalam), cursive;
+  font-size: 1rem;
+  line-height: 1.35;
+  box-shadow:
+    0 1px 0 rgba(43, 26, 22, 0.25),
+    0 8px 14px -10px rgba(43, 26, 22, 0.6);
+  rotate: -1deg;
+}
+
+/* ── Ficha de una reserva · A booking's card ────────────────────────────────────────── */
+
+/*
+ *   PERSONNES ............ 2 personnes      ← dt (mayúsculas espaciadas) · dd (serif)
+ *   DATE ..... mercredi 12 novembre 2026
+ */
+.ficha {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.8rem 0.95rem;
+  border: 1px dashed #c9b6a0;
+  background: #fff;
+}
+
+.ficha > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.15rem 1rem;
+}
+
+.ficha dt {
+  color: var(--encre);
+  font-family: var(--f-josefin), sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ficha dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ── Aviso · Notice ─────────────────────────────────────────────────────────────────── */
+
+.aviso {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 4px solid var(--tasse);
+  background: #fff;
+  color: var(--plafond);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.aviso a {
+  font-weight: 700;
+}
+
+.aviso--bien {
+  border-left-color: var(--plafond);
+}
+
+/* ── Pantallas anchas · Wide screens ────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .marco {
+    padding: 1.5rem 2rem 5rem;
+  }
+}

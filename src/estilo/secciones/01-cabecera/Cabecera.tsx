@@ -5,8 +5,12 @@
  *
  * ES: La barra fija de arriba: el techo oscuro del café con su conducto a la vista. Medallón y nombre, enlaces a
  *     las secciones que existen en esta gama, idiomas FR · EN · ES y la bolsa kraft del pedido con su etiqueta.
+ *     «Réserver» abre la página de reserva (/reserver) en una pestaña nueva. Con modo="pagina" (las páginas de
+ *     reservas, paginas/Marco.tsx) solo quedan la marca, que lleva al inicio, y los idiomas.
  * EN: The sticky top bar: the café's dark ceiling with its exposed duct. Medallion and name, links to the sections
  *     present in this tier, FR · EN · ES languages and the kraft order bag with its label.
+ *     «Réserver» opens the booking page (/reserver) in a new tab. With modo="pagina" (the booking pages,
+ *     paginas/Marco.tsx) only the brand, which leads home, and the languages remain.
  *
  *   Escritorio · Desktop (≥ 1100 px)
  *   ┌──────────────────────────────────────────────────────────────────────────────────────────┐
@@ -20,11 +24,16 @@
  *   └══════════════════════════════════┘              │ PLAT DU JOUR …                   │
  *                                                     │ (FR EN ES)   ← solo < 640 px     │
  *                                                     └──────────────────────────────────┘
+ *   modo="pagina" (todas las anchuras · every width)
+ *   ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ *   │ (◯) Café LaFontaine   ← vuelve a / · back to /                              (FR EN ES)   │
+ *   └══════════════════════════════════════════════════════════════════════════════════════════┘
  *
  * Dónde cambiar · Where to change:
  *   Nombre ............................. src/data/cafe.config.ts → marca.nombre
  *   Textos de los enlaces .............. src/estilo/ajustes/textos.ts → COPY.nav… (o el motor: t("carta"), …)
  *   Qué enlaces salen .................. el array `enlaces` de abajo (cada uno solo si su sección existe)
+ *   Enlaces en pestaña nueva ........... `nueva: true` en el array (hoy, «Réserver» → /reserver)
  *   Colores, alturas, cuándo sale el ☰ . cabecera.css (esta carpeta · this folder)
  *   Icono de la bolsa .................. dibujos.tsx (esta carpeta) · medallón: comun/dibujos.tsx
  */
@@ -32,10 +41,14 @@ import { useEffect, useState } from "react";
 import { NOMBRE_IDIOMA, useCarrito, useMotor } from "@/motor";
 import { COPY } from "@/estilo/ajustes/textos";
 import { platoDestacado } from "@/estilo/comun/datos";
-import { Medallon } from "@/estilo/comun/dibujos";
+import { Flecha, Medallon } from "@/estilo/comun/dibujos";
 import { Bolsa } from "./dibujos";
 
-export function Cabecera() {
+/**
+ * ES: modo "inicio" = la cabecera completa de la web · "pagina" = la de las páginas de reservas.
+ * EN: modo "inicio" = the website's full header · "pagina" = the booking pages' one.
+ */
+export function Cabecera({ modo = "inicio" }: { modo?: "inicio" | "pagina" }) {
   const { cafe, secciones, idioma, idiomas, cambiarIdioma, t, tx } = useMotor();
   const carrito = useCarrito();
   // ES: ¿Está abierto el panel del móvil? · EN: Is the mobile panel open?
@@ -50,15 +63,17 @@ export function Cabecera() {
   }, [abierto]);
 
   // ES: Enlaces de la navegación: cada uno solo si su sección sale en esta gama (href = id de la sección).
+  //     `nueva` = se abre en una pestaña nueva, con ↗ y un aviso para lectores de pantalla.
   // EN: Navigation links: each one only if its section shows in this tier (href = the section's id).
+  //     `nueva` = opens in a new tab, with ↗ and a note for screen readers.
   const enlaces = [
     secciones.carta && { href: "#carta", texto: t("carta") },
     platoDestacado(cafe) && { href: "#plat-du-jour", texto: tx(COPY.navPlato) },
     secciones.historia && { href: "#histoire", texto: t("historia") },
     secciones.galeria && { href: "#expo", texto: tx(COPY.navExpo) },
-    secciones.reserva && { href: "#reserver", texto: tx(COPY.navReserva) },
+    secciones.reserva && { href: "/reserver", texto: tx(COPY.navReserva), nueva: true },
     { href: "#visite", texto: t("visita") },
-  ].filter((e): e is { href: string; texto: string } => Boolean(e));
+  ].filter((e): e is { href: string; texto: string; nueva?: boolean } => Boolean(e));
 
   // ES: La misma lista sirve para la barra (escritorio) y para el panel (móvil).
   // EN: The same list is used in the bar (desktop) and in the panel (mobile).
@@ -66,8 +81,14 @@ export function Cabecera() {
     <ul>
       {enlaces.map((e) => (
         <li key={e.href}>
-          <a href={e.href} onClick={() => setAbierto(false)}>
+          <a href={e.href} onClick={() => setAbierto(false)} {...(e.nueva && { target: "_blank", rel: "noopener" })}>
             {e.texto}
+            {e.nueva && (
+              <>
+                <span className="sr"> {tx(COPY.nuevaPestana)}</span>
+                <Flecha className="icono" />
+              </>
+            )}
           </a>
         </li>
       ))}
@@ -76,9 +97,9 @@ export function Cabecera() {
 
   // ES: Botones de idioma: en la barra desde 640 px y dentro del panel en el móvil (CSS: .idiomas--barra / --panel).
   // EN: Language buttons: in the bar from 640 px and inside the panel on mobile (CSS: .idiomas--barra / --panel).
-  const botonesIdioma = (clase: string) =>
+  const botonesIdioma = (clase?: string) =>
     idiomas.length > 1 && (
-      <div className={`idiomas ${clase}`} role="group" aria-label={t("idioma")}>
+      <div className={clase ? `idiomas ${clase}` : "idiomas"} role="group" aria-label={t("idioma")}>
         {idiomas.map((i) => (
           <button key={i} type="button" lang={i} aria-pressed={i === idioma} title={NOMBRE_IDIOMA[i]} onClick={() => cambiarIdioma(i)}>
             {i.toUpperCase()}
@@ -86,6 +107,25 @@ export function Cabecera() {
         ))}
       </div>
     );
+
+  // ES: Páginas de reservas: marca (al inicio) e idiomas, sin enlaces a secciones, bolsa ni ☰.
+  // EN: Booking pages: brand (to home) and languages, no section links, bag or ☰.
+  if (modo === "pagina") {
+    return (
+      <header className="cabecera cabecera--pagina">
+        <div className="cabecera__barra">
+          {/* ▸ Marca: medallón + nombre (vuelve al inicio) · Brand: medallion + name (back home) */}
+          <a href="/" className="cabecera__marca">
+            <Medallon nombre={cafe.marca.nombre} className="cabecera__medallon" />
+            <span className="cabecera__nombre">{cafe.marca.nombre}</span>
+          </a>
+          {/* ▸ FR · EN · ES, en todas las anchuras · in every width */}
+          <div className="cabecera__acciones">{botonesIdioma()}</div>
+        </div>
+        <div className="conducto" aria-hidden="true" />
+      </header>
+    );
+  }
 
   return (
     <header className="cabecera">

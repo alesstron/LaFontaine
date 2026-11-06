@@ -76,7 +76,9 @@ export function seccionesDe(cafe: CafeConfig, f: Funciones = funcionesDe(cafe)):
     resenas: f.resenas && Boolean(cafe.resenas),
     promos: f.promos && (cafe.promos?.length ?? 0) > 0,
     pedido: f.pedido && hayWhatsapp && hayPrecios,
-    reserva: f.reserva && hayWhatsapp,
+    // ES: Esta demo solo reserva en línea (/reserver): sin bloque `reservas` no hay sección ni botones.
+    // EN: This demo only books online (/reserver): without a `reservas` block there is no section nor buttons.
+    reserva: f.reserva && Boolean(cafe.reservas),
     visita: true,
   };
 }

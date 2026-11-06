@@ -15,6 +15,7 @@
  *   .cabecera__bolsa ......... botón del pedido · .cabecera__contador: número salmón
  *   .cabecera__menu .......... botón ☰ · .cabecera__hamburguesa: las tres rayas (→ ✕ al abrir)
  *   .cabecera__movil ......... panel del móvil con enlaces e idiomas
+ *   .cabecera--pagina ........ la de las páginas de reservas (modo="pagina"): marca e idiomas siempre visibles
  *   (.conducto está en comun/piezas.css · .conducto lives in comun/piezas.css)
  *
  *   Tamaños clave · Key sizes:  alto 64 px · marca 46 px · nav visible ≥ 1100 px · idiomas en barra ≥ 640 px
@@ -134,6 +135,16 @@
 
 .idiomas--barra {
   display: none;
+}
+
+/* ES: Páginas de reservas: los idiomas están siempre en la barra; en móviles estrechos los botones se estrechan un
+       poco para que quepa el nombre del café entero. · EN: Booking pages: languages always sit in the bar; on narrow
+       phones the buttons get slightly narrower so the café's full name fits. */
+@media (max-width: 420px) {
+  .cabecera--pagina .idiomas button {
+    min-width: 32px;
+    padding-inline: 0.3rem;
+  }
 }
 
 .cabecera__bolsa {
