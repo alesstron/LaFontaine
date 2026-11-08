@@ -1,0 +1,12 @@
+# ES: Lo que NO se sube a Vercel al publicar desde este ordenador con `npx vercel` (sin GitHub):
+#     secretos locales, la base de prueba y carpetas que Vercel vuelve a generar.
+# EN: What is NOT uploaded to Vercel when publishing from this computer with `npx vercel` (no GitHub):
+#     local secrets, the test database and folders Vercel regenerates.
+.env
+.env.local
+.env.*.local
+.datos/
+.next/
+node_modules/
+.impeccable/
+*.tsbuildinfo
